@@ -1,0 +1,155 @@
+<!--https://blockbuilder.org/ThomasRanvier/8d6433a5a08fb2837bc28128f2145fe0-->
+
+<!DOCTYPE html>
+  <head>
+    <meta charset='utf-8'>
+    <script src='https://d3js.org/d3.v5.min.js'></script>
+  	<style type='text/css'>
+    	.mini text {
+    		font: 9px sans-serif;
+    	}
+    	.color0 {
+    		fill: darksalmon;
+    		stroke-width: 6;
+    	}
+    	.color1 {
+    		fill: darkgreen;
+    		fill-opacity: .7;
+    		stroke-width: 6;
+    	}
+    	.color2 {
+    		fill: slategray;
+    		fill-opacity: .7;
+    		stroke-width: 6;
+    	}
+    	.color0_hover {
+    		fill: darksalmon;
+    		fill-opacity: .6;
+    		stroke-width: 6;
+    	}
+    	.color1_hover {
+    		fill: darkgreen;
+    		fill-opacity: .4;
+    		stroke-width: 6;
+    	}
+    	.color2_hover {
+    		fill: slategray;
+    		fill-opacity: .4;
+    		stroke-width: 6;
+    	}
+  	</style>
+  </head>
+  <body>
+  	<script type='text/javascript'>
+  	  var students = ['Etudiant 1', 'Etudiant 2', 'Etudiant 3'],
+  		nbStudents = students.length,
+  		items = [
+				{'id': 0, 'jour': 'lundi', 'start': 0, 'end': 70},
+				{'id': 0, 'jour': 'mardi', 'start': 230, 'end': 350},
+				{'id': 0, 'jour': 'mercredi', 'start': 485, 'end': 600},
+				{'id': 0, 'jour': 'jeudi', 'start': 670, 'end': 800},
+				{'id': 0, 'jour': 'vendredi', 'start': 880, 'end': 1000},
+				{'id': 1, 'jour': 'lundi', 'start': 0, 'end': 120},
+				{'id': 1, 'jour': 'mardi', 'start': 250, 'end': 400},
+				{'id': 1, 'jour': 'mercredi', 'start': 500, 'end': 600},
+				{'id': 1, 'jour': 'jeudi', 'start': 700, 'end': 850},
+				{'id': 1, 'jour': 'vendredi', 'start': 1000, 'end': 1110},
+				{'id': 2, 'jour': 'lundi', 'start': 0, 'end': 60},
+				{'id': 2, 'jour': 'mardi', 'start': 230, 'end': 400},
+				{'id': 2, 'jour': 'mercredi', 'start': 440, 'end': 600},
+				{'id': 2, 'jour': 'jeudi', 'start': 690, 'end': 800},
+				{'id': 2, 'jour': 'vendredi', 'start': 920, 'end': 1200}
+  		]
+  		timeBegin = 0,
+  		timeEnd = 1200; //5 days * 24h * 10
+  	</script>
+  	<script type='text/javascript'>
+  		var w = 960,
+  		h = 100,
+      textHeight = 12,
+  		totalLanesHeight = nbStudents * textHeight + 50,//We can modify this value without breaking anything
+      maxTextWidth = 0,
+      expandingRatio = 0.15,
+      textMargin = 10;
+      var chart = d3.select('body')
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h)
+        .attr('class', 'chart');
+      //Create y scale
+      var y = d3.scaleLinear().range([0, totalLanesHeight]).domain([0, nbStudents]);
+      //We can modify this to plot thiner or larger rects, the offset is then
+      //computed to make it centered (The text is also centered).
+      var laneHeight = y(1) / 2.5;
+      var laneExpanding = laneHeight * expandingRatio,
+      laneOffset = ((y(1) - laneHeight) / 2),
+      textPosition = (y(1) - textHeight) / 2;
+      //Create the students labels and get the width of the largest name
+      chart.selectAll('names').data(students).enter().append('text')
+      .attr('x', 0)
+      .attr('y', function(d) { return y(students.indexOf(d) + 1) - textPosition; })
+      .text(function(d) { return d; })
+      .attr('class', '.mini')
+      .each(function(d,i) {
+        var thisWidth = this.getComputedTextLength()
+        if (thisWidth > maxTextWidth) {
+          maxTextWidth = thisWidth;
+        }
+      });
+      //Horizontal delimitation between students
+      chart.selectAll('horizontalDelimitations').data(students).enter().append('rect')
+        .attr('x', 0)
+        .attr('y', function(d) { return y(students.indexOf(d)); })
+        .attr('height', 1)
+        .attr('width', w)
+        .style('opacity', 0.25);
+      //Create x scale using the width of the largest text
+      var x = d3.scaleLinear().range([maxTextWidth + textMargin, w]).domain([timeBegin, timeEnd]);
+      //Create the rects
+      chart.selectAll('rects').data(items).enter().append('rect')
+      	.attr('x', function(d, i) { return x(d.start); })
+      	.attr('y', function(d) { return laneOffset + y(d.id); })
+      	.attr('height', laneHeight)
+  			.attr('width', function(d) { return x(d.end) - x(d.start); })
+        .attr('class', function(d) { return 'color' + d.id; })
+        .on('mouseover', function(d, i) {
+          d3.select(this)
+            .attr('x', function(d, i) { return x(d.start) - laneExpanding; })
+          	.attr('y', function(d) { return laneOffset + y(d.id) - laneExpanding; })
+          	.attr('height', laneHeight + (laneExpanding * 2))
+      			.attr('width', function(d) { return x(d.end) - x(d.start) + (laneExpanding * 2); })
+            .attr('class', 'color' + d.id + '_hover')
+        })
+        .on('mouseout', function(d, i) {
+          d3.select(this)
+            .attr('x', function(d, i) { return x(d.start); })
+          	.attr('y', function(d) { return laneOffset + y(d.id); })
+          	.attr('height', laneHeight)
+      			.attr('width', function(d) { return x(d.end) - x(d.start); })
+            .attr('class', function(d) { return 'color' + d.id; })
+        });
+        //Extract the days from the json
+        var days = []
+        for (i = 0; i < items.length; i++) {
+          if (!days.includes(items[i].jour)) {
+            days.push(items[i].jour)
+          }
+        }
+        //Create x scale for the days
+        var x1 = d3.scaleLinear().range([maxTextWidth + textMargin, w]).domain([0, days.length]);
+        //Create the days labels
+        chart.selectAll('days').data(days).enter().append('text')
+          .attr('x', function(d) { return textMargin + x1(days.indexOf(d)); })
+          .attr('y', h - 4)
+          .text(function(d) { return d.charAt(0).toUpperCase() + d.slice(1); })
+          .attr('class', '.mini');
+        //Vertical delimitation between days
+        chart.selectAll('verticalDelimitations').data(days).enter().append('rect')
+        	.attr('x', function(d) { return x1(days.indexOf(d)); })
+        	.attr('y', 0)
+        	.attr('height', totalLanesHeight)
+    			.attr('width', 1)
+          .style('opacity', 0.25);
+  	</script>
+	</body>
+</html>
