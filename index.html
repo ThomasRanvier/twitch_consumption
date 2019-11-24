@@ -10,8 +10,19 @@
 		Twitch consumption data visualization
 	</h1>
 	<p>
-		This is a visualization of Twitch consumption, this project is part of the data visualization course of the M2IA formation at Lyon 1 University
+        Pour consulter notre avancement : <a href="https://github.com/ThomasRanvier/twitch_consumption/wiki">wiki</a>
 	</p>
-	<link href="timeline.html" rel="import" />
+	<p>
+        Nous allons récupérer les données (nombre de viewer sur chaque stream, etc.) sur les streams sur une durée d'une semaine, tous les quarts d'heures.
+		Ainsi nous aurons assez d'informations pour pouvoir comparer la consommation selon les heures et les jours de la semaine.
+	</p>
+	<p>
+		Nous avons récolté les noms de chaînes des 100 streamers français les plus populaires au sein de <a href="data/most_popular_fr.txt">ce fichier</a>.
+	</p>
+    <p>
+		Nous avons ensuite créé un <a href="scripts/extract_id.py">script python</a> afin de récupérer l'identifiant de chaque chaîne sur le site Twitch, ce qui nous sera utile lors de nos requêtes.
+		Les identifiants sont automatiquement corrélés au streamer correspondant au sein de <a href="data/name_id.csv">ce fichier csv</a>.
+	</p>
+	<!--<link href="timeline.html" rel="import" />-->
 	</body>
 </html>
