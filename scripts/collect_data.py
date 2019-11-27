@@ -2,7 +2,7 @@ import requests
 import csv
 from datetime import datetime
 
-f = open('../data/name_id.csv', newline='')
+f = open('/home/etudiant/twitch_consumption/data/name_id.csv', newline='')
 f_csv = csv.reader(f, delimiter=',')
 content = []
 for row in f_csv:
@@ -11,7 +11,7 @@ for row in f_csv:
     content.append(infos)
 f.close()
 now = datetime.now()
-f = open('../data/collected_data/' + now.strftime('%Y_%m_%d-%H_%M_%S') + '.csv', 'w')
+f = open('/home/etudiant/twitch_consumption/data/collected_data/' + now.strftime('%Y_%m_%d-%H_%M_%S') + '.csv', 'w')
 writer = csv.writer(f)
 writer.writerows(content)
 f.close()
