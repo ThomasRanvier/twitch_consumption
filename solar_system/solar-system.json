@@ -1,0 +1,24 @@
+[
+  {
+    "name": "sun",
+    "symbol": "☉",
+    "color": "#FFFF55",
+    "mass": 1,
+    "r": 4.7e-3,
+    "distance": 0,
+    "satellites": [
+      { "name": "mercury", "symbol": "☿", "color": "#D4CCC5", "mass": 0.17e-6, "r":  16e-6, "distance": 0.39 },
+      { "name": "venus",   "symbol": "♀", "color": "#99CC32", "mass": 2.45e-6, "r":  40e-6, "distance": 0.723 },
+      { "name": "earth", "symbol": "♁", "color": "#007FFF", "mass": 3e-6, "r": 43e-6, "distance": 1,
+        "satellites": [
+          { "name": "moon", "symbol": "☽", "color": "#A8A8A8", "mass": 0.037e-6, "r": 12e-6, "distance": 0.0026 }
+        ]
+      },
+      { "name": "mars",    "symbol": "♂", "color": "#FF7700", "mass": 0.32e-6, "r":  23e-6, "distance": 1.524 },
+      { "name": "jupiter", "symbol": "♃", "color": "#D98719", "mass":  955e-6, "r": 477e-6, "distance": 5.203 },
+      { "name": "saturn",  "symbol": "♄", "color": "#B5A642", "mass":  286e-6, "r": 402e-6, "distance": 9.539 },
+      { "name": "uranus",  "symbol": "⛢", "color": "#7093DB", "mass":   44e-6, "r": 170e-6, "distance": 19.18 },
+      { "name": "neptune", "symbol": "♆", "color": "#7093DB", "mass":   52e-6, "r": 165e-6, "distance": 30.06 }
+    ]
+  }
+]
