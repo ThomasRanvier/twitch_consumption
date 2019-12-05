@@ -58,7 +58,7 @@
 	(function circleTransition() { 
 
 		var timeCircle = svg.append("circle")
-			.attr("fill", "black")
+			.attr("fill", "purple")
 			.attr("cx", system_cx)
     		.attr("cy", system_cx)
 			.attr("r", sun_w);
@@ -87,40 +87,47 @@
 	var timepos = ttime/timestep
 	
 	for(i=0;i<n_circle;i++){
-        streamer_planets[i] = {
-            "_svg": svg.append("circle")
-                .attr("cx", system_cx + (cumulative_r+inter_circle)*Math.cos(timepos))
-                .attr("cy", system_cx + (cumulative_r+inter_circle)*-Math.sin(timepos))
-                .attr("r", planet_r),
 
-            "_svg_ring" : svg.append("circle")
-                .attr("cx", system_cx)
-                .attr("cy", system_cx)
-                .attr("r", cumulative_r)
-                .style("stroke-width", circle_w)
-                .style("stroke", "grey")
-                .style("fill", "none"),
 
-            "arc" : d3.arc()
-                .innerRadius(cumulative_r-planet_r*0.6)
-                .outerRadius(cumulative_r+planet_r*0.6)
-                .startAngle(0)
-                .endAngle(timepos),
+	var arc = 
 
-            "_svg_arc" : svg.append("path")
-                .attr("d", arc)
-                .attr("transform", "translate(300, 300)"),
 
-            "r_pos" : cumulative_r}
-        cumulative_r+=circle_w + inter_circle
+	streamer_planets[i] = {
+		"_svg": svg.append("circle")
+			.attr("cx", system_cx + (cumulative_r+inter_circle)*Math.cos(timepos))
+			.attr("cy", system_cx + (cumulative_r+inter_circle)*-Math.sin(timepos))
+			.attr("r", planet_r),
+			
+		"_svg_ring" : svg.append("circle")
+			.attr("cx", system_cx)
+			.attr("cy", system_cx)
+			.attr("r", cumulative_r)
+			.style("stroke-width", circle_w)
+			.style("stroke", "grey")
+			.style("fill", "none"),
+		
+		<!-- "arc" : d3.arc() -->
+			<!-- .innerRadius(cumulative_r-planet_r*0.6) -->
+			<!-- .outerRadius(cumulative_r+planet_r*0.6) -->
+			<!-- .startAngle(0) -->
+			<!-- .endAngle(timepos), -->
+			
+		<!-- "_svg_arc" : svg.append("path") -->
+		<!-- .attr("d", arc) -->
+		<!-- .attr("transform", "translate(300, 300)"), -->
+		
+		"r_pos" : cumulative_r}
+
+
+	cumulative_r+=circle_w + inter_circle
 	}
 
 	(function streamPlanetTransition() { 
 
-		var planet = svg.append("circle")
-            .attr("cx", system_cx + (cumulative_r+inter_circle)*Math.cos(timepos))
-            .attr("cy", system_cx + (cumulative_r+inter_circle)*-Math.sin(timepos))
-            .attr("r", planet_r);
+		<!-- var planet = svg.append("circle") -->
+		<!-- .attr("cx", system_cx + (cumulative_r+inter_circle)*Math.cos(timepos)) -->
+		<!-- .attr("cy", system_cx + (cumulative_r+inter_circle)*-Math.sin(timepos)) -->
+		<!-- .attr("r", planet_r); -->
 
 		(function repeat() {	
 		var timepos = ttime/timestep
@@ -137,11 +144,11 @@
 				.attr("cy", system_cx + (streamer_planets[i].r_pos)*-Math.sin(timepos*(n_circle-i)*0.5))
 				.on("end", repeat);
 				
-			streamer_planets[i]._svg_arc
-				.transition()
-				.duration(2)
-				.attr("d", streamer_planets[i].arc)
-				.on("end", repeat);
+			<!-- streamer_planets[i]._svg_arc -->
+				<!-- .transition() -->
+				<!-- .duration(2) -->
+				<!-- .attr("d", streamer_planets[i].arc) -->
+				<!-- .on("end", repeat); -->
 		}
 		ttime++
 		})();

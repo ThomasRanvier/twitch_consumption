@@ -6,15 +6,18 @@ var x = (w / 2);
 var y = (h / 2);
 var delta = 270;
 var step = 0.5;
-var center_r = 10;
-var streamer_r = 4;
+var center_r = 30;
+var streamer_r = 4
 var streamers = [];
-var cur_orbit = 2 * center_r;
-var arc_width = 8;
+var cur_orbit = center_r;
+var arc_width = 30;
+var streamer_n = 20;
 
-for (i = 0; i < 25; i++) {
-    streamers.push({R: cur_orbit, r: streamer_r, d: delta, s: 1, i: i});
-    cur_orbit += center_r;
+for (i = 0; i < streamer_n; i++) {
+	var width = arc_width*((streamer_n-i)/streamer_n)**2
+	cur_orbit+= width/2
+    streamers.push({R: cur_orbit, w: width, d: delta, s: 1, i: i});
+    cur_orbit+= width/2
 }
 
 var svg = d3.select('body').insert("svg")
@@ -44,15 +47,16 @@ container.selectAll("g.planet").data(streamers).enter().append("g")
         .datum({
             startAngle: 0,
             endAngle: 0,
-            innerRadius: d.R - (arc_width / 2),
-            outerRadius: d.R + (arc_width / 2)
+            innerRadius: d.R - (d.w / 2),
+            outerRadius: d.R + (d.w / 2)
         })
         .attr("class", "arc")
         .attr("d", arc)
-        .attr("transform", "translate(" + x + "," + y + ")");
-    a.transition().duration(20000).attrTween("d", arcTween(2 * Math.PI));
+        .attr("transform", "translate(" + x + "," + y + ")")
+		.style("fill", "#"+String(Math.floor(Math.random()*255).toString(16))+String(Math.floor(Math.random()*255).toString(16))+String(Math.floor(Math.random()*255).toString(16)));
+    a.transition().ease(d3.easeLinear).duration(20000).attrTween("d", arcTween(2 * Math.PI));
 })
-    .attr("transform", "rotate(" + delta + ")");
+    // .attr("transform", "rotate(" + delta + ")");
 
 function arcTween(newAngle) {
     return function (d) {
@@ -64,7 +68,7 @@ function arcTween(newAngle) {
     };
 }
 
-/*
+
 setInterval(function(){
     svg.selectAll(".planet_cluster")
         .attr("transform", function(d) {
@@ -72,4 +76,4 @@ setInterval(function(){
             return "rotate(" + d.d + ")";
         });
 }, 40);
-*/
+

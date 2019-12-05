@@ -11,7 +11,8 @@ body {
 }
 
 .arc {
-    stroke: #ccc;
+    stroke: #fff;
+	stroke-width : 0.1;
     fill: orange;
 }
 
