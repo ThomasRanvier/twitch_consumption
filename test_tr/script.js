@@ -6,17 +6,19 @@ var x = (w / 2);
 var y = (h / 2);
 var delta = 270;
 var step = 0.5;
-var center_r = 30;
+var center_r = 50;
 var streamer_r = 4
 var streamers = [];
 var cur_orbit = center_r;
-var arc_width = 30;
-var streamer_n = 20;
+var inter_orbit = 3
+var arc_width = 40;
+var streamer_n = 15;
+var sun_margin = 15
 
 for (i = 0; i < streamer_n; i++) {
-	var width = arc_width*((streamer_n-i)/streamer_n)**2
+    var width = arc_width*tweaked_sigmoid((streamer_n-i)/streamer_n)
 	cur_orbit+= width/2
-    streamers.push({R: cur_orbit, w: width, d: delta, s: 1, i: i});
+    streamers.push({R: cur_orbit + sun_margin + i*inter_orbit, w: width, d: delta, s: 1, i: i});
     cur_orbit+= width/2
 }
 
@@ -40,17 +42,17 @@ container.selectAll("g.planet").data(streamers).enter().append("g")
     .attr("class", "planet_cluster").each(function (d, i) {
     d3.select(this).append("circle").attr("class", "orbit")
         .attr("r", d.R).attr("id", "orbit_" + d.i);
-    d3.select(this).append("circle").attr("r", d.r).attr("cx", d.R)
-        .attr("cy", 0).attr("class", "planet").attr("id", "planet_" + d.i);
+    // d3.select(this).append("circle").attr("r", d.r).attr("cx", d.R)
+    //     .attr("cy", 0).attr("class", "planet").attr("id", "planet_" + d.i);
 
     var a = svg.append("path")
         .datum({
             startAngle: 0,
             endAngle: 0,
-            innerRadius: d.R - (d.w / 2),
+            innerRadius: d.R - (d.w / 2) ,
             outerRadius: d.R + (d.w / 2)
         })
-        .attr("class", "arc")
+        // .attr("class", "arc")
         .attr("d", arc)
         .attr("transform", "translate(" + x + "," + y + ")")
 		.style("fill", "#"+String(Math.floor(Math.random()*255).toString(16))+String(Math.floor(Math.random()*255).toString(16))+String(Math.floor(Math.random()*255).toString(16)));
@@ -77,3 +79,7 @@ setInterval(function(){
         });
 }, 40);
 
+function tweaked_sigmoid(t) {
+    console.log(t, (1/(1+Math.exp(-4*(2*t-1))))*0.6 +0.2)
+    return (1/(1+Math.exp(-4*(2*t-1))))*0.6 +0.2;
+}
