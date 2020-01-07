@@ -22,14 +22,15 @@ d3.json('../data/data.json').then(function(raw_data){
     var arc_id = 0
     var streamer_id = 0
     for (var streamer in raw_data){
-        for(var k in raw_data[streamer]['streams']){
+        for(var k in raw_data[streamer]['streams']['data_stamp']){
             // print(raw_data[streamer]['streams'])
+            console.log(streamer)
             arcs.push({
                     R: cur_orbit + sun_margin + streamer_id*inter_orbit,
                     w: arc_width,
                     s: 1, 
-                    start_angle : raw_data[streamer]['streams'][k]['angle_start'],
-                    end_angle : raw_data[streamer]['streams'][k]['angle_end'],
+                    start_angle : raw_data[streamer]['streams']['data_stamp'][k]['angle_start'],
+                    end_angle : raw_data[streamer]['streams']['data_stamp'][k]['angle_end'],
                     color : raw_data[streamer]['infos']['color'],
                     image : raw_data[streamer]['infos']['pp'],
                     i: arc_id,
