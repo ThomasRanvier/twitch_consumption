@@ -11,14 +11,15 @@ var streamer_r = 4
 var streamers = [];
 var cur_orbit = center_r;
 var inter_orbit = 0.5
-var arc_width = 3;
+var arc_width = 2.5;
 var streamer_n = 100;
-var sun_margin = 15
+var sun_margin = 15;
+var testol = Math.PI/16
 
 for (i = 0; i < streamer_n; i++) {
     var width = arc_width*tweaked_sigmoid((streamer_n-i)/streamer_n)
 	cur_orbit+= width/2
-    streamers.push({R: cur_orbit + sun_margin + i*inter_orbit, w: width, d: delta, s: 1, i: i});
+    streamers.push({R: cur_orbit + sun_margin + i*inter_orbit, w: width, d: delta, s: 1, sa : Math.random()*Math.PI*2, i: i});
     cur_orbit+= width/2
 }
 
@@ -47,8 +48,8 @@ container.selectAll("g.planet").data(streamers).enter().append("g")
 
     var a = svg.append("path")
         .datum({
-            startAngle: 0,
-            endAngle: 0,
+            startAngle: d.sa,
+            endAngle: d.sa + testol * Math.PI,
             innerRadius: d.R - (d.w / 2) ,
             outerRadius: d.R + (d.w / 2)
         })
@@ -56,7 +57,7 @@ container.selectAll("g.planet").data(streamers).enter().append("g")
         .attr("d", arc)
         .attr("transform", "translate(" + x + "," + y + ")")
 		.style("fill", "#"+String(Math.floor(Math.random()*255).toString(16))+String(Math.floor(Math.random()*255).toString(16))+String(Math.floor(Math.random()*255).toString(16)));
-    a.transition().ease(d3.easeLinear).duration(20000).attrTween("d", arcTween(2 * Math.PI));
+    // a.transition().ease(d3.easeLinear).attrTween("d", arcTween(2*Math.PI));
 })
     // .attr("transform", "rotate(" + delta + ")");
 
