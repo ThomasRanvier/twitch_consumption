@@ -31,6 +31,6 @@ for x in os.listdir('../data/collected_data/'):
 for key in data:
     data[key].pop()
 json = json.dumps(data, indent=4)
-f = open("../data/data.json","w+")
+f = open("../data/pre_data.json","w+")
 f.write(json)
 f.close()

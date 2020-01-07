@@ -10,7 +10,7 @@ path = path.parent
 
 files = [x for x in Path(path.as_uri()[8:len(path.as_uri())] + "/data/collected_data").glob('**/*') if x.is_file()]
 
-raw_json = json.load(open('../data/old_data.json'))
+raw_json = json.load(open('../data/pre_data.json'))
 start_list = []
 end_list = []
 
