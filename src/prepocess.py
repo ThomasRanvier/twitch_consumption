@@ -30,7 +30,6 @@ min_stamp = min(start_list)
 max_stamp = max(end_list)
 
 dates = []
-dates_strings = []
 for filename in files:
     sep = str(filename).split('_')
     year = sep[-5][-4:]
@@ -40,7 +39,6 @@ for filename in files:
     minute = sep[-2]
     second = sep[-1][:2]
     dates.append(dt.timestamp(dt(int(year),int(month),int(day),int(hour),int(minute),int(second))) - min_stamp)
-    dates_strings.append(year + '_' + month + '_' + day + '-' + hour + '_' + minute + '_' + second)
 
 viewers_count = [0] * len(dates)
 for streamer in raw_json:
@@ -86,13 +84,19 @@ for streamer in raw_json:
         # stream['angle_end'] = (stream['stamp_end']/stamp_scale)*math.pi*2
         
         #print(stream['angle_end'])
-raw_json['viewers_per_gap'] = {}
+total_views = {}
 for h in range(len(dates)):
-    raw_json['viewers_per_gap'][dates_strings[h]] = viewers_count[h]
-json = json.dumps(raw_json, indent=4)
+    total_views[dates[h]] = viewers_count[h]
+json_s = json.dumps(raw_json, indent=4)
 f = open('../data/data.json','w+')
-f.write(json)
+f.write(json_s)
 f.close()
 
+
+
+json_v = json.dumps(total_views, indent=4)
+f = open('../data/total_views.json','w+')
+f.write(json_v)
+f.close()
         
 # print(raw_json['Squeezielive'])
