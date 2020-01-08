@@ -5,18 +5,30 @@ body {
     position: relative;
 }
 
-#sun {
+.twitch-sun {
     fill: #6441A4;
+    stroke: #fff;
+	stroke-width : 5;
 }
 
 .edge {
     stroke: #aaa;
-	stroke-width : 5;
+    stroke-width : 5;
+    fill: transparent;
 }
+
+
+.info-box {
+    stroke: #6441A4;
+    fill: #6441A415;
+    stroke-width : 5;
+    /* fill: transparent; */
+}
+
 .arc {
     stroke: #fff;
 	stroke-width : 1.5;
-    fill: black;
+    /* fill: black; */
 }
 
 .orbit {
@@ -29,19 +41,18 @@ body {
     stroke-width: 4px;
     /* stroke-dasharray : 16,2; */
 }
-.axis-area1{
-    fill: orange;
-}
-.axis-area2{
-    fill: red;
-}
 
-.planet {
-    stroke: #666;
-    fill: #fff;
+.info-text-h1{
+    fill: #6441A4;
+    font-size:2.3em;
+    font-weight:bold
 }
-
-.moon {
-    stroke: #ccc;
-    fill: #fff;
+.info-text-h2{
+    fill: #6441A4;
+    font-size:2em;
 }
+.info-text-h3{
+    fill:#444;
+    font-size:1.5em;
+}
+   

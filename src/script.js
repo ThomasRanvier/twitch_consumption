@@ -2,16 +2,17 @@
 var w = window.innerWidth
 var h = window.innerHeight
 
-var middle_edge_x = w/1.6
+var middle_edge_x = w/1.56
 var corner_edge_y = h/2.5
+var info_margin = 10
 
 var main_chart_x = (w / 3.2);
 var main_chart_y = (h / 2);
 
 var step = 0.5;
 var sun_r = 80;
-var arc_width = 9;
-var inter_orbit = arc_width+2;
+var arc_width = 9.5;
+var inter_orbit = arc_width+1.5;
 var sun_margin = 10;
 
 var axis_overlength = 5
@@ -63,10 +64,10 @@ d3.json('../data/data.json').then(function(raw_data){
                     w: arc_width,
                     start_angle : raw_data[streamer]['streams']['data_stamp'][k]['angle_start'],
                     end_angle : raw_data[streamer]['streams']['data_stamp'][k]['angle_end'],
-                    color : raw_data[streamer]['infos']['color'],
                     image : raw_data[streamer]['infos']['pp'],
                     i: arc_id,
-                    si: streamer_id
+                    si: streamer_id,
+                    flat_color : (streamer_id**streamer_id%83)/83
                 });
             arc_id++
         }
@@ -75,19 +76,28 @@ d3.json('../data/data.json').then(function(raw_data){
     }
 
     //LAYOUT EDGES ////////////////////////////////////////////////////////////////////////////////////////
-    svg.append("line")
-        .attr("x1", middle_edge_x)
-        .attr("y1", 0)
-        .attr("x2", middle_edge_x)
-        .attr("y2", h)
-        .attr("class", "edge")
+    svg.append("rect")
+        .attr("x", middle_edge_x)
+        .attr("y", corner_edge_y)
+        .attr("rx", 8)
+        .attr("ry", 8)
+        .attr("width", w-3*info_margin-middle_edge_x)
+        .attr("height", h-3*info_margin-corner_edge_y)
+        .attr("class", "info-box")
 
-    svg.append("line")
-        .attr("x1", middle_edge_x)
-        .attr("y1", corner_edge_y)
-        .attr("x2", w)
-        .attr("y2", corner_edge_y)
-        .attr("class", "edge")
+    // svg.append("line")
+    //     .attr("x1", middle_edge_x)
+    //     .attr("y1", 0)
+    //     .attr("x2", middle_edge_x)
+    //     .attr("y2", h)
+    //     .attr("class", "edge")
+
+    // svg.append("line")
+    //     .attr("x1", middle_edge_x)
+    //     .attr("y1", corner_edge_y)
+    //     .attr("x2", w)
+    //     .attr("y2", corner_edge_y)
+    //     .attr("class", "edge")
 
 
     //MAIN CHART  ////////////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +154,7 @@ d3.json('../data/data.json').then(function(raw_data){
                 .transition()
                 .duration(50)
                 .attr('d', d3.arc()
-                    .outerRadius(axis_length + label_margin + label_width + 10)
+                    .outerRadius(axis_length + label_margin + label_width*1.6)
                 )
                 .ease(d3.easeSinInOut);
             })
@@ -187,7 +197,7 @@ d3.json('../data/data.json').then(function(raw_data){
                 .attr("r", d.R).attr("id", "orbit_" + d.i);
                 streamer_id=d.si+1
             }
-
+            // console.log( d3.interpolateRainbow(Math.Random))
             var a = svg.append("path")
                 .datum({
                     startAngle: d.start_angle,
@@ -198,6 +208,8 @@ d3.json('../data/data.json').then(function(raw_data){
                 .attr("d", arc)
                 .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
                 .attr("class", "arc")
+                .style("fill", d3.interpolateRainbow(d.flat_color))
+
                 .on("mouseenter", function() {
                     d3.select("#sun_img")
                     .transition()
@@ -262,6 +274,7 @@ d3.json('../data/data.json').then(function(raw_data){
         .attr("cx", main_chart_x)
         .attr("cy", main_chart_y)
         .attr("id", "sun")
+        .attr("class", "twitch-sun")
         .on("mouseenter", function() {
             d3.select("#sun")
             .transition()
@@ -296,7 +309,7 @@ d3.json('../data/data.json').then(function(raw_data){
         });
 
     
-    var image = svg.append("svg:image")
+    var sun_image = svg.append("svg:image")
         .attr("xlink:href",  "./img/twitch_logo.png")
         .attr("id", "sun_img")
         .attr("x", main_chart_x - sun_r*1.2/2)
@@ -339,7 +352,34 @@ d3.json('../data/data.json').then(function(raw_data){
 
     //STREAMER INFOS ////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //todo
+        var img_size = 170
+
+        var info_name_x = middle_edge_x + img_size/2 + info_margin + 90
+        var info_name_y = corner_edge_y + img_size/3
+
+        var info_image_circle = svg.append("circle")
+        .attr("r", img_size/2)
+        .attr("cx", middle_edge_x + img_size/2 + info_margin)
+        .attr("cy", corner_edge_y + img_size/2 + info_margin)
+        .attr("id", "info_img_circle")
+        .attr("class", "twitch-sun")
+
+        var info_image = svg.append("svg:image")
+        .attr("xlink:href",  "./img/twitch_logo.png")
+        .attr("id", "info_img")
+        .attr("x", middle_edge_x + info_margin + img_size*0.15)
+        .attr("y", corner_edge_y + info_margin + img_size*0.15)
+        .attr("height", img_size*0.7)
+        .attr("width", img_size*0.7)
+
+
+        var info_name = svg.append("text")
+                        .attr("x", info_name_x)
+                        .attr("y", info_name_y)
+                        .text( function () { return "Consommation Twitch"; })
+
+                        .attr("class", "info-text-h1")
+                        
 
     //TOTAL VIEWS CHART ////////////////////////////////////////////////////////////////////////////////////////////////
     d3.json('../data/total_views.json').then(function(raw_view_data){
