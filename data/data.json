@@ -1,7 +1,7 @@
 {
     "Squeezielive": {
         "infos": {
-            "pp": "../img/Squeezielive.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Squeezielive.png",
             "color": "#70b87d"
         },
         "streams": {
@@ -689,7 +689,7 @@
     },
     "Gotaga": {
         "infos": {
-            "pp": "../img/Gotaga.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Gotaga.png",
             "color": "#00000000"
         },
         "streams": {
@@ -1425,7 +1425,7 @@
     },
     "Domingo": {
         "infos": {
-            "pp": "../img/Domingo.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Domingo.png",
             "color": "#f4f2f4"
         },
         "streams": {
@@ -2145,7 +2145,7 @@
     },
     "WankilStudio": {
         "infos": {
-            "pp": "../img/WankilStudio.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/WankilStudio.png",
             "color": "#fe521000"
         },
         "streams": {
@@ -2833,7 +2833,7 @@
     },
     "Sardoche": {
         "infos": {
-            "pp": "../img/Sardoche.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Sardoche.png",
             "color": "#7b7c81ff"
         },
         "streams": {
@@ -3553,7 +3553,7 @@
     },
     "ZeratoR": {
         "infos": {
-            "pp": "../img/ZeratoR.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/ZeratoR.png",
             "color": "#00000006"
         },
         "streams": {
@@ -4265,7 +4265,7 @@
     },
     "mistermv": {
         "infos": {
-            "pp": "../img/mistermv.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/mistermv.png",
             "color": "#00000000"
         },
         "streams": {
@@ -4985,7 +4985,7 @@
     },
     "Locklear": {
         "infos": {
-            "pp": "../img/Locklear.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Locklear.png",
             "color": "#222634ff"
         },
         "streams": {
@@ -5713,7 +5713,7 @@
     },
     "Xari": {
         "infos": {
-            "pp": "../img/Xari.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Xari.png",
             "color": "#0e0a1a"
         },
         "streams": {
@@ -6417,7 +6417,7 @@
     },
     "lestream": {
         "infos": {
-            "pp": "../img/lestream.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/lestream.png",
             "color": "#dadae1"
         },
         "streams": {
@@ -7153,7 +7153,7 @@
     },
     "BruceGrannec": {
         "infos": {
-            "pp": "../img/BruceGrannec.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/BruceGrannec.png",
             "color": "#fefefd"
         },
         "streams": {
@@ -7905,7 +7905,7 @@
     },
     "Solary": {
         "infos": {
-            "pp": "../img/Solary.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Solary.png",
             "color": "#151a20"
         },
         "streams": {
@@ -8625,7 +8625,7 @@
     },
     "Jirayalecochon": {
         "infos": {
-            "pp": "../img/Jirayalecochon.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Jirayalecochon.png",
             "color": "#080806fd"
         },
         "streams": {
@@ -9304,7 +9304,7 @@
     },
     "iProMx": {
         "infos": {
-            "pp": "../img/iProMx.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/iProMx.png",
             "color": "#090909"
         },
         "streams": {
@@ -10016,7 +10016,7 @@
     },
     "FantaBobShow": {
         "infos": {
-            "pp": "../img/FantaBobShow.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/FantaBobShow.png",
             "color": "#220402"
         },
         "streams": {
@@ -10744,7 +10744,7 @@
     },
     "Kamet0": {
         "infos": {
-            "pp": "../img/Kamet0.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Kamet0.png",
             "color": "#372f34"
         },
         "streams": {
@@ -11496,7 +11496,7 @@
     },
     "AlphaCast": {
         "infos": {
-            "pp": "../img/AlphaCast.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/AlphaCast.png",
             "color": "#c8a893be"
         },
         "streams": {
@@ -12216,7 +12216,7 @@
     },
     "Alderiate": {
         "infos": {
-            "pp": "../img/Alderiate.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Alderiate.png",
             "color": "#000a17"
         },
         "streams": {
@@ -12912,7 +12912,7 @@
     },
     "AntoineDanielLive": {
         "infos": {
-            "pp": "../img/AntoineDanielLive.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/AntoineDanielLive.png",
             "color": "#1d0e07"
         },
         "streams": {
@@ -13624,7 +13624,7 @@
     },
     "JeelTV": {
         "infos": {
-            "pp": "../img/JeelTV.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/JeelTV.png",
             "color": "#805d5b"
         },
         "streams": {
@@ -14352,7 +14352,7 @@
     },
     "Corobizar": {
         "infos": {
-            "pp": "../img/Corobizar.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Corobizar.png",
             "color": "#01010000"
         },
         "streams": {
@@ -15080,7 +15080,7 @@
     },
     "Mickalow": {
         "infos": {
-            "pp": "../img/Mickalow.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Mickalow.png",
             "color": "#605940"
         },
         "streams": {
@@ -15792,7 +15792,7 @@
     },
     "At0mium": {
         "infos": {
-            "pp": "../img/At0mium.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/At0mium.png",
             "color": "#051117"
         },
         "streams": {
@@ -16496,7 +16496,7 @@
     },
     "Maghla": {
         "infos": {
-            "pp": "../img/Maghla.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Maghla.png",
             "color": "#1e0c07"
         },
         "streams": {
@@ -17208,7 +17208,7 @@
     },
     "aypierre": {
         "infos": {
-            "pp": "../img/aypierre.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/aypierre.png",
             "color": "#564a3f"
         },
         "streams": {
@@ -17912,7 +17912,7 @@
     },
     "Kenb0gard": {
         "infos": {
-            "pp": "../img/Kenb0gard.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Kenb0gard.png",
             "color": "#020606ff"
         },
         "streams": {
@@ -18608,7 +18608,7 @@
     },
     "TheGuill84": {
         "infos": {
-            "pp": "../img/TheGuill84.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/TheGuill84.png",
             "color": "#0f060dff"
         },
         "streams": {
@@ -19320,7 +19320,7 @@
     },
     "HumilityFR": {
         "infos": {
-            "pp": "../img/HumilityFR.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/HumilityFR.png",
             "color": "#140e16"
         },
         "streams": {
@@ -20056,7 +20056,7 @@
     },
     "MrBboy45": {
         "infos": {
-            "pp": "../img/MrBboy45.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/MrBboy45.png",
             "color": "#fefefe"
         },
         "streams": {
@@ -20784,7 +20784,7 @@
     },
     "Tonton": {
         "infos": {
-            "pp": "../img/Tonton.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Tonton.png",
             "color": "#00000000"
         },
         "streams": {
