@@ -5,6 +5,7 @@ var h = window.innerHeight
 var middle_edge_x = w/1.56
 var corner_edge_y = h/2.5
 var info_margin = 10
+var totv_chart_margin = 30
 
 var main_chart_x = (w / 3.2);
 var main_chart_y = (h / 2);
@@ -572,17 +573,20 @@ d3.json('../data/data.json').then(function(raw_data){
     //TOTAL VIEWS CHART ////////////////////////////////////////////////////////////////////////////////////////////////
     d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
         // set the dimensions and margins of the graph
-        var margin = {top: 60, right: 230, bottom: 50, left: 50},
-        width = 660 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
 
-        var xstart = middle_edge_x + 50
+        totv_width = w - middle_edge_x - totv_chart_margin*3
+        totv_height = corner_edge_y - totv_chart_margin*1.5
+
+        var totv_x_offset = totv_width/14
+        var totv_x = middle_edge_x + totv_chart_margin
+
         
         //////////
         // GENERAL //
         //////////
         
         // List of groups = header of the csv files
+        console.log(data.columns)
         var keys = data.columns.slice(1)
         
         // color palette
@@ -590,7 +594,8 @@ d3.json('../data/data.json').then(function(raw_data){
         .domain(keys)
         .range(d3.schemeSet2);
         
-        //stack the data?
+        // console.log(keys, i)
+
         var stackedData = d3.stack()
         .keys(keys)
         (data)
@@ -599,37 +604,50 @@ d3.json('../data/data.json').then(function(raw_data){
         //////////
         // AXIS //
         //////////
-        
+        for(var i=0; i<7; i++){
+            svg.append("rect")
+                .attr("x", totv_x+i*(totv_width/7))
+                .attr("y", totv_chart_margin)
+                .attr("width", (totv_width/7))
+                .attr("height", totv_height-totv_chart_margin)
+                .attr("id", "totv_bg_"+i)
+                .style("fill", d3.schemePastel2[i])
+        }
+
         // Add X axis
         var x = d3.scaleTime()
         .domain(d3.extent(data, function(d) { return new Date(d.time * 1000); }))
-        .range([xstart, xstart + width]);
+        .range([totv_x, totv_x + totv_width]);
         var xAxis = svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).ticks(5))
+        .attr("transform", "translate("+(totv_x_offset-4)+", " + totv_height + ")")
+        .attr("class", "totv-axis")
+        .call(d3.axisBottom(x).ticks(5).tickSize(0))
+        .call(g => g.select(".domain").remove())
         
+
         // Add X axis label:
-        svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("x", xstart + width)
-        .attr("y", height+40 )
-        .text("Time (time)");
+        // svg.append("text")
+        // .attr("text-anchor", "end")
+        // .attr("x", totv_x + width)
+        // .attr("y", height+40 )
+        // .text("Time (time)");
         
-        // Add Y axis label:
-        svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("x", xstart)
-        .attr("y", -20 )
-        .text("Nombre de viewer")
-        .attr("text-anchor", "start")
+        // // Add Y axis label:
+        // svg.append("text")
+        // .attr("text-anchor", "end")
+        // .attr("x", totv_x)
+        // .attr("y", totv_chart_margin )
+        // // .text("Nombre de viewer")
+        // .attr("text-anchor", "start")
         
         // Add Y axis
         var y = d3.scaleLinear()
         .domain([0, 100000])
-        .range([ height, 0 ]);
+        .range([ totv_height, totv_chart_margin ]);
         var yAxis = svg.append("g")
-        .attr("transform", "translate(" + (xstart) + ",0)")
-        .attr("x", xstart)
+        .attr("transform", "translate(" + (totv_x-4) + ",0)")
+        .attr("x", totv_x)
+        // .attr("class", "axis")
         .call(d3.axisLeft(y).ticks(5))
         
         
@@ -642,20 +660,21 @@ d3.json('../data/data.json').then(function(raw_data){
         var clip = svg.append("defs").append("svg:clipPath")
         .attr("id", "clip")
         .append("svg:rect")
-        .attr("width", width )
-        .attr("height", height )
-        .attr("x", xstart)
-        .attr("y", 0);
+        .attr("width", totv_width )
+        .attr("height", totv_height )
+        .attr("x", totv_x)
+        .attr("y", totv_chart_margin);
         
         // Add brushing
         var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
-        .extent( [ [xstart,0], [xstart + width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+        .extent( [ [totv_x,0], [totv_x + totv_width,totv_height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
         .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
         
         // Create the scatter variable: where both the circles and the brush take place
         var areaChart = svg.append('g')
         .attr("clip-path", "url(#clip)")
         
+
         // Area generator
         var area = d3.area()
         .x(function(d) { return x(new Date(d.data.time * 1000)); })
@@ -669,15 +688,16 @@ d3.json('../data/data.json').then(function(raw_data){
         .enter()
         .append("path")
         .attr("class", function(d) { return "myArea " + d.key })
-        .style("fill", function(d) { return color(d.key); })
+        .style("fill", function(d) {return color(d.key); })
         .attr("d", area)
         
         
         // Add the brushing
-        areaChart
-        .append("g")
-        .attr("class", "brush")
-        .call(brush)
+        // areaChart
+        // .append("g")
+        // .attr("class", "brush")
+        // .call(brush)
+
         //   .on('mousemove', function(d) {
         //     var mousePos = d3.mouse(this);
         //     tooltip.classed('hidden', false)
