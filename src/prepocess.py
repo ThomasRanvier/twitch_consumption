@@ -11,6 +11,7 @@ path = path.parent
 files = [x for x in Path(path.as_uri()[8:len(path.as_uri())] + "/data/collected_data").glob('**/*') if x.is_file()]
 
 raw_json = json.load(open('../data/pre_data.json'))
+streamers = json.load(open('../data/streamers.json'))
 start_list = []
 end_list = []
 
@@ -39,6 +40,14 @@ for filename in files:
     minute = sep[-2]
     second = sep[-1][:2]
     dates.append(dt.timestamp(dt(int(year),int(month),int(day),int(hour),int(minute),int(second))))
+
+suppress_list = []
+for streamer in raw_json:
+    if not(streamer in streamers):
+        suppress_list.append(streamer)
+
+for s in suppress_list:
+    del raw_json[s]
 
 min_date = dates[0]
 for d in range(len(dates)):
@@ -80,7 +89,8 @@ for streamer in raw_json:
         for d in o_data:
             del d['viewers']
         raw_json[streamer]['streams']['data_stamp'] = o_data
-    
+        
+    raw_json[streamer]['infos']['pp'] = '../img/' + streamer + '.png'
         # split_start = stream['start'].split('_')
         # split_end = stream['end'].split('_')
   
