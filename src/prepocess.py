@@ -2,6 +2,8 @@ import json, csv, math
 from datetime import datetime as dt
 from pathlib import Path
 import os 
+import pandas as pd
+import numpy as np
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -32,6 +34,7 @@ max_stamp = max(end_list)
 
 total_views = {}
 dates = []
+dates_datefm = []
 for filename in files:
     sep = str(filename).split('_')
     year = sep[-5][-4:]
@@ -41,6 +44,7 @@ for filename in files:
     minute = sep[-2]
     second = sep[-1][:2]
     dates.append(dt.timestamp(dt(int(year),int(month),int(day),int(hour),int(minute),int(second))))
+    dates_datefm.append(dt.timestamp(dt(int(year),int(month),int(day),int(hour),int(minute),int(second))))
 
 suppress_list = []
 for streamer in raw_json:
@@ -53,7 +57,7 @@ for s in suppress_list:
 min_date = dates[0]
 for d in range(len(dates)):
     dates[d] -= min_date
-    total_views[dates[d]] = {}
+    total_views[dates_datefm[d]] = {}
 #viewers_count = [0] * len(dates)
 for streamer in raw_json:
     i=0
@@ -79,11 +83,11 @@ for streamer in raw_json:
                     streaming = True 
             if streaming and j < len(raw_json[streamer]['streams'][i]['viewers']):
                 viewer_stream.append(raw_json[streamer]['streams'][i]['viewers'][j])
-                total_views[dates[h]][streamer] = raw_json[streamer]['streams'][i]['viewers'][j]
                 #viewers_count[h] += raw_json[streamer]['streams'][i]['viewers'][j]
                 j+=1
             else:
                 viewer_stream.append(0)
+            total_views[dates_datefm[h]][streamer] = viewer_stream[h]
         if i < len(raw_json[streamer]['streams']) and (raw_json[streamer]['streams'][i]['stamp_start'] < dates[h] and raw_json[streamer]['streams'][i]['stamp_end'] > dates[h]):
             o_data.append(raw_json[streamer]['streams'][i])
         raw_json[streamer]['streams'] = {}
@@ -111,11 +115,13 @@ f = open('../data/data.json','w+')
 f.write(json_s)
 f.close()
 
+tv = pd.DataFrame(total_views)
+tv = tv.T
+tv.to_csv('../data/total_views.csv')
 
-
-json_v = json.dumps(total_views, indent=4)
-f = open('../data/total_views.json','w+')
-f.write(json_v)
-f.close()
+# json_v = json.dumps(total_views, indent=4)
+# f = open('../data/total_views.json','w+')
+# f.write(json_v)
+# f.close()
         
 # print(raw_json['Squeezielive'])
