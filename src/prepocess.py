@@ -102,7 +102,7 @@ for streamer in raw_json:
             del d['viewers']
         raw_json[streamer]['streams']['data_stamp'] = o_data
         
-    raw_json[streamer]['infos']['pp'] = '../img/' + streamer + '.png'
+    raw_json[streamer]['infos']['pp'] = 'https://thomasranvier.github.io/twitch_consumption/src/img/' + streamer + '.png'
     raw_json[streamer]['infos']['viewers_max'] = max(raw_json[streamer]['streams']['viewers'])
     raw_json[streamer]['infos']['viewers_avg'] = mean(raw_json[streamer]['streams']['viewers'])
     raw_json[streamer]['infos']['nb_streams'] = len(raw_json[streamer]['streams']['data_stamp'])

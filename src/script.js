@@ -51,7 +51,7 @@ var svg = d3.select('#chart-area').insert('svg')
 
 
 var arcs = [];
-d3.json('../data/data.json').then(function(raw_data){
+d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/data.json').then(function(raw_data){
 
     console.log(raw_data)
     var arc_id = 0
@@ -65,6 +65,10 @@ d3.json('../data/data.json').then(function(raw_data){
                     start_angle : raw_data[streamer]['streams']['data_stamp'][k]['angle_start'],
                     end_angle : raw_data[streamer]['streams']['data_stamp'][k]['angle_end'],
                     image : raw_data[streamer]['infos']['pp'],
+                    tps : raw_data[streamer]['infos']['total_time'],
+                    avg_v : raw_data[streamer]['infos']['viewers_avg'],
+                    max_v : raw_data[streamer]['infos']['viewers_max'],
+                    nb_streams : raw_data[streamer]['infos']['nb_streams'],
                     i: arc_id,
                     si: streamer_id,
                     s: streamer,
@@ -75,6 +79,7 @@ d3.json('../data/data.json').then(function(raw_data){
         streamer_id++
 
     }
+    console.log(arcs)
 
     //MAIN CHART  ////////////////////////////////////////////////////////////////////////////////////////
     //AXIS ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -226,6 +231,7 @@ d3.json('../data/data.json').then(function(raw_data){
                     )
                     .ease(d3.easeSinInOut);
 
+                    
                 })
                 .on("mousedown", function() {
                     d3.select(this)
@@ -279,6 +285,41 @@ d3.json('../data/data.json').then(function(raw_data){
                     .style("fill", d.color)
                     .ease(d3.easeSinInOut);
 
+                    
+                    d3.select("#info_tip")
+                    .transition()
+                    .duration(200)
+                    .text( function () { return ""; })
+                    .style("fill", d.color.slice(0,3) + "a" + d.color.slice(3,d.color.length-1) + ",0.12)")
+                    .ease(d3.easeSinInOut);
+
+                    d3.select("#info_tps")
+                    .transition()
+                    .duration(200)
+                    .text( function () { return "Temps de stream sur la semaine : " + d.tps; })
+                    .style("fill", d.color)
+                    .ease(d3.easeSinInOut);
+
+                    d3.select("#info_max_v")
+                    .transition()
+                    .duration(200)
+                    .text( function () { return "Nombre maximum de viewers simultanés : " + d.max_v; })
+                    .style("fill", d.color)
+                    .ease(d3.easeSinInOut);
+
+                    d3.select("#info_avg_v")
+                    .transition()
+                    .duration(200)
+                    .text( function () { return "Nombre moyen de viewers simultanés : " + d.avg_v; })
+                    .style("fill", d.color)
+                    .ease(d3.easeSinInOut);
+
+                    d3.select("#info_nb_streams")
+                    .transition()
+                    .duration(200)
+                    .text( function () { return "Nombre de streams lancés cette semaine : " + d.nb_streams; })
+                    .style("fill", d.color)
+                    .ease(d3.easeSinInOut);
                 })
 
                 function arcTween(newAngle) {
@@ -398,6 +439,40 @@ d3.json('../data/data.json').then(function(raw_data){
             .style("fill", "#6441A4")
             .ease(d3.easeSinInOut);
 
+            d3.select("#info_tip")
+            .transition()
+            .duration(200)
+            .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
+            .style("fill", d.color.slice(0,3) + "a" + d.color.slice(3,d.color.length-1) + ",0.12)")
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_tps")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_max_v")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_avg_v")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_nb_streams")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .style("fill", d.color)
+            .ease(d3.easeSinInOut);
         });
 
 
@@ -504,7 +579,37 @@ d3.json('../data/data.json').then(function(raw_data){
             .text( function () { return "Consommation Twitch"; })
             .style("fill", "#6441A4")
             .ease(d3.easeSinInOut);
+            
+            d3.select("#info_tip")
+            .transition()
+            .duration(200)
+            .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
+            .style("fill", "#6441A4")
+            .ease(d3.easeSinInOut);
 
+            d3.select("#info_tps")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_max_v")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_avg_v")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_nb_streams")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .ease(d3.easeSinInOut);
         });
 
 
@@ -553,13 +658,39 @@ d3.json('../data/data.json').then(function(raw_data){
             .text( function () { return "Consommation Twitch"; })
 
         var info_tip = svg.append("text")
-        .attr("x", info_tip_x)
-        .attr("y", info_tip_y)
-        .attr("id", "info_tip")
-        .attr("class", "info-text-h4")
-        .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
+            .attr("x", info_tip_x)
+            .attr("y", info_tip_y)
+            .attr("id", "info_tip")
+            .attr("class", "info-text-h4")
+            .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
 
+        var info_tps = svg.append("text")
+            .attr("x", info_tip_x)
+            .attr("y", info_tip_y-40)
+            .attr("id", "info_tps")
+            .attr("class", "info-text-h4")
+            .text( function (d) { return ""; })
 
+        var info_max_v = svg.append("text")
+            .attr("x", info_tip_x)
+            .attr("y", info_tip_y-20)
+            .attr("id", "info_max_v")
+            .attr("class", "info-text-h4")
+            .text( function () { return ""; })
+
+        var info_avg_v = svg.append("text")
+            .attr("x", info_tip_x)
+            .attr("y", info_tip_y)
+            .attr("id", "info_avg_v")
+            .attr("class", "info-text-h4")
+            .text( function () { return ""; })
+
+        var info_nb_streams = svg.append("text")
+            .attr("x", info_tip_x)
+            .attr("y", info_tip_y+20)
+            .attr("id", "info_nb_streams")
+            .attr("class", "info-text-h4")
+            .text( function () { return ""; })
 
 // function tweaked_sigmoid(t) {
 //     // console.log(t, (1/(1+Math.exp(-4*(2*t-1))))*0.6 +0.2)
