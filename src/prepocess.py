@@ -38,42 +38,49 @@ for filename in files:
     hour = sep[-3][3:]
     minute = sep[-2]
     second = sep[-1][:2]
-    dates.append(dt.timestamp(dt(int(year),int(month),int(day),int(hour),int(minute),int(second))) - min_stamp)
+    dates.append(dt.timestamp(dt(int(year),int(month),int(day),int(hour),int(minute),int(second))))
 
+min_date = dates[0]
+for d in range(len(dates)):
+    dates[d] -= min_date
 viewers_count = [0] * len(dates)
 for streamer in raw_json:
     i=0
     streaming = False
     viewer_stream = []
     o_data = []
-    while raw_json[streamer]['streams'][i]['stamp_end'] < dates[0]:
+    while i < len(raw_json[streamer]['streams']) and raw_json[streamer]['streams'][i]['stamp_end'] < dates[0]:
         i+=1
-    streaming = raw_json[streamer]['streams'][i]['stamp_start'] < dates[0]
-    j=0
-    for h in range(len(dates)):
-        if streaming:
-            if raw_json[streamer]['streams'][i]['stamp_end'] < dates[h]:
-                streaming = False
-                o_data.append(raw_json[streamer]['streams'][i])
-                i+=1
-                j=0
-        else:
-            if raw_json[streamer]['streams'][i]['stamp_start'] < dates[h]:
-                streaming = True
-        if streaming and j < len(raw_json[streamer]['streams'][i]['viewers']):
-            viewer_stream.append(raw_json[streamer]['streams'][i]['viewers'][j])
-            viewers_count[h] += raw_json[streamer]['streams'][i]['viewers'][j]
-            j+=1
-        else:
-            viewer_stream.append(0)
-    if (raw_json[streamer]['streams'][i]['stamp_start'] < dates[h] and raw_json[streamer]['streams'][i]['stamp_end'] > dates[h]):
-        o_data.append(raw_json[streamer]['streams'][i])
-    raw_json[streamer]['streams'] = {}
-    raw_json[streamer]['streams']['viewers'] = viewer_stream
+    if i < len(raw_json[streamer]['streams']):
+        streaming = raw_json[streamer]['streams'][i]['stamp_start'] < dates[0]
+        j=0
+        for h in range(len(dates)):
+            if streaming:
+                if raw_json[streamer]['streams'][i]['stamp_end'] < dates[h]:
+                    streaming = False
+                    o_data.append(raw_json[streamer]['streams'][i])
+                    i+=1
+                    if i >= len(raw_json[streamer]['streams']):
+                        break
+                    j=0
+            else:
+                if raw_json[streamer]['streams'][i]['stamp_start'] < dates[h]:
+                    streaming = True 
+            if streaming and j < len(raw_json[streamer]['streams'][i]['viewers']):
+                viewer_stream.append(raw_json[streamer]['streams'][i]['viewers'][j])
+                viewers_count[h] += raw_json[streamer]['streams'][i]['viewers'][j]
+                j+=1
+            else:
+                viewer_stream.append(0)
+        if i < len(raw_json[streamer]['streams']) and (raw_json[streamer]['streams'][i]['stamp_start'] < dates[h] and raw_json[streamer]['streams'][i]['stamp_end'] > dates[h]):
+            o_data.append(raw_json[streamer]['streams'][i])
+        raw_json[streamer]['streams'] = {}
+        raw_json[streamer]['streams']['viewers'] = viewer_stream
+        
+        for d in o_data:
+            del d['viewers']
+        raw_json[streamer]['streams']['data_stamp'] = o_data
     
-    for d in o_data:
-        del d['viewers']
-    raw_json[streamer]['streams']['data_stamp'] = o_data
         # split_start = stream['start'].split('_')
         # split_end = stream['end'].split('_')
   
