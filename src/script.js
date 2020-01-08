@@ -67,6 +67,7 @@ d3.json('../data/data.json').then(function(raw_data){
                     image : raw_data[streamer]['infos']['pp'],
                     i: arc_id,
                     si: streamer_id,
+                    s: streamer,
                     color : d3.interpolateRainbow((streamer_id**streamer_id%83)/83)
                 });
             arc_id++
@@ -255,23 +256,27 @@ d3.json('../data/data.json').then(function(raw_data){
                     d3.select("#info_img")
                     .transition()
                     .attr("xlink:href",  d.image)
-                    .duration(50)
+                    .duration(200)
                     .ease(d3.easeSinInOut);
 
                     d3.select("#info_img_circle")
                     .transition()
-                    .duration(50)
+                    .duration(200)
                     .style("fill", d.color)
                     .ease(d3.easeSinInOut);
 
                     d3.select("#info_box")
                     .transition()
-                    .duration(50)
+                    .duration(200)
                     .style("stroke", d.color)
                     .style("fill", d.color.slice(0,3) + "a" + d.color.slice(3,d.color.length-1) + ",0.12)")
+                    .ease(d3.easeSinInOut);
 
-                    // .style("stroke", d.color)
-                    // .style("stroke", d.color)
+                    d3.select("#info_title")
+                    .transition()
+                    .duration(200)
+                    .text( function () { return d.s; })
+                    .style("fill", d.color)
                     .ease(d3.easeSinInOut);
 
                 })
@@ -370,20 +375,27 @@ d3.json('../data/data.json').then(function(raw_data){
             d3.select("#info_img")
             .transition()
             .attr("xlink:href",  "./img/twitch_logo.png")
-            .duration(50)
+            .duration(200)
             .ease(d3.easeSinInOut);
 
             d3.select("#info_img_circle")
             .transition()
-            .duration(50)
+            .duration(200)
             .style("fill", "#6441A4")
             .ease(d3.easeSinInOut);
 
             d3.select("#info_box")
             .transition()
-            .duration(50)
+            .duration(200)
             .style("stroke", "#6441A4")
             .style("fill", "#6441A415")
+            .ease(d3.easeSinInOut);
+            
+            d3.select("#info_title")
+            .transition()
+            .duration(200)
+            .text( function () { return "Consommation Twitch"; })
+            .style("fill", "#6441A4")
             .ease(d3.easeSinInOut);
 
         });
@@ -430,6 +442,69 @@ d3.json('../data/data.json').then(function(raw_data){
             .attr("width", sun_r*1.2)
             .duration(50)
             .ease(d3.easeSinInOut);
+        })
+
+        .on("mousedown", function() {
+            d3.select("#sun")
+            .transition()
+            .attr("r", sun_r)
+            .duration(10)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#sun_img")
+            .transition()
+            .attr("x", main_chart_x - sun_r*1.225/2)
+            .attr("y", main_chart_y - sun_r*1.225/2)
+            .attr("height", sun_r*1.225)
+            .attr("width", sun_r*1.225)
+            .duration(10)
+            .ease(d3.easeSinInOut);
+        })
+
+        .on("mouseup", function() {
+            d3.select("#sun")
+            .transition()
+            .attr("r", sun_r+5)
+            .duration(10)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#sun_img")
+            .transition()
+            .attr("x", main_chart_x - sun_r*1.25/2)
+            .attr("y", main_chart_y - sun_r*1.25/2)
+            .attr("height", sun_r*1.25)
+            .attr("width", sun_r*1.25)
+            .duration(10)
+            .ease(d3.easeSinInOut);
+        })
+
+        .on("click", function() {
+            d3.select("#info_img")
+            .transition()
+            .attr("xlink:href",  "./img/twitch_logo.png")
+            .duration(200)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_img_circle")
+            .transition()
+            .duration(200)
+            .style("fill", "#6441A4")
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_box")
+            .transition()
+            .duration(200)
+            .style("stroke", "#6441A4")
+            .style("fill", "#6441A415")
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_title")
+            .transition()
+            .duration(200)
+            .text( function () { return "Consommation Twitch"; })
+            .style("fill", "#6441A4")
+            .ease(d3.easeSinInOut);
+
         });
 
 
@@ -437,50 +512,226 @@ d3.json('../data/data.json').then(function(raw_data){
 
         var img_size = 170
 
-        var info_name_x = middle_edge_x + img_size/2 + info_margin + 90
+        var info_name_x = middle_edge_x + img_size/2 + info_margin + 110
         var info_name_y = corner_edge_y + img_size/3
+        var info_tip_x = middle_edge_x + info_margin + 30
+        var info_tip_y = corner_edge_y + img_size + 170
 
 
             //LAYOUT EDGES ////////////////////////////////////////////////////////////////////////////////////////
         svg.append("rect")
-        .attr("x", middle_edge_x)
-        .attr("y", corner_edge_y)
-        .attr("rx", 8)
-        .attr("ry", 8)
-        .attr("width", w-3*info_margin-middle_edge_x)
-        .attr("height", h-3*info_margin-corner_edge_y)
-        .attr("id", "info_box")
-        .attr("class", "info-box")
+            .attr("x", middle_edge_x)
+            .attr("y", corner_edge_y)
+            .attr("rx", 8)
+            .attr("ry", 8)
+            .attr("width", w-3*info_margin-middle_edge_x)
+            .attr("height", h-3*info_margin-corner_edge_y)
+            .attr("id", "info_box")
+            .attr("class", "info-box")
 
         var info_image_circle = svg.append("circle")
-        .attr("r", img_size/2)
-        .attr("cx", middle_edge_x + img_size/2 + info_margin)
-        .attr("cy", corner_edge_y + img_size/2 + info_margin)
-        .attr("id", "info_img_circle")
-        .attr("class", "twitch-sun")
+            .attr("r", img_size/2)
+            .attr("cx", middle_edge_x + img_size/2 + info_margin)
+            .attr("cy", corner_edge_y + img_size/2 + info_margin)
+            .attr("id", "info_img_circle")
+            .attr("class", "twitch-sun")
 
         var info_image = svg.append("svg:image")
-        .attr("xlink:href",  "./img/twitch_logo.png")
-        .attr("id", "info_img")
-        .attr("x", middle_edge_x + info_margin + img_size*0.15)
-        .attr("y", corner_edge_y + info_margin + img_size*0.15)
-        .attr("height", img_size*0.7)
-        .attr("width", img_size*0.7)
+            .attr("xlink:href",  "./img/twitch_logo.png")
+            .attr("id", "info_img")
+            .attr("x", middle_edge_x + info_margin + img_size*0.15)
+            .attr("y", corner_edge_y + info_margin + img_size*0.15)
+            .attr("height", img_size*0.7)
+            .attr("width", img_size*0.7)
 
 
-        var info_name = svg.append("text")
-                        .attr("x", info_name_x)
-                        .attr("y", info_name_y)
-                        .text( function () { return "Consommation Twitch"; })
+        var info_title = svg.append("text")
+            .attr("x", info_name_x)
+            .attr("y", info_name_y)
+            .attr("id", "info_title")
+            .attr("class", "info-text-h1")
+            .text( function () { return "Consommation Twitch"; })
 
-                        .attr("class", "info-text-h1")
+        var info_tip = svg.append("text")
+        .attr("x", info_tip_x)
+        .attr("y", info_tip_y)
+        .attr("id", "info_tip")
+        .attr("class", "info-text-h4")
+        .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
+
+
+
+// function tweaked_sigmoid(t) {
+//     // console.log(t, (1/(1+Math.exp(-4*(2*t-1))))*0.6 +0.2)
+//     // return (1/(1+Math.exp(-4*(2*t-1))))*0.6 +0.2;
+//     return 1
+// }
+
                         
 
     //TOTAL VIEWS CHART ////////////////////////////////////////////////////////////////////////////////////////////////
-    d3.json('../data/total_views.json').then(function(raw_view_data){
-        console.log(raw_view_data)
-    })
+    d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
+        // set the dimensions and margins of the graph
+        var margin = {top: 60, right: 230, bottom: 50, left: 50},
+        width = 660 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
+        var xstart = middle_edge_x + 50
+        
+        //////////
+        // GENERAL //
+        //////////
+        
+        // List of groups = header of the csv files
+        var keys = data.columns.slice(1)
+        
+        // color palette
+        var color = d3.scaleOrdinal()
+        .domain(keys)
+        .range(d3.schemeSet2);
+        
+        //stack the data?
+        var stackedData = d3.stack()
+        .keys(keys)
+        (data)
+        
+        
+        //////////
+        // AXIS //
+        //////////
+        
+        // Add X axis
+        var x = d3.scaleTime()
+        .domain(d3.extent(data, function(d) { return new Date(d.time * 1000); }))
+        .range([xstart, xstart + width]);
+        var xAxis = svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x).ticks(5))
+        
+        // Add X axis label:
+        svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", xstart + width)
+        .attr("y", height+40 )
+        .text("Time (time)");
+        
+        // Add Y axis label:
+        svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", xstart)
+        .attr("y", -20 )
+        .text("Nombre de viewer")
+        .attr("text-anchor", "start")
+        
+        // Add Y axis
+        var y = d3.scaleLinear()
+        .domain([0, 100000])
+        .range([ height, 0 ]);
+        var yAxis = svg.append("g")
+        .attr("transform", "translate(" + (xstart) + ",0)")
+        .attr("x", xstart)
+        .call(d3.axisLeft(y).ticks(5))
+        
+        
+        
+        //////////
+        // BRUSHING AND CHART //
+        //////////
+        
+        // Add a clipPath: everything out of this area won't be drawn.
+        var clip = svg.append("defs").append("svg:clipPath")
+        .attr("id", "clip")
+        .append("svg:rect")
+        .attr("width", width )
+        .attr("height", height )
+        .attr("x", xstart)
+        .attr("y", 0);
+        
+        // Add brushing
+        var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
+        .extent( [ [xstart,0], [xstart + width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+        .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+        
+        // Create the scatter variable: where both the circles and the brush take place
+        var areaChart = svg.append('g')
+        .attr("clip-path", "url(#clip)")
+        
+        // Area generator
+        var area = d3.area()
+        .x(function(d) { return x(new Date(d.data.time * 1000)); })
+        .y0(function(d) { return y(d[0]); })
+        .y1(function(d) { return y(d[1]); })
+        console.log(stackedData)
+        // Show the areas
+        areaChart
+        .selectAll("mylayers")
+        .data(stackedData)
+        .enter()
+        .append("path")
+        .attr("class", function(d) { return "myArea " + d.key })
+        .style("fill", function(d) { return color(d.key); })
+        .attr("d", area)
+        
+        
+        // Add the brushing
+        areaChart
+        .append("g")
+        .attr("class", "brush")
+        .call(brush)
+        //   .on('mousemove', function(d) {
+        //     var mousePos = d3.mouse(this);
+        //     tooltip.classed('hidden', false)
+        //     .attr('style', 'left:' + (mousePos[0] + 15) +
+        //     'px; top:' + (mousePos[1] - 35) + 'px')
+        //     console.log(d)
+        //   })
+        //   .on('mouseout', function() {
+        //     tooltip.classed('hidden', true);
+        //   });
+        
+        var idleTimeout
+        function idled() { idleTimeout = null; }
+        
+        // A function that update the chart for given boundaries
+        function updateChart() {
+            
+            extent = d3.event.selection
+            
+            // If no selection, back to initial coordinate. Otherwise, update X axis domain
+            if(!extent){
+                if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+                x.domain(d3.extent(data, function(d) { return new Date(d.time * 1000); }))
+            }else{
+                x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
+                areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+            }
+            
+            // Update axis and area position
+            xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
+            areaChart
+            .selectAll("path")
+            .transition().duration(1000)
+            .attr("d", area)
+        }
+        
+        
+        var tooltip = svg.append("g")
+        .attr("class", "tooltip")
+        .style("display", "none");
+        
+        tooltip.append("mylayers")
+        .attr("width", 30)
+        .attr("height", 20)
+        .attr("fill", "white")
+        .style("opacity", 0.5);
+        
+        tooltip.append("text")
+        .attr("x", 15)
+        .attr("dy", "1.2em")
+        .style("text-anchor", "middle")
+        .attr("font-size", "12px")
+        .attr("font-weight", "bold");
+    })
 })
 
 
