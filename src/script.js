@@ -11,10 +11,10 @@ var main_chart_y = (h / 2);
 var step = 0.5;
 var sun_r = 80;
 var arc_width = 10;
-var inter_orbit = 11;
-var sun_margin = 8;
+var inter_orbit = arc_width+2;
+var sun_margin = 20;
 
-var axis_overlength = 30
+var axis_overlength = 20
 
 
 var svg = d3.select('#chart-area').insert('svg')
@@ -92,17 +92,49 @@ d3.json('../data/data.json').then(function(raw_data){
 
     //MAIN CHART  ////////////////////////////////////////////////////////////////////////////////////////
     //AXIS ///////////////////////////////////////////////////////////////////////////////////////////////
-    var y_offset = sun_r + sun_margin/2
+
+    var min_global = 1575241200 // 1/12/2019 à 23:00:00
+    var max_global = 1575846000
+    var stamp_step = 86400 //1 day
+    var scale = (max_global-min_global)
+    var day_flat_angles={}
+    var day_list=["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+    var axis_area_colors = []
+
+    for(var i = 0; i<8; i++){
+        day_flat_angles[day_list[i]]=(((min_global+stamp_step*i)-min_global)/scale)
+    }
+    console.log(day_flat_angles)
+
+    var y_offset = sun_r + sun_margin - arc_width/2
     var axis_length = (y_offset + streamer_id*inter_orbit) + axis_overlength
 
-    for(var i=0; i<20; i++){
-    var lines = svg.append("line")
-        .attr("x1", main_chart_x)
-        .attr("y1", main_chart_y - y_offset)
-        .attr("x2", main_chart_x)
-        .attr("y2", main_chart_y - axis_length)
-        .attr("class", "axis")
-        .attr("transform", "rotate("+i*18.6+","+main_chart_x+","+main_chart_y+")");
+    for(var i = 0; i<7; i++){
+        // console.log(d3.schemePastel1)
+        var axis_area = svg.append("path")
+            .datum({
+                startAngle: day_flat_angles[day_list[i]]*Math.PI*2,
+                endAngle: day_flat_angles[day_list[i+1]]*Math.PI*2,
+                innerRadius: y_offset,
+                outerRadius: axis_length
+            })
+            .attr("d", d3.arc())
+            .attr("id", "axis_area_"+day_list[i])
+            .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
+            .attr("class", "axis-area")
+            .style("fill", d3.schemePastel1[i]);
+
+
+        var axis_lines = svg.append("line")
+            .attr("x1", main_chart_x)
+            .attr("y1", main_chart_y - y_offset)
+            .attr("x2", main_chart_x)
+            .attr("y2", main_chart_y - axis_length)
+            .attr("class", "axis")
+            .attr("transform", "rotate("+day_flat_angles[day_list[i]]*360+","+main_chart_x+","+main_chart_y+")");
+          
+        
+        // var day_label = svg.append("line")
     }
 
     //ARCS & ORBITS //////////////////////////////////////////////////////////////////////////////////////
@@ -125,19 +157,63 @@ d3.json('../data/data.json').then(function(raw_data){
                 .datum({
                     startAngle: d.start_angle,
                     endAngle: d.end_angle,
-                    innerRadius: d.R - (d.w / 2),
-                    outerRadius: d.R + (d.w / 2)
+                    innerRadius: d.R-(d.w / 2),
+                    outerRadius: d.R+(d.w / 2)
                 })
                 .attr("d", arc)
                 .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
+                .attr("class", "arc")
                 .on("mouseenter", function() {
-                    console.log(d.img)
                     d3.select("#sun_img")
                     .transition()
                     .attr("xlink:href",  d.image)
                     .duration(50)
                     .ease(d3.easeSinInOut);
+                    console.log(0.1*d.R)
+                    d3.select(this)
+                    .transition()
+                    .duration(50)
+                    .attr('d', d3.arc()
+                        .startAngle(d.start_angle-8/d.R)
+                        .endAngle(d.end_angle+8/d.R)
+                        .innerRadius(d.R-(d.w / 2)-4)
+                        .outerRadius(d.R+(d.w / 2)+4)
+                    )
+                    .ease(d3.easeSinInOut);
+                    
+                    this.parentElement.appendChild(this)
+
                 })
+
+                .on("mouseout", function() {
+                    d3.select("#sun_img")
+                    .transition()
+                    .attr("xlink:href",  "./img/twitch_logo.png")
+                    .duration(50)
+                    .ease(d3.easeSinInOut);
+                    
+                    d3.select(this)
+                    .transition()
+                    .duration(50)
+                    .attr('d', d3.arc()
+                        .startAngle(d.start_angle)
+                        .endAngle(d.end_angle)
+                        .innerRadius(d.R-(d.w / 2))
+                        .outerRadius(d.R+(d.w / 2))
+                    )
+                    .ease(d3.easeSinInOut);
+
+                })
+            
+                function arcTween(newAngle) {
+                    return function (d) {
+                        var interpolate = d3.interpolate(d.endAngle, newAngle);
+                        return function (t) {
+                            d.endAngle = interpolate(t);
+                            return arc(d);
+                        };
+                    };
+                }
             //.style("fill", d.color);
             // a.transition().ease(d3.easeLinear).attrTween("d", arcTween(2*Math.PI));
         })
@@ -225,15 +301,6 @@ d3.json('../data/data.json').then(function(raw_data){
             .ease(d3.easeSinInOut);
         });
 
-    // function arcTween(newAngle) {
-    //     return function (d) {
-    //         var interpolate = d3.interpolate(d.endAngle, newAngle);
-    //         return function (t) {
-    //             d.endAngle = interpolate(t);
-    //             return arc(d);
-    //         };
-    //     };
-    // }
 
     //STREAMER INFOS ////////////////////////////////////////////////////////////////////////////////////////////////
 

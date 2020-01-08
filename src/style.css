@@ -15,8 +15,8 @@ body {
 }
 .arc {
     stroke: #fff;
-	stroke-width : 0.1;
-    fill: orange;
+	stroke-width : 1.5;
+    fill: black;
 }
 
 .orbit {
@@ -25,10 +25,15 @@ body {
 }
 
 .axis{
-    stroke: #000000a0;
-    fill: transparent;
-    stroke-width: 1px;
-    stroke-dasharray : 16,2;
+    stroke: #fff;
+    stroke-width: 4px;
+    /* stroke-dasharray : 16,2; */
+}
+.axis-area1{
+    fill: orange;
+}
+.axis-area2{
+    fill: red;
 }
 
 .planet {
