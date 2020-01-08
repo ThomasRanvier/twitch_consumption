@@ -80,7 +80,7 @@ for streamer in raw_json:
         for d in o_data:
             del d['viewers']
         raw_json[streamer]['streams']['data_stamp'] = o_data
-    
+    raw_json[streamer]['infos']['pp'] = 'https://github.com/ThomasRanvier/twitch_consumption/blob/master/src/img/' + streamer + '.png'
         # split_start = stream['start'].split('_')
         # split_end = stream['end'].split('_')
   
