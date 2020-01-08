@@ -1,8 +1,12 @@
 {
     "Squeezielive": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Squeezielive.png",
-            "color": "#70b87d"
+            "pp": "../img/Squeezielive.png",
+            "color": "#70b87d",
+            "viewers_max": 27716,
+            "viewers_avg": 561.3877245508982,
+            "nb_streams": 1,
+            "total_time": "4h 55min"
         },
         "streams": {
             "viewers": [
@@ -689,8 +693,12 @@
     },
     "Gotaga": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Gotaga.png",
-            "color": "#00000000"
+            "pp": "../img/Gotaga.png",
+            "color": "#00000000",
+            "viewers_max": 22867,
+            "viewers_avg": 2756.38622754491,
+            "nb_streams": 7,
+            "total_time": "66h 51min"
         },
         "streams": {
             "viewers": [
@@ -1425,8 +1433,12 @@
     },
     "Domingo": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Domingo.png",
-            "color": "#f4f2f4"
+            "pp": "../img/Domingo.png",
+            "color": "#f4f2f4",
+            "viewers_max": 41423,
+            "viewers_avg": 1332.4056886227545,
+            "nb_streams": 5,
+            "total_time": "24h 34min"
         },
         "streams": {
             "viewers": [
@@ -2145,8 +2157,12 @@
     },
     "WankilStudio": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/WankilStudio.png",
-            "color": "#fe521000"
+            "pp": "../img/WankilStudio.png",
+            "color": "#fe521000",
+            "viewers_max": 7890,
+            "viewers_avg": 110.1556886227545,
+            "nb_streams": 1,
+            "total_time": "2h 59min"
         },
         "streams": {
             "viewers": [
@@ -2833,8 +2849,12 @@
     },
     "Sardoche": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Sardoche.png",
-            "color": "#7b7c81ff"
+            "pp": "../img/Sardoche.png",
+            "color": "#7b7c81ff",
+            "viewers_max": 8537,
+            "viewers_avg": 1087.501497005988,
+            "nb_streams": 5,
+            "total_time": "57h 11min"
         },
         "streams": {
             "viewers": [
@@ -3553,8 +3573,12 @@
     },
     "ZeratoR": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/ZeratoR.png",
-            "color": "#00000006"
+            "pp": "../img/ZeratoR.png",
+            "color": "#00000006",
+            "viewers_max": 31979,
+            "viewers_avg": 1893.872754491018,
+            "nb_streams": 4,
+            "total_time": "21h 33min"
         },
         "streams": {
             "viewers": [
@@ -4265,8 +4289,12 @@
     },
     "mistermv": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/mistermv.png",
-            "color": "#00000000"
+            "pp": "../img/mistermv.png",
+            "color": "#00000000",
+            "viewers_max": 14868,
+            "viewers_avg": 860.3892215568862,
+            "nb_streams": 5,
+            "total_time": "28h 33min"
         },
         "streams": {
             "viewers": [
@@ -4943,7 +4971,7 @@
                 {
                     "start": "2019_12_01_23_19_15",
                     "end": "2019_12_02_02_00_23",
-                    "stamp_start": -2445.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 7223.0,
                     "angle_start": -0.02540077393527462,
                     "angle_end": 0.07503876897116096
@@ -4985,8 +5013,12 @@
     },
     "Locklear": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Locklear.png",
-            "color": "#222634ff"
+            "pp": "../img/Locklear.png",
+            "color": "#222634ff",
+            "viewers_max": 9081,
+            "viewers_avg": 968.125748502994,
+            "nb_streams": 6,
+            "total_time": "32h 29min"
         },
         "streams": {
             "viewers": [
@@ -5663,7 +5695,7 @@
                 {
                     "start": "2019_12_01_19_16_28",
                     "end": "2019_12_02_00_00_23",
-                    "stamp_start": -17012.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 23.0,
                     "angle_start": -0.17673536449361626,
                     "angle_end": 0.0002389438856896999
@@ -5713,8 +5745,12 @@
     },
     "Xari": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Xari.png",
-            "color": "#0e0a1a"
+            "pp": "../img/Xari.png",
+            "color": "#0e0a1a",
+            "viewers_max": 13410,
+            "viewers_avg": 473.87874251497004,
+            "nb_streams": 2,
+            "total_time": "9h 21min"
         },
         "streams": {
             "viewers": [
@@ -6391,7 +6427,7 @@
                 {
                     "start": "2019_12_01_21_30_20",
                     "end": "2019_12_02_03_15_23",
-                    "stamp_start": -8980.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 11723.0,
                     "angle_start": -0.093292004064935,
                     "angle_end": 0.12178865964958051
@@ -6403,22 +6439,18 @@
                     "stamp_end": 441022.0,
                     "angle_start": 4.353588763860117,
                     "angle_end": 4.58171784150621
-                },
-                {
-                    "start": "2019_12_08_18_47_34",
-                    "end": "2019_12_09_03_00_23",
-                    "stamp_start": 586054.0,
-                    "stamp_end": 615623.0,
-                    "angle_start": 6.0884356514778855,
-                    "angle_end": 6.395623988693482
                 }
             ]
         }
     },
     "lestream": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/lestream.png",
-            "color": "#dadae1"
+            "pp": "../img/lestream.png",
+            "color": "#dadae1",
+            "viewers_max": 13174,
+            "viewers_avg": 2480.9131736526947,
+            "nb_streams": 7,
+            "total_time": "114h 1min"
         },
         "streams": {
             "viewers": [
@@ -7153,8 +7185,12 @@
     },
     "BruceGrannec": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/BruceGrannec.png",
-            "color": "#fefefd"
+            "pp": "../img/BruceGrannec.png",
+            "color": "#fefefd",
+            "viewers_max": 6111,
+            "viewers_avg": 471.01197604790417,
+            "nb_streams": 9,
+            "total_time": "29h 26min"
         },
         "streams": {
             "viewers": [
@@ -7831,7 +7867,7 @@
                 {
                     "start": "2019_12_01_21_55_50",
                     "end": "2019_12_02_00_15_23",
-                    "stamp_start": -7450.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 923.0,
                     "angle_start": -0.07739704123427235,
                     "angle_end": 0.009588922021373607
@@ -7905,8 +7941,12 @@
     },
     "Solary": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Solary.png",
-            "color": "#151a20"
+            "pp": "../img/Solary.png",
+            "color": "#151a20",
+            "viewers_max": 7123,
+            "viewers_avg": 2850.073353293413,
+            "nb_streams": 4,
+            "total_time": "135h 35min"
         },
         "streams": {
             "viewers": [
@@ -8583,7 +8623,7 @@
                 {
                     "start": "2019_11_28_07_54_57",
                     "end": "2019_12_02_05_00_23",
-                    "stamp_start": -317103.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 18023.0,
                     "angle_start": -3.294340129733083,
                     "angle_end": 0.18723850659936786
@@ -8611,22 +8651,18 @@
                     "stamp_end": 531923.0,
                     "angle_start": 4.789547077733272,
                     "angle_end": 5.5260760220748795
-                },
-                {
-                    "start": "2019_12_08_05_10_17",
-                    "end": "2019_12_09_03_45_23",
-                    "stamp_start": 537017.0,
-                    "stamp_end": 618323.0,
-                    "angle_start": 5.57899689832285,
-                    "angle_end": 6.423673923100535
                 }
             ]
         }
     },
     "Jirayalecochon": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Jirayalecochon.png",
-            "color": "#080806fd"
+            "pp": "../img/Jirayalecochon.png",
+            "color": "#080806fd",
+            "viewers_max": 0,
+            "viewers_avg": 0,
+            "nb_streams": 0,
+            "total_time": "0h 0min"
         },
         "streams": {
             "viewers": [
@@ -9304,8 +9340,12 @@
     },
     "iProMx": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/iProMx.png",
-            "color": "#090909"
+            "pp": "../img/iProMx.png",
+            "color": "#090909",
+            "viewers_max": 4370,
+            "viewers_avg": 255.58832335329342,
+            "nb_streams": 4,
+            "total_time": "13h 15min"
         },
         "streams": {
             "viewers": [
@@ -9982,7 +10022,7 @@
                 {
                     "start": "2019_12_01_19_09_23",
                     "end": "2019_12_02_00_00_23",
-                    "stamp_start": -17437.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 23.0,
                     "angle_start": -0.18115063194657813,
                     "angle_end": 0.0002389438856896999
@@ -10016,8 +10056,12 @@
     },
     "FantaBobShow": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/FantaBobShow.png",
-            "color": "#220402"
+            "pp": "../img/FantaBobShow.png",
+            "color": "#220402",
+            "viewers_max": 2323,
+            "viewers_avg": 293.01047904191614,
+            "nb_streams": 5,
+            "total_time": "22h 0min"
         },
         "streams": {
             "viewers": [
@@ -10730,22 +10774,18 @@
                     "stamp_end": 580524.0,
                     "angle_start": 6.019910700607918,
                     "angle_end": 6.030985230266406
-                },
-                {
-                    "start": "2019_12_08_17_29_54",
-                    "end": "2019_12_09_01_00_22",
-                    "stamp_start": 581394.0,
-                    "stamp_end": 608422.0,
-                    "angle_start": 6.040023542464233,
-                    "angle_end": 6.320813774743416
                 }
             ]
         }
     },
     "Kamet0": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Kamet0.png",
-            "color": "#372f34"
+            "pp": "../img/Kamet0.png",
+            "color": "#372f34",
+            "viewers_max": 24618,
+            "viewers_avg": 887.3937125748503,
+            "nb_streams": 8,
+            "total_time": "33h 6min"
         },
         "streams": {
             "viewers": [
@@ -11422,7 +11462,7 @@
                 {
                     "start": "2019_12_01_19_29_50",
                     "end": "2019_12_02_04_00_26",
-                    "stamp_start": -16210.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 14426.0,
                     "angle_start": -0.16840349508826238,
                     "angle_end": 0.14986976065041782
@@ -11482,22 +11522,18 @@
                     "stamp_end": 431123.0,
                     "angle_start": 4.39233922880023,
                     "angle_end": 4.478878470878282
-                },
-                {
-                    "start": "2019_12_08_20_32_14",
-                    "end": "2019_12_09_02_00_23",
-                    "stamp_start": 592334.0,
-                    "stamp_end": 612023.0,
-                    "angle_start": 6.153677721135769,
-                    "angle_end": 6.358224076150747
                 }
             ]
         }
     },
     "AlphaCast": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/AlphaCast.png",
-            "color": "#c8a893be"
+            "pp": "../img/AlphaCast.png",
+            "color": "#c8a893be",
+            "viewers_max": 5486,
+            "viewers_avg": 361.77994011976045,
+            "nb_streams": 5,
+            "total_time": "25h 30min"
         },
         "streams": {
             "viewers": [
@@ -12174,7 +12210,7 @@
                 {
                     "start": "2019_12_01_16_33_06",
                     "end": "2019_12_02_00_00_23",
-                    "stamp_start": -26814.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 23.0,
                     "angle_start": -0.27856701525580924,
                     "angle_end": 0.0002389438856896999
@@ -12216,8 +12252,12 @@
     },
     "Alderiate": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Alderiate.png",
-            "color": "#000a17"
+            "pp": "../img/Alderiate.png",
+            "color": "#000a17",
+            "viewers_max": 2132,
+            "viewers_avg": 107.55538922155688,
+            "nb_streams": 2,
+            "total_time": "12h 25min"
         },
         "streams": {
             "viewers": [
@@ -12912,8 +12952,12 @@
     },
     "AntoineDanielLive": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/AntoineDanielLive.png",
-            "color": "#1d0e07"
+            "pp": "../img/AntoineDanielLive.png",
+            "color": "#1d0e07",
+            "viewers_max": 4641,
+            "viewers_avg": 314.1137724550898,
+            "nb_streams": 4,
+            "total_time": "23h 55min"
         },
         "streams": {
             "viewers": [
@@ -13624,8 +13668,12 @@
     },
     "JeelTV": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/JeelTV.png",
-            "color": "#805d5b"
+            "pp": "../img/JeelTV.png",
+            "color": "#805d5b",
+            "viewers_max": 4177,
+            "viewers_avg": 412.25898203592817,
+            "nb_streams": 6,
+            "total_time": "32h 7min"
         },
         "streams": {
             "viewers": [
@@ -14352,8 +14400,12 @@
     },
     "Corobizar": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Corobizar.png",
-            "color": "#01010000"
+            "pp": "../img/Corobizar.png",
+            "color": "#01010000",
+            "viewers_max": 2605,
+            "viewers_avg": 214.12724550898204,
+            "nb_streams": 6,
+            "total_time": "23h 34min"
         },
         "streams": {
             "viewers": [
@@ -15080,8 +15132,12 @@
     },
     "Mickalow": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Mickalow.png",
-            "color": "#605940"
+            "pp": "../img/Mickalow.png",
+            "color": "#605940",
+            "viewers_max": 2832,
+            "viewers_avg": 385.9805389221557,
+            "nb_streams": 4,
+            "total_time": "45h 42min"
         },
         "streams": {
             "viewers": [
@@ -15792,8 +15848,12 @@
     },
     "At0mium": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/At0mium.png",
-            "color": "#051117"
+            "pp": "../img/At0mium.png",
+            "color": "#051117",
+            "viewers_max": 1764,
+            "viewers_avg": 90.7185628742515,
+            "nb_streams": 3,
+            "total_time": "18h 28min"
         },
         "streams": {
             "viewers": [
@@ -16496,8 +16556,12 @@
     },
     "Maghla": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Maghla.png",
-            "color": "#1e0c07"
+            "pp": "../img/Maghla.png",
+            "color": "#1e0c07",
+            "viewers_max": 2457,
+            "viewers_avg": 199.28892215568862,
+            "nb_streams": 4,
+            "total_time": "21h 40min"
         },
         "streams": {
             "viewers": [
@@ -17208,8 +17272,12 @@
     },
     "aypierre": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/aypierre.png",
-            "color": "#564a3f"
+            "pp": "../img/aypierre.png",
+            "color": "#564a3f",
+            "viewers_max": 1599,
+            "viewers_avg": 85.48502994011976,
+            "nb_streams": 3,
+            "total_time": "17h 18min"
         },
         "streams": {
             "viewers": [
@@ -17912,8 +17980,12 @@
     },
     "Kenb0gard": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Kenb0gard.png",
-            "color": "#020606ff"
+            "pp": "../img/Kenb0gard.png",
+            "color": "#020606ff",
+            "viewers_max": 1636,
+            "viewers_avg": 24.505988023952096,
+            "nb_streams": 2,
+            "total_time": "3h 48min"
         },
         "streams": {
             "viewers": [
@@ -18608,8 +18680,12 @@
     },
     "TheGuill84": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/TheGuill84.png",
-            "color": "#0f060dff"
+            "pp": "../img/TheGuill84.png",
+            "color": "#0f060dff",
+            "viewers_max": 3878,
+            "viewers_avg": 112.92814371257485,
+            "nb_streams": 4,
+            "total_time": "9h 37min"
         },
         "streams": {
             "viewers": [
@@ -19320,8 +19396,12 @@
     },
     "HumilityFR": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/HumilityFR.png",
-            "color": "#140e16"
+            "pp": "../img/HumilityFR.png",
+            "color": "#140e16",
+            "viewers_max": 1188,
+            "viewers_avg": 159.03592814371257,
+            "nb_streams": 6,
+            "total_time": "28h 31min"
         },
         "streams": {
             "viewers": [
@@ -19998,7 +20078,7 @@
                 {
                     "start": "2019_12_01_18_26_33",
                     "end": "2019_12_02_00_45_23",
-                    "stamp_start": -20007.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 2723.0,
                     "angle_start": -0.20785001395625327,
                     "angle_end": 0.028288878292741425
@@ -20042,22 +20122,18 @@
                     "stamp_end": 522923.0,
                     "angle_start": 5.2598613668227685,
                     "angle_end": 5.43257624071804
-                },
-                {
-                    "start": "2019_12_08_20_18_22",
-                    "end": "2019_12_09_02_15_23",
-                    "stamp_start": 591502.0,
-                    "stamp_end": 612923.0,
-                    "angle_start": 6.145034185792559,
-                    "angle_end": 6.367574054286432
                 }
             ]
         }
     },
     "MrBboy45": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/MrBboy45.png",
-            "color": "#fefefe"
+            "pp": "../img/MrBboy45.png",
+            "color": "#fefefe",
+            "viewers_max": 2145,
+            "viewers_avg": 325.6047904191617,
+            "nb_streams": 5,
+            "total_time": "29h 27min"
         },
         "streams": {
             "viewers": [
@@ -20734,7 +20810,7 @@
                 {
                     "start": "2019_12_01_18_02_19",
                     "end": "2019_12_02_01_45_23",
-                    "stamp_start": -21461.0,
+                    "stamp_start": 0.0,
                     "stamp_end": 6323.0,
                     "angle_start": -0.2229554230776804,
                     "angle_end": 0.06568879083547706
@@ -20770,22 +20846,18 @@
                     "stamp_end": 346523.0,
                     "angle_start": 3.36563890744997,
                     "angle_end": 3.5999805261239946
-                },
-                {
-                    "start": "2019_12_08_17_58_45",
-                    "end": "2019_12_09_01_00_22",
-                    "stamp_start": 583125.0,
-                    "stamp_end": 608422.0,
-                    "angle_start": 6.058006667078533,
-                    "angle_end": 6.320813774743416
                 }
             ]
         }
     },
     "Tonton": {
         "infos": {
-            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Tonton.png",
-            "color": "#00000000"
+            "pp": "../img/Tonton.png",
+            "color": "#00000000",
+            "viewers_max": 1675,
+            "viewers_avg": 238.73952095808383,
+            "nb_streams": 8,
+            "total_time": "46h 47min"
         },
         "streams": {
             "viewers": [

@@ -4,6 +4,7 @@ from pathlib import Path
 import os 
 import pandas as pd
 import numpy as np
+from statistics import mean 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -68,6 +69,8 @@ for streamer in raw_json:
         i+=1
     if i < len(raw_json[streamer]['streams']):
         streaming = raw_json[streamer]['streams'][i]['stamp_start'] < dates[0]
+        if streaming:
+            raw_json[streamer]['streams'][i]['stamp_start'] = dates[0]
         j=0
         for h in range(len(dates)):
             if streaming:
@@ -88,6 +91,8 @@ for streamer in raw_json:
             else:
                 viewer_stream.append(0)
             total_views[dates_datefm[h]][streamer] = viewer_stream[h]
+        if streaming:
+            raw_json[streamer]['streams'][i]['stamp_end'] = dates[h]
         if i < len(raw_json[streamer]['streams']) and (raw_json[streamer]['streams'][i]['stamp_start'] < dates[h] and raw_json[streamer]['streams'][i]['stamp_end'] > dates[h]):
             o_data.append(raw_json[streamer]['streams'][i])
         raw_json[streamer]['streams'] = {}
@@ -98,6 +103,16 @@ for streamer in raw_json:
         raw_json[streamer]['streams']['data_stamp'] = o_data
         
     raw_json[streamer]['infos']['pp'] = '../img/' + streamer + '.png'
+    raw_json[streamer]['infos']['viewers_max'] = max(raw_json[streamer]['streams']['viewers'])
+    raw_json[streamer]['infos']['viewers_avg'] = mean(raw_json[streamer]['streams']['viewers'])
+    raw_json[streamer]['infos']['nb_streams'] = len(raw_json[streamer]['streams']['data_stamp'])
+    total_time = 0
+    for s in raw_json[streamer]['streams']['data_stamp']:
+        total_time += (s['stamp_end'] - s['stamp_start'])
+    total_time
+    hours = str(int(total_time / 3600))
+    minutes = str(int((total_time - int(total_time / 3600) * 3600) / 60))
+    raw_json[streamer]['infos']['total_time'] = hours + "h " + minutes + "min"
         # split_start = stream['start'].split('_')
         # split_end = stream['end'].split('_')
   
