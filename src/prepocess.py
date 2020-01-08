@@ -65,6 +65,8 @@ for streamer in raw_json:
     streaming = False
     viewer_stream = []
     o_data = []
+    total = 0
+    nb = 0
     while i < len(raw_json[streamer]['streams']) and raw_json[streamer]['streams'][i]['stamp_end'] < dates[0]:
         i+=1
     if i < len(raw_json[streamer]['streams']):
@@ -86,6 +88,8 @@ for streamer in raw_json:
                     streaming = True 
             if streaming and j < len(raw_json[streamer]['streams'][i]['viewers']):
                 viewer_stream.append(raw_json[streamer]['streams'][i]['viewers'][j])
+                total += raw_json[streamer]['streams'][i]['viewers'][j]
+                nb += 1
                 #viewers_count[h] += raw_json[streamer]['streams'][i]['viewers'][j]
                 j+=1
             else:
@@ -104,7 +108,10 @@ for streamer in raw_json:
         
     raw_json[streamer]['infos']['pp'] = 'https://thomasranvier.github.io/twitch_consumption/src/img/' + streamer + '.png'
     raw_json[streamer]['infos']['viewers_max'] = max(raw_json[streamer]['streams']['viewers'])
-    raw_json[streamer]['infos']['viewers_avg'] = mean(raw_json[streamer]['streams']['viewers'])
+    if nb > 0:
+        raw_json[streamer]['infos']['viewers_avg'] = total/nb
+    else :
+        raw_json[streamer]['infos']['viewers_avg'] = 0
     raw_json[streamer]['infos']['nb_streams'] = len(raw_json[streamer]['streams']['data_stamp'])
     total_time = 0
     for s in raw_json[streamer]['streams']['data_stamp']:
