@@ -1,7 +1,7 @@
 {
     "Squeezielive": {
         "infos": {
-            "pp": "../img/Squeezielive.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Squeezielive.png",
             "color": "#70b87d",
             "viewers_max": 27716,
             "viewers_avg": 561.3877245508982,
@@ -693,7 +693,7 @@
     },
     "Gotaga": {
         "infos": {
-            "pp": "../img/Gotaga.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Gotaga.png",
             "color": "#00000000",
             "viewers_max": 22867,
             "viewers_avg": 2756.38622754491,
@@ -1433,7 +1433,7 @@
     },
     "Domingo": {
         "infos": {
-            "pp": "../img/Domingo.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Domingo.png",
             "color": "#f4f2f4",
             "viewers_max": 41423,
             "viewers_avg": 1332.4056886227545,
@@ -2157,7 +2157,7 @@
     },
     "WankilStudio": {
         "infos": {
-            "pp": "../img/WankilStudio.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/WankilStudio.png",
             "color": "#fe521000",
             "viewers_max": 7890,
             "viewers_avg": 110.1556886227545,
@@ -2849,7 +2849,7 @@
     },
     "Sardoche": {
         "infos": {
-            "pp": "../img/Sardoche.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Sardoche.png",
             "color": "#7b7c81ff",
             "viewers_max": 8537,
             "viewers_avg": 1087.501497005988,
@@ -3573,7 +3573,7 @@
     },
     "ZeratoR": {
         "infos": {
-            "pp": "../img/ZeratoR.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/ZeratoR.png",
             "color": "#00000006",
             "viewers_max": 31979,
             "viewers_avg": 1893.872754491018,
@@ -4289,7 +4289,7 @@
     },
     "mistermv": {
         "infos": {
-            "pp": "../img/mistermv.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/mistermv.png",
             "color": "#00000000",
             "viewers_max": 14868,
             "viewers_avg": 860.3892215568862,
@@ -5013,7 +5013,7 @@
     },
     "Locklear": {
         "infos": {
-            "pp": "../img/Locklear.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Locklear.png",
             "color": "#222634ff",
             "viewers_max": 9081,
             "viewers_avg": 968.125748502994,
@@ -5745,7 +5745,7 @@
     },
     "Xari": {
         "infos": {
-            "pp": "../img/Xari.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Xari.png",
             "color": "#0e0a1a",
             "viewers_max": 13410,
             "viewers_avg": 473.87874251497004,
@@ -6445,7 +6445,7 @@
     },
     "lestream": {
         "infos": {
-            "pp": "../img/lestream.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/lestream.png",
             "color": "#dadae1",
             "viewers_max": 13174,
             "viewers_avg": 2480.9131736526947,
@@ -7185,7 +7185,7 @@
     },
     "BruceGrannec": {
         "infos": {
-            "pp": "../img/BruceGrannec.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/BruceGrannec.png",
             "color": "#fefefd",
             "viewers_max": 6111,
             "viewers_avg": 471.01197604790417,
@@ -7941,7 +7941,7 @@
     },
     "Solary": {
         "infos": {
-            "pp": "../img/Solary.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Solary.png",
             "color": "#151a20",
             "viewers_max": 7123,
             "viewers_avg": 2850.073353293413,
@@ -8657,7 +8657,7 @@
     },
     "Jirayalecochon": {
         "infos": {
-            "pp": "../img/Jirayalecochon.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Jirayalecochon.png",
             "color": "#080806fd",
             "viewers_max": 0,
             "viewers_avg": 0,
@@ -9340,7 +9340,7 @@
     },
     "iProMx": {
         "infos": {
-            "pp": "../img/iProMx.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/iProMx.png",
             "color": "#090909",
             "viewers_max": 4370,
             "viewers_avg": 255.58832335329342,
@@ -10056,7 +10056,7 @@
     },
     "FantaBobShow": {
         "infos": {
-            "pp": "../img/FantaBobShow.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/FantaBobShow.png",
             "color": "#220402",
             "viewers_max": 2323,
             "viewers_avg": 293.01047904191614,
@@ -10780,7 +10780,7 @@
     },
     "Kamet0": {
         "infos": {
-            "pp": "../img/Kamet0.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Kamet0.png",
             "color": "#372f34",
             "viewers_max": 24618,
             "viewers_avg": 887.3937125748503,
@@ -11528,7 +11528,7 @@
     },
     "AlphaCast": {
         "infos": {
-            "pp": "../img/AlphaCast.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/AlphaCast.png",
             "color": "#c8a893be",
             "viewers_max": 5486,
             "viewers_avg": 361.77994011976045,
@@ -12252,7 +12252,7 @@
     },
     "Alderiate": {
         "infos": {
-            "pp": "../img/Alderiate.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Alderiate.png",
             "color": "#000a17",
             "viewers_max": 2132,
             "viewers_avg": 107.55538922155688,
@@ -12952,7 +12952,7 @@
     },
     "AntoineDanielLive": {
         "infos": {
-            "pp": "../img/AntoineDanielLive.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/AntoineDanielLive.png",
             "color": "#1d0e07",
             "viewers_max": 4641,
             "viewers_avg": 314.1137724550898,
@@ -13668,7 +13668,7 @@
     },
     "JeelTV": {
         "infos": {
-            "pp": "../img/JeelTV.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/JeelTV.png",
             "color": "#805d5b",
             "viewers_max": 4177,
             "viewers_avg": 412.25898203592817,
@@ -14400,7 +14400,7 @@
     },
     "Corobizar": {
         "infos": {
-            "pp": "../img/Corobizar.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Corobizar.png",
             "color": "#01010000",
             "viewers_max": 2605,
             "viewers_avg": 214.12724550898204,
@@ -15132,7 +15132,7 @@
     },
     "Mickalow": {
         "infos": {
-            "pp": "../img/Mickalow.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Mickalow.png",
             "color": "#605940",
             "viewers_max": 2832,
             "viewers_avg": 385.9805389221557,
@@ -15848,7 +15848,7 @@
     },
     "At0mium": {
         "infos": {
-            "pp": "../img/At0mium.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/At0mium.png",
             "color": "#051117",
             "viewers_max": 1764,
             "viewers_avg": 90.7185628742515,
@@ -16556,7 +16556,7 @@
     },
     "Maghla": {
         "infos": {
-            "pp": "../img/Maghla.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Maghla.png",
             "color": "#1e0c07",
             "viewers_max": 2457,
             "viewers_avg": 199.28892215568862,
@@ -17272,7 +17272,7 @@
     },
     "aypierre": {
         "infos": {
-            "pp": "../img/aypierre.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/aypierre.png",
             "color": "#564a3f",
             "viewers_max": 1599,
             "viewers_avg": 85.48502994011976,
@@ -17980,7 +17980,7 @@
     },
     "Kenb0gard": {
         "infos": {
-            "pp": "../img/Kenb0gard.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Kenb0gard.png",
             "color": "#020606ff",
             "viewers_max": 1636,
             "viewers_avg": 24.505988023952096,
@@ -18680,7 +18680,7 @@
     },
     "TheGuill84": {
         "infos": {
-            "pp": "../img/TheGuill84.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/TheGuill84.png",
             "color": "#0f060dff",
             "viewers_max": 3878,
             "viewers_avg": 112.92814371257485,
@@ -19396,7 +19396,7 @@
     },
     "HumilityFR": {
         "infos": {
-            "pp": "../img/HumilityFR.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/HumilityFR.png",
             "color": "#140e16",
             "viewers_max": 1188,
             "viewers_avg": 159.03592814371257,
@@ -20128,7 +20128,7 @@
     },
     "MrBboy45": {
         "infos": {
-            "pp": "../img/MrBboy45.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/MrBboy45.png",
             "color": "#fefefe",
             "viewers_max": 2145,
             "viewers_avg": 325.6047904191617,
@@ -20852,7 +20852,7 @@
     },
     "Tonton": {
         "infos": {
-            "pp": "../img/Tonton.png",
+            "pp": "https://thomasranvier.github.io/twitch_consumption/src/img/Tonton.png",
             "color": "#00000000",
             "viewers_max": 1675,
             "viewers_avg": 238.73952095808383,
