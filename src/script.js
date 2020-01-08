@@ -10,11 +10,11 @@ var main_chart_y = (h / 2);
 
 var step = 0.5;
 var sun_r = 80;
-var arc_width = 10;
+var arc_width = 9;
 var inter_orbit = arc_width+2;
-var sun_margin = 20;
+var sun_margin = 10;
 
-var axis_overlength = 20
+var axis_overlength = 5
 
 
 var svg = d3.select('#chart-area').insert('svg')
@@ -108,7 +108,8 @@ d3.json('../data/data.json').then(function(raw_data){
 
     var y_offset = sun_r + sun_margin - arc_width/2
     var axis_length = (y_offset + streamer_id*inter_orbit) + axis_overlength
-
+    var label_width = 25
+    var label_margin = 4
     for(var i = 0; i<7; i++){
         // console.log(d3.schemePastel1)
         var axis_area = svg.append("path")
@@ -122,14 +123,48 @@ d3.json('../data/data.json').then(function(raw_data){
             .attr("id", "axis_area_"+day_list[i])
             .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
             .attr("class", "axis-area")
-            .style("fill", d3.schemePastel1[i]);
+            .style("fill", d3.schemePastel2[i]);
+        
+        var day_label_arc = svg.append("path")
+            .datum({
+                startAngle: day_flat_angles[day_list[i]]*Math.PI*2,
+                endAngle: day_flat_angles[day_list[i+1]]*Math.PI*2,
+                innerRadius: axis_length + label_margin,
+                outerRadius: axis_length + label_margin + label_width
+            })
+            .attr("d", d3.arc())
+            .attr("id", "day_label_arc_"+day_list[i])
+            .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
+            .attr("class", "axis-area")
+            .style("opacity", 0.5)
+            .style("fill", d3.schemePastel2[i])
+
+            .on("mouseenter", function() {
+                d3.select(this)
+                .transition()
+                .duration(50)
+                .attr('d', d3.arc()
+                    .outerRadius(axis_length + label_margin + label_width + 10)
+                )
+                .ease(d3.easeSinInOut);
+            })
+
+            .on("mouseout", function() {
+                d3.select(this)
+                .transition()
+                .duration(50)
+                .attr('d', d3.arc()
+                    .outerRadius(axis_length + label_margin + label_width)
+                )
+                .ease(d3.easeSinInOut);
+            })
 
 
         var axis_lines = svg.append("line")
             .attr("x1", main_chart_x)
             .attr("y1", main_chart_y - y_offset)
             .attr("x2", main_chart_x)
-            .attr("y2", main_chart_y - axis_length)
+            .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
             .attr("class", "axis")
             .attr("transform", "rotate("+day_flat_angles[day_list[i]]*360+","+main_chart_x+","+main_chart_y+")");
           
@@ -169,7 +204,7 @@ d3.json('../data/data.json').then(function(raw_data){
                     .attr("xlink:href",  d.image)
                     .duration(50)
                     .ease(d3.easeSinInOut);
-                    console.log(0.1*d.R)
+
                     d3.select(this)
                     .transition()
                     .duration(50)
