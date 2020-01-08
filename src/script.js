@@ -67,38 +67,13 @@ d3.json('../data/data.json').then(function(raw_data){
                     image : raw_data[streamer]['infos']['pp'],
                     i: arc_id,
                     si: streamer_id,
-                    flat_color : (streamer_id**streamer_id%83)/83
+                    color : d3.interpolateRainbow((streamer_id**streamer_id%83)/83)
                 });
             arc_id++
         }
         streamer_id++
 
     }
-
-    //LAYOUT EDGES ////////////////////////////////////////////////////////////////////////////////////////
-    svg.append("rect")
-        .attr("x", middle_edge_x)
-        .attr("y", corner_edge_y)
-        .attr("rx", 8)
-        .attr("ry", 8)
-        .attr("width", w-3*info_margin-middle_edge_x)
-        .attr("height", h-3*info_margin-corner_edge_y)
-        .attr("class", "info-box")
-
-    // svg.append("line")
-    //     .attr("x1", middle_edge_x)
-    //     .attr("y1", 0)
-    //     .attr("x2", middle_edge_x)
-    //     .attr("y2", h)
-    //     .attr("class", "edge")
-
-    // svg.append("line")
-    //     .attr("x1", middle_edge_x)
-    //     .attr("y1", corner_edge_y)
-    //     .attr("x2", w)
-    //     .attr("y2", corner_edge_y)
-    //     .attr("class", "edge")
-
 
     //MAIN CHART  ////////////////////////////////////////////////////////////////////////////////////////
     //AXIS ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -208,7 +183,7 @@ d3.json('../data/data.json').then(function(raw_data){
                 .attr("d", arc)
                 .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
                 .attr("class", "arc")
-                .style("fill", d3.interpolateRainbow(d.flat_color))
+                .style("fill", d.color)
 
                 .on("mouseenter", function() {
                     d3.select("#sun_img")
@@ -251,7 +226,56 @@ d3.json('../data/data.json').then(function(raw_data){
                     .ease(d3.easeSinInOut);
 
                 })
-            
+                .on("mousedown", function() {
+                    d3.select(this)
+                    .transition()
+                    .duration(10)
+                    .attr('d', d3.arc()
+                        .startAngle(d.start_angle-4/d.R)
+                        .endAngle(d.end_angle+4/d.R)
+                        .innerRadius(d.R-(d.w / 2)-2)
+                        .outerRadius(d.R+(d.w / 2)+2)
+                    )
+                })
+
+                .on("mouseup", function() {
+                    d3.select(this)
+                    .transition()
+                    .duration(10)
+                    .attr('d', d3.arc()
+                        .startAngle(d.start_angle-8/d.R)
+                        .endAngle(d.end_angle+8/d.R)
+                        .innerRadius(d.R-(d.w / 2)-4)
+                        .outerRadius(d.R+(d.w / 2)+4)
+                    )
+                })
+
+                .on("click", function() {
+
+                    d3.select("#info_img")
+                    .transition()
+                    .attr("xlink:href",  d.image)
+                    .duration(50)
+                    .ease(d3.easeSinInOut);
+
+                    d3.select("#info_img_circle")
+                    .transition()
+                    .duration(50)
+                    .style("fill", d.color)
+                    .ease(d3.easeSinInOut);
+
+                    d3.select("#info_box")
+                    .transition()
+                    .duration(50)
+                    .style("stroke", d.color)
+                    .style("fill", d.color.slice(0,3) + "a" + d.color.slice(3,d.color.length-1) + ",0.12)")
+
+                    // .style("stroke", d.color)
+                    // .style("stroke", d.color)
+                    .ease(d3.easeSinInOut);
+
+                })
+
                 function arcTween(newAngle) {
                     return function (d) {
                         var interpolate = d3.interpolate(d.endAngle, newAngle);
@@ -306,7 +330,66 @@ d3.json('../data/data.json').then(function(raw_data){
             .attr("width", sun_r*1.2)
             .duration(50)
             .ease(d3.easeSinInOut);
+        })
+
+        .on("mousedown", function() {
+            d3.select("#sun")
+            .transition()
+            .attr("r", sun_r)
+            .duration(10)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#sun_img")
+            .transition()
+            .attr("x", main_chart_x - sun_r*1.225/2)
+            .attr("y", main_chart_y - sun_r*1.225/2)
+            .attr("height", sun_r*1.225)
+            .attr("width", sun_r*1.225)
+            .duration(10)
+            .ease(d3.easeSinInOut);
+        })
+
+        .on("mouseup", function() {
+            d3.select("#sun")
+            .transition()
+            .attr("r", sun_r+5)
+            .duration(10)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#sun_img")
+            .transition()
+            .attr("x", main_chart_x - sun_r*1.25/2)
+            .attr("y", main_chart_y - sun_r*1.25/2)
+            .attr("height", sun_r*1.25)
+            .attr("width", sun_r*1.25)
+            .duration(10)
+            .ease(d3.easeSinInOut);
+        })
+
+        .on("click", function() {
+            d3.select("#info_img")
+            .transition()
+            .attr("xlink:href",  "./img/twitch_logo.png")
+            .duration(50)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_img_circle")
+            .transition()
+            .duration(50)
+            .style("fill", "#6441A4")
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_box")
+            .transition()
+            .duration(50)
+            .style("stroke", "#6441A4")
+            .style("fill", "#6441A415")
+            .ease(d3.easeSinInOut);
+
         });
+
+
+
 
     
     var sun_image = svg.append("svg:image")
@@ -356,6 +439,18 @@ d3.json('../data/data.json').then(function(raw_data){
 
         var info_name_x = middle_edge_x + img_size/2 + info_margin + 90
         var info_name_y = corner_edge_y + img_size/3
+
+
+            //LAYOUT EDGES ////////////////////////////////////////////////////////////////////////////////////////
+        svg.append("rect")
+        .attr("x", middle_edge_x)
+        .attr("y", corner_edge_y)
+        .attr("rx", 8)
+        .attr("ry", 8)
+        .attr("width", w-3*info_margin-middle_edge_x)
+        .attr("height", h-3*info_margin-corner_edge_y)
+        .attr("id", "info_box")
+        .attr("class", "info-box")
 
         var info_image_circle = svg.append("circle")
         .attr("r", img_size/2)
