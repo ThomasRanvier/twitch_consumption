@@ -12,7 +12,7 @@ var step = 0.5;
 var sun_r = 80;
 var arc_width = 10;
 var inter_orbit = 11;
-var sun_margin = 8;
+var sun_margin = 16;
 
 var axis_overlength = 30
 
@@ -92,17 +92,45 @@ d3.json('../data/data.json').then(function(raw_data){
 
     //MAIN CHART  ////////////////////////////////////////////////////////////////////////////////////////
     //AXIS ///////////////////////////////////////////////////////////////////////////////////////////////
-    var y_offset = sun_r + sun_margin/2
+
+    var min_global = 1575241200 // 1/12/2019 à 23:00:00
+    var max_global = 1575846000
+    var stamp_step = 86400 //1 day
+    var scale = (max_global-min_global)
+    var day_angles={}
+    var day_list=["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+
+    for(var i = 0; i<7; i++){
+        day_angles[day_list[i]]=(((min_global+stamp_step*i)-min_global)/scale)*360
+    }
+    console.log(day_angles)
+
+    var y_offset = sun_r + sun_margin - arc_width/2
     var axis_length = (y_offset + streamer_id*inter_orbit) + axis_overlength
 
-    for(var i=0; i<20; i++){
-    var lines = svg.append("line")
-        .attr("x1", main_chart_x)
-        .attr("y1", main_chart_y - y_offset)
-        .attr("x2", main_chart_x)
-        .attr("y2", main_chart_y - axis_length)
-        .attr("class", "axis")
-        .attr("transform", "rotate("+i*18.6+","+main_chart_x+","+main_chart_y+")");
+    for(var i in day_angles){
+        var axis_area = svg.append("path")
+            .datum({
+                startAngle: day_angles[i],
+                endAngle: day_angles[i]+0.5,
+                innerRadius: y_offset,
+                outerRadius: axis_length
+            })
+            .attr("d", d3.arc())
+            .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
+            .attr("class", "axis-area")
+
+
+        var axis_lines = svg.append("line")
+            .attr("x1", main_chart_x)
+            .attr("y1", main_chart_y - y_offset)
+            .attr("x2", main_chart_x)
+            .attr("y2", main_chart_y - axis_length)
+            .attr("class", "axis")
+            .attr("transform", "rotate("+day_angles[i]+","+main_chart_x+","+main_chart_y+")");
+          
+        
+        // var day_label = svg.append("line")
     }
 
     //ARCS & ORBITS //////////////////////////////////////////////////////////////////////////////////////

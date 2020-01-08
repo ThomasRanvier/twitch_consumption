@@ -30,6 +30,9 @@ body {
     stroke-width: 1px;
     stroke-dasharray : 16,2;
 }
+.axis-area{
+    fill: orange;
+}
 
 .planet {
     stroke: #666;
