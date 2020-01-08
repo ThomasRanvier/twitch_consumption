@@ -9,6 +9,10 @@ body {
     fill: #6441A4;
 }
 
+.edge {
+    stroke: #aaa;
+	stroke-width : 5;
+}
 .arc {
     stroke: #fff;
 	stroke-width : 0.1;
