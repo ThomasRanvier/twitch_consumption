@@ -30,6 +30,7 @@ for streamer in raw_json:
 min_stamp = min(start_list)
 max_stamp = max(end_list)
 
+total_views = {}
 dates = []
 for filename in files:
     sep = str(filename).split('_')
@@ -52,7 +53,8 @@ for s in suppress_list:
 min_date = dates[0]
 for d in range(len(dates)):
     dates[d] -= min_date
-viewers_count = [0] * len(dates)
+    total_views[dates[d]] = {}
+#viewers_count = [0] * len(dates)
 for streamer in raw_json:
     i=0
     streaming = False
@@ -77,7 +79,8 @@ for streamer in raw_json:
                     streaming = True 
             if streaming and j < len(raw_json[streamer]['streams'][i]['viewers']):
                 viewer_stream.append(raw_json[streamer]['streams'][i]['viewers'][j])
-                viewers_count[h] += raw_json[streamer]['streams'][i]['viewers'][j]
+                total_views[dates[h]][streamer] = raw_json[streamer]['streams'][i]['viewers'][j]
+                #viewers_count[h] += raw_json[streamer]['streams'][i]['viewers'][j]
                 j+=1
             else:
                 viewer_stream.append(0)
@@ -100,10 +103,9 @@ for streamer in raw_json:
         # stream['angle_start'] = (stream['stamp_start']/stamp_scale)*math.pi*2
         # stream['angle_end'] = (stream['stamp_end']/stamp_scale)*math.pi*2
         
-        #print(stream['angle_end'])
-total_views = {}
-for h in range(len(dates)):
-    total_views[dates[h]] = viewers_count[h]
+#         #print(stream['angle_end'])
+# total_views = {}
+# for h in range(len(dates)):
 json_s = json.dumps(raw_json, indent=4)
 f = open('../data/data.json','w+')
 f.write(json_s)
