@@ -108,7 +108,10 @@ for streamer in raw_json:
         
     raw_json[streamer]['infos']['pp'] = 'https://thomasranvier.github.io/twitch_consumption/src/img/' + streamer + '.png'
     raw_json[streamer]['infos']['viewers_max'] = max(raw_json[streamer]['streams']['viewers'])
-    raw_json[streamer]['infos']['viewers_avg'] = total/nb
+    if nb > 0:
+        raw_json[streamer]['infos']['viewers_avg'] = total/nb
+    else :
+        raw_json[streamer]['infos']['viewers_avg'] = 0
     raw_json[streamer]['infos']['nb_streams'] = len(raw_json[streamer]['streams']['data_stamp'])
     total_time = 0
     for s in raw_json[streamer]['streams']['data_stamp']:
