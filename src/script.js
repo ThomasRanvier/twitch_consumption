@@ -311,7 +311,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     d3.select("#info_avg_v")
                     .transition()
                     .duration(200)
-                    .text( function () { return "Nombre moyen de viewers simultanés : " + d.avg_v; })
+                    .text( function () { return "Nombre moyen de viewers simultanés : " + Math.round(d.avg_v); })
                     .style("fill", d.color)
                     .ease(d3.easeSinInOut);
 
@@ -619,7 +619,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         var img_size = 170
 
         var info_name_x = middle_edge_x + img_size/2 + info_margin + 110
-        var info_name_y = corner_edge_y + img_size/3
+        var info_name_y = corner_edge_y + img_size/2 + info_margin*2
         var info_tip_x = middle_edge_x + info_margin + 30
         var info_tip_y = corner_edge_y + img_size + 170
 
@@ -667,30 +667,30 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
 
         var info_tps = svg.append("text")
             .attr("x", info_tip_x)
-            .attr("y", info_tip_y-40)
+            .attr("y", info_tip_y-125)
             .attr("id", "info_tps")
-            .attr("class", "info-text-h4")
+            .attr("class", "info-text-h3")
             .text( function (d) { return ""; })
 
         var info_max_v = svg.append("text")
             .attr("x", info_tip_x)
-            .attr("y", info_tip_y-20)
+            .attr("y", info_tip_y-95)
             .attr("id", "info_max_v")
-            .attr("class", "info-text-h4")
+            .attr("class", "info-text-h3")
             .text( function () { return ""; })
 
         var info_avg_v = svg.append("text")
             .attr("x", info_tip_x)
-            .attr("y", info_tip_y)
+            .attr("y", info_tip_y-65)
             .attr("id", "info_avg_v")
-            .attr("class", "info-text-h4")
+            .attr("class", "info-text-h3")
             .text( function () { return ""; })
 
         var info_nb_streams = svg.append("text")
             .attr("x", info_tip_x)
-            .attr("y", info_tip_y+20)
+            .attr("y", info_tip_y-35)
             .attr("id", "info_nb_streams")
-            .attr("class", "info-text-h4")
+            .attr("class", "info-text-h3")
             .text( function () { return ""; })
 
 // function tweaked_sigmoid(t) {
@@ -820,6 +820,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         .append("path")
         .attr("class", function(d) { return "myArea " + d.key })
         .style("fill", function(d) {return color(d.key); })
+
         .attr("d", area)
         
         
