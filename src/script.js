@@ -623,7 +623,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
 
     //STREAMER INFOS ////////////////////////////////////////////////////////////////////////////////////////////////
 
-        var img_size = 170
+        var img_size = 160
 
         var info_name_x = middle_edge_x + img_size/2 + info_margin + 110
         var info_name_y = corner_edge_y + img_size/2 + info_margin*2
@@ -642,20 +642,29 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .attr("id", "info_box")
             .attr("class", "info-box")
 
-        var info_image_circle = svg.append("circle")
-            .attr("r", img_size/2)
-            .attr("cx", middle_edge_x + img_size/2 + info_margin)
-            .attr("cy", corner_edge_y + img_size/2 + info_margin)
+        var info_image_circle = svg.append("rect")
+            // .attr("r", img_size/2)
+            // .attr("cx", middle_edge_x + img_size/2 + info_margin)
+            // .attr("cy", corner_edge_y + img_size/2 + info_margin)
+
+
+
+            .attr("x", middle_edge_x + info_margin)
+            .attr("y", corner_edge_y + info_margin)
+            .attr("rx", 8)
+            .attr("ry", 8)
+            .attr("width", img_size)
+            .attr("height", img_size)
             .attr("id", "info_img_circle")
             .attr("class", "twitch-sun")
 
         var info_image = svg.append("svg:image")
             .attr("xlink:href",  "./img/twitch_logo.png")
             .attr("id", "info_img")
-            .attr("x", middle_edge_x + info_margin + img_size*0.15)
-            .attr("y", corner_edge_y + info_margin + img_size*0.15)
-            .attr("height", img_size*0.7)
-            .attr("width", img_size*0.7)
+            .attr("x", middle_edge_x + info_margin + img_size*0.1)
+            .attr("y", corner_edge_y + info_margin + img_size*0.1)
+            .attr("height", img_size*0.8)
+            .attr("width", img_size*0.8)
 
 
         var info_title = svg.append("text")
@@ -674,28 +683,28 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
 
         var info_tps = svg.append("text")
             .attr("x", info_tip_x)
-            .attr("y", info_tip_y-125)
+            .attr("y", info_tip_y-110)
             .attr("id", "info_tps")
             .attr("class", "info-text-h3")
             .text( function (d) { return ""; })
 
         var info_max_v = svg.append("text")
             .attr("x", info_tip_x)
-            .attr("y", info_tip_y-95)
+            .attr("y", info_tip_y-80)
             .attr("id", "info_max_v")
             .attr("class", "info-text-h3")
             .text( function () { return ""; })
 
         var info_avg_v = svg.append("text")
             .attr("x", info_tip_x)
-            .attr("y", info_tip_y-65)
+            .attr("y", info_tip_y-50)
             .attr("id", "info_avg_v")
             .attr("class", "info-text-h3")
             .text( function () { return ""; })
 
         var info_nb_streams = svg.append("text")
             .attr("x", info_tip_x)
-            .attr("y", info_tip_y-35)
+            .attr("y", info_tip_y-20)
             .attr("id", "info_nb_streams")
             .attr("class", "info-text-h3")
             .text( function () { return ""; })
@@ -753,8 +762,9 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         }
 
         // Add X axis
+
         var x = d3.scaleTime()
-        .domain(d3.extent(data, function(d) { return new Date(d.time * 1000); }))
+        .domain(d3.extent(data, function(d) {console.log(new Date(d.time * 1000)); return new Date(d.time * 1000) }))
         .range([totv_x, totv_x + totv_width]);
         var xAxis = svg.append("g")
         .attr("transform", "translate("+(totv_x_offset-4)+", " + totv_height + ")")
