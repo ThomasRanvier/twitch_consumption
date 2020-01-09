@@ -858,6 +858,75 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                 .style("opacity", 0);
             noHighlight(d.key)
         })
+        .on('click', function(d) {
+            console.log(d)
+            console.log(d.index, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30))
+            d3.select("#info_img")
+            .transition()
+            //.attr("xlink:href",  d.image)
+            .duration(200)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_img_circle")
+            .transition()
+            .duration(200)
+            //.style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_box")
+            .transition()
+            .duration(200)
+            //.style("stroke", d.color)
+            //.style("fill", d.color.slice(0,3) + "a" + d.color.slice(3,d.color.length-1) + ",0.12)")
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_title")
+            .transition()
+            .duration(200)
+            .text( function () { return d.key; })
+            //.style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            
+            d3.select("#info_tip")
+            .transition()
+            .duration(200)
+            .text( function () { return ""; })
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_tps")
+            .transition()
+            .duration(200)
+            .text( function () { return "Temps de stream sur la semaine : " + d.tps; })
+            //.style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_max_v")
+            .transition()
+            .duration(200)
+            .text( function () { return "Nombre maximum de viewers simultanés : " + d.max_v; })
+            //.style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_avg_v")
+            .transition()
+            .duration(200)
+            .text( function () { return "Nombre moyen de viewers simultanés : " + Math.round(d.avg_v); })
+            //.style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            d3.select("#info_nb_streams")
+            .transition()
+            .duration(200)
+            .text( function () { return "Nombre de streams lancés cette semaine : " + d.nb_streams; })
+            //.style("fill", d.color)
+            .ease(d3.easeSinInOut);
+
+            svg.selectAll(".bar").remove();
+            svg.select("a").remove();
+
+            drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30))
+            })
         .attr("d", area)
         
         // Add the brushing
