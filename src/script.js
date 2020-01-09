@@ -54,7 +54,6 @@ var svg = d3.select('#chart-area').insert('svg')
 var arcs = [];
 d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/data.json').then(function(raw_data){
 
-    console.log(raw_data)
     var arc_id = 0
     var streamer_id = 0
     for (var streamer in raw_data){
@@ -80,7 +79,6 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         streamer_id++
 
     }
-    console.log(arcs)
 
     //MAIN CHART  ////////////////////////////////////////////////////////////////////////////////////////
     //AXIS ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +94,6 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
     for(var i = 0; i<8; i++){
         day_flat_angles[day_list[i]]=(((min_global+stamp_step*i)-min_global)/scale)
     }
-    console.log(day_flat_angles)
 
     var y_offset = sun_r + sun_margin - arc_width/2
     var axis_length = (y_offset + streamer_id*inter_orbit) + axis_overlength
@@ -217,7 +214,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                 .on("mouseout", function() {
                     d3.select("#sun_img")
                     .transition()
-                    .attr("xlink:href",  "./img/twitch_logo.png")
+                    .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
                     .duration(50)
                     .ease(d3.easeSinInOut);
                     
@@ -421,7 +418,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         .on("click", function() {
             d3.select("#info_img")
             .transition()
-            .attr("xlink:href",  "./img/twitch_logo.png")
+            .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
             .duration(200)
             .ease(d3.easeSinInOut);
 
@@ -486,7 +483,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
 
     
     var sun_image = svg.append("svg:image")
-        .attr("xlink:href",  "./img/twitch_logo.png")
+        .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
         .attr("id", "sun_img")
         .attr("x", main_chart_x - sun_r*1.2/2)
         .attr("y", main_chart_y - sun_r*1.2/2)
@@ -562,7 +559,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         .on("click", function() {
             d3.select("#info_img")
             .transition()
-            .attr("xlink:href",  "./img/twitch_logo.png")
+            .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
             .duration(200)
             .ease(d3.easeSinInOut);
 
@@ -659,7 +656,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .attr("class", "twitch-sun")
 
         var info_image = svg.append("svg:image")
-            .attr("xlink:href",  "./img/twitch_logo.png")
+            .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
             .attr("id", "info_img")
             .attr("x", middle_edge_x + info_margin + img_size*0.1)
             .attr("y", corner_edge_y + info_margin + img_size*0.1)
@@ -721,6 +718,11 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
     d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
         // set the dimensions and margins of the graph
 
+        const div2 = d3.select("body").append("div")
+        .attr("class", "tooltip")         
+        .style("opacity", 30)
+        .style("background",'#FFFFFF');
+
         totv_width = w - middle_edge_x - totv_chart_margin*3
         totv_height = corner_edge_y - totv_chart_margin*1.5
 
@@ -733,7 +735,6 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         //////////
         
         // List of groups = header of the csv files
-        console.log(data.columns)
         var keys = data.columns.slice(1)
         
         // color palette
@@ -751,20 +752,12 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         //////////
         // AXIS //
         //////////
-        for(var i=0; i<7; i++){
-            svg.append("rect")
-                .attr("x", totv_x+i*(totv_width/7))
-                .attr("y", totv_chart_margin)
-                .attr("width", (totv_width/7))
-                .attr("height", totv_height-totv_chart_margin)
-                .attr("id", "totv_bg_"+i)
-                .style("fill", d3.schemePastel2[i])
-        }
+        
 
         // Add X axis
 
         var x = d3.scaleTime()
-        .domain(d3.extent(data, function(d) {console.log(new Date(d.time * 1000)); return new Date(d.time * 1000) }))
+        .domain(d3.extent(data, function(d) { return new Date(d.time * 1000) }))
         .range([totv_x, totv_x + totv_width]);
         var xAxis = svg.append("g")
         .attr("transform", "translate("+(totv_x_offset-4)+", " + totv_height + ")")
@@ -828,8 +821,22 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         .x(function(d) { return x(new Date(d.data.time * 1000)); })
         .y0(function(d) { return y(d[0]); })
         .y1(function(d) { return y(d[1]); })
-        console.log(stackedData)
         // Show the areas
+        for(var i=0; i<7; i++){
+            areaChart.append("rect")
+                .attr("x", totv_x+i*(totv_width/7))
+                .attr("y", totv_chart_margin)
+                .attr("width", (totv_width/7))
+                .attr("height", totv_height-totv_chart_margin)
+                .attr("id", "totv_bg_"+i)
+                .style("fill", d3.schemePastel2[i])
+        }
+
+        // areaChart
+        // .append("g")
+        // .attr("class", "brush")
+        // .call(brush)
+
         areaChart
         .selectAll("mylayers")
         .data(stackedData)
@@ -837,15 +844,24 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         .append("path")
         .attr("class", function(d) { return "myArea " + d.key })
         .style("fill", function(d) {return color(d.key); })
-
+        .on('mousemove', function(d) { 
+            div2.transition()        
+                .duration(200)      
+                .style("opacity", .9);
+            div2.html(d.key)
+                .style("left", (d3.event.pageX + 10) + "px")     
+                .style("top", (d3.event.pageY - 50) + "px");
+            highlight(d.key)
+         })
+         .on("mouseout", function(d) {
+            div2.transition()
+                .duration(500)
+                .style("opacity", 0);
+            noHighlight(d.key)
+        })
         .attr("d", area)
         
-        
         // Add the brushing
-        // areaChart
-        // .append("g")
-        // .attr("class", "brush")
-        // .call(brush)
 
         //   .on('mousemove', function(d) {
         //     var mousePos = d3.mouse(this);
@@ -857,7 +873,20 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         //   .on('mouseout', function() {
         //     tooltip.classed('hidden', true);
         //   });
-        
+
+        var highlight = function(d){
+            console.log(d)
+            // reduce opacity of all groups
+            d3.selectAll(".myArea").style("opacity", .1)
+            // expect the one that is hovered
+            d3.select("."+d).style("opacity", 1)
+          }
+      
+          // And when it is not hovered anymore
+          var noHighlight = function(d){
+            d3.selectAll(".myArea").style("opacity", 1)
+          }
+
         var idleTimeout
         function idled() { idleTimeout = null; }
         
@@ -881,25 +910,10 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .selectAll("path")
             .transition().duration(1000)
             .attr("d", area)
+            areaChart
+            .selectAll("rect")
+            .transition().duration(1000)
         }
-        
-        
-        var tooltip = svg.append("g")
-        .attr("class", "tooltip")
-        .style("display", "none");
-        
-        tooltip.append("mylayers")
-        .attr("width", 30)
-        .attr("height", 20)
-        .attr("fill", "white")
-        .style("opacity", 0.5);
-        
-        tooltip.append("text")
-        .attr("x", 15)
-        .attr("dy", "1.2em")
-        .style("text-anchor", "middle")
-        .attr("font-size", "12px")
-        .attr("font-weight", "bold");
     })
 })
 
