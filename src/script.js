@@ -288,7 +288,6 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     .transition()
                     .duration(200)
                     .text( function () { return ""; })
-                    .style("fill", d.color.slice(0,3) + "a" + d.color.slice(3,d.color.length-1) + ",0.12)")
                     .ease(d3.easeSinInOut);
 
                     d3.select("#info_tps")
@@ -442,40 +441,39 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .style("fill", "#6441A4")
             .ease(d3.easeSinInOut);
 
-            d3.select("#info_tip")
-            .transition()
-            .duration(200)
-            .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
-            .style("fill", d.color.slice(0,3) + "a" + d.color.slice(3,d.color.length-1) + ",0.12)")
-            .ease(d3.easeSinInOut);
-
             d3.select("#info_tps")
             .transition()
             .duration(200)
             .text( function () { return ""; })
-            .style("fill", d.color)
             .ease(d3.easeSinInOut);
 
             d3.select("#info_max_v")
             .transition()
             .duration(200)
             .text( function () { return ""; })
-            .style("fill", d.color)
             .ease(d3.easeSinInOut);
 
             d3.select("#info_avg_v")
             .transition()
             .duration(200)
             .text( function () { return ""; })
-            .style("fill", d.color)
             .ease(d3.easeSinInOut);
 
             d3.select("#info_nb_streams")
             .transition()
             .duration(200)
             .text( function () { return ""; })
-            .style("fill", d.color)
             .ease(d3.easeSinInOut);
+
+            d3.select("#info_tip")
+            .transition()
+            .duration(200)
+            .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
+            .attr("style", "info-text-h4")
+            .ease(d3.easeSinInOut);
+
+            svg.selectAll(".bar").remove();
+            svg.select("a").remove();
         });
 
 
@@ -575,18 +573,11 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .style("stroke", "#6441A4")
             .style("fill", "#6441A415")
             .ease(d3.easeSinInOut);
-
+            
             d3.select("#info_title")
             .transition()
             .duration(200)
             .text( function () { return "Consommation Twitch"; })
-            .style("fill", "#6441A4")
-            .ease(d3.easeSinInOut);
-            
-            d3.select("#info_tip")
-            .transition()
-            .duration(200)
-            .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
             .style("fill", "#6441A4")
             .ease(d3.easeSinInOut);
 
@@ -613,6 +604,14 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .duration(200)
             .text( function () { return ""; })
             .ease(d3.easeSinInOut);
+
+            d3.select("#info_tip")
+            .transition()
+            .duration(200)
+            .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
+            .attr("style", "info-text-h4")
+            .ease(d3.easeSinInOut);
+            
             svg.selectAll(".bar").remove();
             svg.select("a").remove();
         });
