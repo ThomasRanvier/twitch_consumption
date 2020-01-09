@@ -321,6 +321,11 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     .text( function () { return "Nombre de streams lancés cette semaine : " + d.nb_streams; })
                     .style("fill", d.color)
                     .ease(d3.easeSinInOut);
+
+                    svg.selectAll(".bar").remove();
+                    svg.select("a").remove();
+
+                    drawBarChart(d.s, middle_edge_x + 50, info_tip_y-20 , w - 50 - (middle_edge_x + 50), h - 50   - (info_tip_y-20))
                 })
 
                 function arcTween(newAngle) {
@@ -611,6 +616,8 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .duration(200)
             .text( function () { return ""; })
             .ease(d3.easeSinInOut);
+            svg.selectAll(".bar").remove();
+            svg.select("a").remove();
         });
 
 
@@ -886,7 +893,80 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
     })
 })
 
+const div = d3.select("body").append("div")
+    .attr("class", "tooltip")         
+    .style("opacity", 30)
+    .style("background",'#FFFFFF');
 
+function drawBarChart(sid, posx, posy, width, height) {
+
+    // On demande à D3JS de charger notre fichier
+    d3.json("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/data.json").then(function(data) {
+        d3.json("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/time.json").then(function(dates) {
+            
+            data = data[sid]['streams']['viewers']
+            dates = Object.keys(dates)
+            v = []
+            var i=0
+            for (i = 0 ; i < data.length; i++) {
+                v[i] = []
+                v[i][0] = dates[i]
+                v[i][1] = data[i]
+            }
+            const x = d3.scaleBand()
+                .range([0, width])
+                .padding(0.1);
+            const y = d3.scaleLinear()
+                .range([height, 0]);
+            x.domain(v.map(function(d) { return d[0]; }));
+            y.domain([0, d3.max(v, function(d) { return d[1]; })]);
+            
+            // Ajout de l'axe X au SVG
+            // Déplacement de l'axe horizontal et du futur texte (via la fonction translate) au bas du SVG
+            // Selection des noeuds text, positionnement puis rotation
+            // svg.append("g")
+            //     .attr("transform", "translate(0," + 500 + ")")
+            //     .call(d3.axisBottom(x).tickSize(0))
+            //     .selectAll("text")	
+            //         .style("text-anchor", "end")
+            //         .attr("dx", "-.8em")
+            //         .attr("dy", ".15em")
+            //         .attr("transform", "rotate(-65)");
+            
+            // Ajout de l'axe Y au SVG avec 6 éléments de légende en utilisant la fonction ticks (sinon D3JS en place autant qu'il peut).
+            svg.append("a")
+                .call(d3.axisLeft(y).ticks(6))
+                .attr("transform", "translate(" + posx + "," + posy + ")")
+
+
+            // Ajout des bars en utilisant les données de notre fichier data.tsv
+            // La largeur de la barre est déterminée par la fonction x
+            // La hauteur par la fonction y en tenant compte de la population
+            // La gestion des events de la souris pour le popup
+            svg.selectAll(".bar")
+                .data(v)
+            .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d) { return x(d[0]) + posx; })
+                .attr("width", x.bandwidth())
+                .attr("y", function(d) { return y(d[1]) + posy; })
+                .attr("height", function(d) { return height - y(d[1]); })					
+                .on("mouseover", function(d) {
+                    div.transition()        
+                        .duration(200)      
+                        .style("opacity", .9);
+                    div.html("Population : " + d[1] + " Heure : " + d[0])
+                        .style("left", (d3.event.pageX + 10) + "px")     
+                        .style("top", (d3.event.pageY - 50) + "px");
+                })
+                .on("mouseout", function(d) {
+                    div.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+        });
+    })
+}
 
 // function tweaked_sigmoid(t) {
 //     // console.log(t, (1/(1+Math.exp(-4*(2*t-1))))*0.6 +0.2)
