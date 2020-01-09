@@ -325,7 +325,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     svg.selectAll(".bar").remove();
                     svg.select("a").remove();
 
-                    drawBarChart(d.s, middle_edge_x + 50, info_tip_y-20 , w - 50 - (middle_edge_x + 50), h - 50   - (info_tip_y-20))
+                    drawBarChart(d.s, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30))
                 })
 
                 function arcTween(newAngle) {
@@ -923,6 +923,7 @@ function drawBarChart(sid, posx, posy, width, height) {
                 v[i][0] = dates[i]
                 v[i][1] = data[i]
             }
+            var nb = data.length / 7
             const x = d3.scaleBand()
                 .range([0, width])
                 .padding(0.1);
@@ -948,7 +949,8 @@ function drawBarChart(sid, posx, posy, width, height) {
                 .call(d3.axisLeft(y).ticks(6))
                 .attr("transform", "translate(" + posx + "," + posy + ")")
 
-
+            var i = 0
+            var j = 0
             // Ajout des bars en utilisant les données de notre fichier data.tsv
             // La largeur de la barre est déterminée par la fonction x
             // La hauteur par la fonction y en tenant compte de la population
@@ -960,7 +962,12 @@ function drawBarChart(sid, posx, posy, width, height) {
                 .attr("x", function(d) { return x(d[0]) + posx; })
                 .attr("width", x.bandwidth())
                 .attr("y", function(d) { return y(d[1]) + posy; })
-                .attr("height", function(d) { return height - y(d[1]); })					
+                .attr("height", function(d) { return height - y(d[1]); })
+                .style("fill", function(d) { 
+                    j++; 
+                    if (j > (i + 1) * nb)
+                        i++;
+                    return d3.schemeSet2[i]; })					
                 .on("mouseover", function(d) {
                     div.transition()        
                         .duration(200)      
