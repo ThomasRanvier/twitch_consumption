@@ -988,7 +988,8 @@ function drawBarChart(sid, posx, posy, width, height) {
                         .style("opacity", .9);
                     div.html("Population : " + d[1] + " Heure : " + d[0])
                         .style("left", (d3.event.pageX + 10) + "px")     
-                        .style("top", (d3.event.pageY - 50) + "px");
+                        .style("top", (d3.event.pageY - 50) + "px")
+                        .style('pointer-events', 'none');
                 })
                 .on("mouseout", function(d) {
                     div.transition()
