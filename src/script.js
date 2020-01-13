@@ -160,6 +160,17 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         
         // var day_label = svg.append("line")
     }
+    //Append the day names to each slice
+    svg.selectAll(".dayText")
+        .data(day_list)
+        .enter().append("text")
+        .attr("class", "dayText")
+        .attr("x", 150)   //Move the text from the start angle of the arc
+        .attr("dy", 18) //Move the text down
+        .append("textPath")
+        .style("fill",(d,i) => d3.schemeSet2[i])
+        .attr("xlink:href",function(d,i){return "#day_label_arc_"+d;})
+        .text(function(d){return d});
 
     //ARCS & ORBITS //////////////////////////////////////////////////////////////////////////////////////
     var container = svg.append("g")
