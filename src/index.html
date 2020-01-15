@@ -10,17 +10,12 @@
 </head>
 
 <body>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Launch demo modal
-    </button>
-
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade in" id="descrModal" tabindex="-1" role="dialog" aria-labelledby="descrModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Explications</h5>
+                    <h5 class="modal-title" id="descrModalLabel">Explications</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -50,7 +45,7 @@
                                         Les streamers réguliers, ils diffusent du contenu quasiment tous les jours, ex : <a href="https://www.twitch.tv/locklear/">Locklear</a>
                                     </li>
                                     <li>
-                                        Les web tv, elles sont similaires à des chaînes de télévision. Sur celles-ci des streamers se relaient dans diverses émissions. Le flux de diffusion est alors très peu interrompu sur l’ensemble de la semaine, ex : <a href="https://www.twitch.tv/solary/">Solary</a>
+                                            Les Web TVs, elles sont similaires à des chaînes de télévision. Sur celles-ci des streamers se relaient dans diverses émissions. Le flux de diffusion est alors très peu interrompu sur l’ensemble de la semaine, ex : <a href="https://www.twitch.tv/solary/">Solary</a>
                                     </li>
                                 </ul>
                             </p>
@@ -72,23 +67,59 @@
                                 Pour sélectionner un jour il est possible de cliquer sur le jours correspondant dans la timeline principale ou dans l’area chart.
                             </p>
                         </div>
-                        <div class="tab-pane fade" id="nav-home-en" role="tabpanel" aria-labelledby="nav-home_en-tab">Hi</div>
+                        <div class="tab-pane fade" id="nav-home-en" role="tabpanel" aria-labelledby="nav-home_en-tab">
+                            <br/>
+                            <p>
+                                This project is a visualization of streaming consumption of the 30 streamers considered as the most populars in France. The ranking of the streamers is based on the one from the <a href="https://www.twitchmetrics.net/channels/popularity?lang=fr&page=0">twitchmetrics</a> website as it was in november 2019.
+                            </p>
+                            <p>
+                                This visualization highlights three main types of streamers:
+                                <ul>
+                                    <li>
+                                        Ponctual streamers, they stream once or twice per week, ex : Squeezie
+                                    </li>
+                                    <li>
+                                        Regular streamers, they stream almost everyday, ex : Locklear
+                                    </li>
+                                    <li>
+                                        Web TVs, they can be compared to television channels. Streamers take turn in several shows on those channels, the stream is almost never interrupted on the whole week, ex : Solary
+                                    </li>
+                                </ul>
+                            </p>
+                            <p>
+                                The visualization is composed of a central circular timeline which displays the streaming times of each streamer.
+                                On that central graph we can see the different types of streamers appear, to simplify the visualization of those types we ordered them by type.
+                                The fact that the timeline is circular puts very well in light the different types of streamers.
+                            </p>
+                            <p>
+                                There also is an area chart, in the upper right corner, which displays the number of viewers for each of the 30 streamers.
+                            </p>
+                            <p>
+                                It is possible to select a streamer by clicking on one of its arcs on the timeline or on the area of its number of viewers on the area chart.
+                                Additional informations on the streamer are then displayed in the infobox in the bottom right corner.
+                                We can see the streamed hours number, the average and pick number of viewers, the number of streams and a bar plot with the number of viewers on the selected period.
+                            </p>
+                            <p>
+                                Indeed, it is also possible to select a period, it either is of one week (by default) or one day.
+                                To select a day, it is possible to click on the corresponding day on the main timeline or even in the area chart.
+                            </p>
+                        </div>
                         <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                             <br/>
                             <p>
                                 Auteurs :
                                 <ul>
                                     <li>
-                                        Valentin Comas, <a href="valentin.comas@etu.univ-lyon1.fr">valentin.comas@etu.univ-lyon1.fr</a>
+                                        Valentin Comas, <a href="mailto:valentin.comas@etu.univ-lyon1.fr">valentin.comas@etu.univ-lyon1.fr</a>
                                     </li>
                                     <li>
-                                        Thomas Bourg, <a href="thomas.bourg@etu.univ-lyon1.fr">thomas.bourg@etu.univ-lyon1.fr</a>
+                                        Thomas Bourg, <a href="mailto:thomas.bourg@etu.univ-lyon1.fr">thomas.bourg@etu.univ-lyon1.fr</a>
                                     </li>
                                     <li>
-                                        Nicolas Désilets, <a href="nicolas.desilets@etu.univ-lyon1.fr">nicolas.desilets@etu.univ-lyon1.fr</a>
+                                        Nicolas Désilets, <a href="mailto:nicolas.desilets@etu.univ-lyon1.fr">nicolas.desilets@etu.univ-lyon1.fr</a>
                                     </li>
                                     <li>
-                                        Thomas Ranvier, <a href="thomas.ranvier@etu.univ-lyon1.fr">thomas.ranvier@etu.univ-lyon1.fr</a>
+                                        Thomas Ranvier, <a href="mailto:thomas.ranvier@etu.univ-lyon1.fr">thomas.ranvier@etu.univ-lyon1.fr</a>
                                     </li>
                                 </ul>
                             </p>

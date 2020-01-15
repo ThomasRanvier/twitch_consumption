@@ -23,6 +23,18 @@ var svg = d3.select('#chart-area').insert('svg')
             .attr("width", w)
             .attr("height", h);
 
+//MODAL /////////////////////////////////////////////////////////////////////////////////////////////////
+$("#descrModal").modal()
+svg.append("image")
+    .attr('x', 10)
+    .attr('y', 10)
+    .attr('width', 40)
+    .attr('height', 40)
+    .attr("xlink:href", "../data/home.png")//"https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/home.png")
+    .on("click", function() {
+        $("#descrModal").modal()
+    })
+
 // function resize() {
 //     w = window.innerWidth
 //     h = window.innerHeight
