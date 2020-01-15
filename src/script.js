@@ -53,10 +53,12 @@ var svg = d3.select('#chart-area').insert('svg')
 
 var arcs = [];
 d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/data.json').then(function(raw_data){
+    var colors = {};
 
     var arc_id = 0
     var streamer_id = 0
     for (var streamer in raw_data){
+        colors[streamer] = raw_data[streamer]['infos']['color']
         for(var k in raw_data[streamer]['streams']['data_stamp']){
             // console.log(streamer)
             arcs.push({
@@ -72,7 +74,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     i: arc_id,
                     si: streamer_id,
                     s: streamer,
-                        color : d3.interpolateRainbow((streamer_id**streamer_id%83)/83)
+                    color : d3.interpolateRainbow(raw_data[streamer]['infos']['color'])
                 });
             arc_id++
         }
@@ -249,6 +251,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     
                     this.parentElement.appendChild(this)
 
+                    highlight(d.s)
                 })
 
                 .on("mouseout", function() {
@@ -269,6 +272,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     )
                     .ease(d3.easeSinInOut);
 
+                    noHighlight(d.s)
                     
                 })
                 .on("mousedown", function() {
@@ -694,7 +698,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
     //TOTAL VIEWS CHART ////////////////////////////////////////////////////////////////////////////////////////////////
     d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
         // set the dimensions and margins of the graph
-
+        console.log(arcs)
         const div2 = d3.select("body").append("div")
         .attr("class", "tooltip")         
         .style("opacity", 30)
@@ -820,7 +824,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         .enter()
         .append("path")
         .attr("class", function(d) { return "myArea " + d.key })
-        .style("fill", function(d) {return color(d.key); })
+        .style("fill", function(d) {return d3.interpolateRainbow(colors[d.key]); })
         .on('mousemove', function(d) { 
             div2.transition()        
                 .duration(200)      
@@ -840,7 +844,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
             })
         .attr("d", area)
-        
+
         // Add the brushing
 
         //   .on('mousemove', function(d) {
@@ -853,19 +857,6 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         //   .on('mouseout', function() {
         //     tooltip.classed('hidden', true);
         //   });
-
-        var highlight = function(d){
-            console.log(d)
-            // reduce opacity of all groups
-            d3.selectAll(".myArea").style("opacity", .1)
-            // expect the one that is hovered
-            d3.select("."+d).style("opacity", 1)
-          }
-      
-          // And when it is not hovered anymore
-          var noHighlight = function(d){
-            d3.selectAll(".myArea").style("opacity", 1)
-          }
 
         var idleTimeout
         function idled() { idleTimeout = null; }
@@ -896,6 +887,20 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         }
     })
 })
+
+
+        var highlight = function(d){
+            console.log(d)
+            // reduce opacity of all groups
+            d3.selectAll(".myArea").style("opacity", .1)
+            // expect the one that is hovered
+            d3.select("."+d).style("opacity", 1)
+          }
+      
+          // And when it is not hovered anymore
+          var noHighlight = function(d){
+            d3.selectAll(".myArea").style("opacity", 1)
+          }
 
 const div = d3.select("body").append("div")
     .attr("class", "tooltip")         
@@ -1036,7 +1041,7 @@ function drawBarChart(streamer, posx, posy, width, height, streamer_id) {
                     div.transition()        
                         .duration(200)      
                         .style("opacity", .9);
-                    div.html("Population : " + d[1] + " Heure : " + d[0])
+                    div.html("Viewers : " + d[1] + "<br> Heure : " + d[0])
                         .style("left", (d3.event.pageX + 10) + "px")     
                         .style("top", (d3.event.pageY - 50) + "px")
                         .style('pointer-events', 'none');
