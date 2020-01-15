@@ -106,7 +106,9 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                 startAngle: day_flat_angles[day_list[i]]*Math.PI*2,
                 endAngle: day_flat_angles[day_list[i+1]]*Math.PI*2,
                 innerRadius: y_offset,
-                outerRadius: axis_length
+                outerRadius: axis_length,
+                id:i
+
             })
             .attr("d", d3.arc())
             .attr("id", "axis_area_"+day_list[i])
@@ -114,12 +116,15 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .attr("class", "axis-area")
             .style("fill", d3.schemePastel2[i]);
         
+            // console.log( "startAngle: "+day_flat_angles[day_list[i]]*Math.PI*2, "endAngle: "+day_flat_angles[day_list[i+1]]*Math.PI*2)
+        
         var day_label_arc = svg.append("path")
             .datum({
                 startAngle: day_flat_angles[day_list[i]]*Math.PI*2,
                 endAngle: day_flat_angles[day_list[i+1]]*Math.PI*2,
                 innerRadius: axis_length + label_margin,
-                outerRadius: axis_length + label_margin + label_width
+                outerRadius: axis_length + label_margin + label_width,
+                id:i
             })
             .attr("d", d3.arc())
             .attr("id", "day_label_arc_"+day_list[i])
@@ -128,8 +133,8 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
             .style("opacity", 0.5)
             .style("fill", d3.schemePastel2[i])
 
-            .on("mouseenter", function() {
-                d3.select(this)
+            .on("mouseenter", function (d)  {
+                d3.select("#day_label_arc_"+day_list[d.id])
                 .transition()
                 .duration(50)
                 .attr('d', d3.arc()
@@ -138,8 +143,8 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                 .ease(d3.easeSinInOut);
             })
 
-            .on("mouseout", function() {
-                d3.select(this)
+            .on("mouseout", function(d) {
+                d3.select("#day_label_arc_"+day_list[d.id])
                 .transition()
                 .duration(50)
                 .attr('d', d3.arc()
@@ -165,12 +170,33 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
         .data(day_list)
         .enter().append("text")
         .attr("class", "dayText")
-        .attr("x", 150)   //Move the text from the start angle of the arc
+        .attr("x", 10)   //Move the text from the start angle of the arc
         .attr("dy", 18) //Move the text down
-        .append("textPath")
+        .append("textPath").data(day_list)
         .style("fill",(d,i) => d3.schemeSet2[i])
         .attr("xlink:href",function(d,i){return "#day_label_arc_"+d;})
-        .text(function(d){return d});
+        .text(function(d, i){return d+" "+(i+2)+" Décembre"})
+
+        .on("mouseenter", function (d,i)  {
+            console.log("#day_label_arc_"+day_list[i])
+            d3.select("#day_label_arc_"+day_list[i])
+            .transition()
+            .duration(50)
+            .attr('d', d3.arc()
+                .outerRadius(axis_length + label_margin + label_width*1.6)
+            )
+            .ease(d3.easeSinInOut);
+        })
+
+        .on("mouseout", function(d,i) {
+            d3.select("#day_label_arc_"+day_list[i])
+            .transition()
+            .duration(50)
+            .attr('d', d3.arc()
+                .outerRadius(axis_length + label_margin + label_width)
+            )
+            .ease(d3.easeSinInOut);
+        })
 
     //ARCS & ORBITS //////////////////////////////////////////////////////////////////////////////////////
     var container = svg.append("g")
@@ -187,11 +213,14 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                 .attr("r", d.R).attr("id", "orbit_" + d.i);
                 streamer_id=d.si+1
             }
+            var cropped_start_angle = Math.min(Math.PI*2, Math.max(0, d.start_angle))
+            var cropped_end_angle = Math.min(Math.PI*2, Math.max(0, d.end_angle))
+
             // console.log( d3.interpolateRainbow(Math.Random))
             var a = svg.append("path")
                 .datum({
-                    startAngle: d.start_angle,
-                    endAngle: d.end_angle,
+                    startAngle: cropped_start_angle,
+                    endAngle: cropped_end_angle,
                     innerRadius: d.R-(d.w / 2),
                     outerRadius: d.R+(d.w / 2)
                 })
@@ -211,8 +240,8 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     .transition()
                     .duration(50)
                     .attr('d', d3.arc()
-                        .startAngle(d.start_angle-8/d.R)
-                        .endAngle(d.end_angle+8/d.R)
+                        .startAngle(cropped_start_angle-8/d.R)
+                        .endAngle(cropped_end_angle+8/d.R)
                         .innerRadius(d.R-(d.w / 2)-4)
                         .outerRadius(d.R+(d.w / 2)+4)
                     )
@@ -233,8 +262,8 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     .transition()
                     .duration(50)
                     .attr('d', d3.arc()
-                        .startAngle(d.start_angle)
-                        .endAngle(d.end_angle)
+                        .startAngle(cropped_start_angle)
+                        .endAngle(cropped_end_angle)
                         .innerRadius(d.R-(d.w / 2))
                         .outerRadius(d.R+(d.w / 2))
                     )
@@ -247,8 +276,8 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     .transition()
                     .duration(10)
                     .attr('d', d3.arc()
-                        .startAngle(d.start_angle-4/d.R)
-                        .endAngle(d.end_angle+4/d.R)
+                        .startAngle(cropped_start_angle-4/d.R)
+                        .endAngle(cropped_end_angle+4/d.R)
                         .innerRadius(d.R-(d.w / 2)-2)
                         .outerRadius(d.R+(d.w / 2)+2)
                     )
@@ -259,8 +288,8 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     .transition()
                     .duration(10)
                     .attr('d', d3.arc()
-                        .startAngle(d.start_angle-8/d.R)
-                        .endAngle(d.end_angle+8/d.R)
+                        .startAngle(cropped_start_angle-8/d.R)
+                        .endAngle(cropped_end_angle+8/d.R)
                         .innerRadius(d.R-(d.w / 2)-4)
                         .outerRadius(d.R+(d.w / 2)+4)
                     )
@@ -271,15 +300,17 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     drawBarChart(d.s, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.si)
                 })
 
-                function arcTween(newAngle) {
-                    return function (d) {
-                        var interpolate = d3.interpolate(d.endAngle, newAngle);
-                        return function (t) {
-                            d.endAngle = interpolate(t);
-                            return arc(d);
-                        };
+            function arcTween(newAngle) {
+                return function (d) {
+                    var interpolate = d3.interpolate(d.endAngle, newAngle);
+                    return function (t) {
+                        d.endAngle = interpolate(t);
+                        return arc(d);
                     };
-                }
+                };
+            }
+        
+            console.log("startAngle: "+ d.start_angle, "endAngle: " + d.end_angle)
             //.style("fill", d.color);
             // a.transition().ease(d3.easeLinear).attrTween("d", arcTween(2*Math.PI));
         })
