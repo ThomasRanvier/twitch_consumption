@@ -11,7 +11,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 path = Path(dir_path)
 path = path.parent
 
-files = [x for x in Path(path.as_uri()[8:len(path.as_uri())] + "/data/collected_data").glob('**/*') if x.is_file()]
+files = [x for x in Path(path.as_uri()[8:len(path.as_uri())] + "/data/used_data").glob('**/*') if x.is_file()]
 
 raw_json = json.load(open('../data/pre_data.json'))
 streamers = json.load(open('../data/streamers.json'))
@@ -55,6 +55,7 @@ for streamer in raw_json:
 for s in suppress_list:
     del raw_json[s]
 
+s_id = 0
 min_date = dates[0]
 for d in range(len(dates)):
     dates[d] -= min_date
@@ -116,10 +117,11 @@ for streamer in raw_json:
     total_time = 0
     for s in raw_json[streamer]['streams']['data_stamp']:
         total_time += (s['stamp_end'] - s['stamp_start'])
-    total_time
     hours = str(int(total_time / 3600))
     minutes = str(int((total_time - int(total_time / 3600) * 3600) / 60))
     raw_json[streamer]['infos']['total_time'] = hours + "h " + minutes + "min"
+    raw_json[streamer]['infos']['color'] = (s_id**s_id%83)/83
+    s_id += 1
         # split_start = stream['start'].split('_')
         # split_end = stream['end'].split('_')
   
