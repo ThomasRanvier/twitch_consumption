@@ -73,7 +73,7 @@ d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/mast
                     i: arc_id,
                     si: streamer_id,
                     s: streamer,
-                    color : d3.interpolateRainbow((streamer_id**streamer_id%83)/83)
+                        color : d3.interpolateRainbow((streamer_id**streamer_id%83)/83)
                 });
             arc_id++
         }
