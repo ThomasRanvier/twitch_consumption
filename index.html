@@ -2,14 +2,160 @@
 <head>
     <meta charset='utf-8'>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel='stylesheet' type='text/css' href='src/style.css'>
+    <link rel='stylesheet' type='text/css' href='style.css'>
     <script src='https://d3js.org/d3.v5.min.js'></script>
-
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div id="chart-area"></div>
-    <script src='src/script.js'></script>
+<!-- Modal -->
+<div class="modal fade in" id="descrModal" tabindex="-1" role="dialog" aria-labelledby="descrModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="descrModalLabel">Explications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-fr-tab" data-toggle="tab" href="#nav-home-fr" role="tab" aria-controls="nav-home-fr" aria-selected="true">Description Fr</a>
+                        <a class="nav-item nav-link" id="nav-home-en-tab" data-toggle="tab" href="#nav-home-en" role="tab" aria-controls="nav-home-en" aria-selected="false">Description En</a>
+                        <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">About</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home-fr" role="tabpanel" aria-labelledby="nav-home-fr-tab">
+                        <br/>
+                        <p>
+                            Ce projet permet de visualiser la consommation de streaming sur les 30 streamers considérés comme étant les plus populaires en France.
+                            Le classement des streamers est basé sur le classement du site <a target="_blank" href="https://www.twitchmetrics.net/channels/popularity?lang=fr&page=0">twitchmetrics</a> au mois de novembre 2019.
+                        </p>
+                        <p>
+                            Cette visualisation permet de mettre en évidence 3 patterns différents de streamers :
+                        <ul>
+                            <li>
+                                Les streamers ponctuels, ils diffusent du contenu une à deux fois par semaine, ex : <a target="_blank" href="https://www.twitch.tv/squeezielive/">Squeezie</a>
+                            </li>
+                            <li>
+                                Les streamers réguliers, ils diffusent du contenu quasiment tous les jours, ex : <a target="_blank" href="https://www.twitch.tv/locklear/">Locklear</a>
+                            </li>
+                            <li>
+                                Les Web TVs, elles sont similaires à des chaînes de télévision. Sur celles-ci des streamers se relaient dans diverses émissions. Le flux de diffusion est alors très peu interrompu sur l’ensemble de la semaine, ex : <a target="_blank" href="https://www.twitch.tv/solary/">Solary</a>
+                            </li>
+                        </ul>
+                        </p>
+                        <p>
+                            La visualisation est composée d’une timeline circulaire et centrale qui affiche les temps de streaming de chacun.
+                            On peut y voir apparaître les patterns décrits ci-dessus, afin d’en simplifier la visualisation nous avons organisé les streamers par type.
+                            Le fait que cette timeline soit circulaire permet de particulièrement bien mettre en avant les différents types de streamers.
+                        </p>
+                        <p>
+                            La visualisation présente également un area chart annexe, en haut à droite, qui permet de voir le nombre de viewers sur l’ensemble des 30 streamers et pour chacun d’entres-eux.
+                        </p>
+                        <p>
+                            Il est possible de sélectionner un streamer en particulier en cliquant sur un de ses arcs sur la timeline ou sur l’aire de son nombre de viewers dans l’area chart.
+                            Des informations complémentaires concernant ce streamer s’affichent alors au sein de l'infobox en bas à droite.
+                            On y voit apparaître le nombre d’heures streamées, le nombre de viewers moyens et au maximum, le nombre de streams et un bar-plot du nombre de viewers sur la période sélectionnée.
+                        </p>
+                        <p>
+                            En effet, il est possible de sélectionner une période, soit d’une semaine (par défaut), soit d’un jour.
+                            Pour sélectionner un jour il est possible de cliquer sur le jours correspondant dans la timeline principale ou dans l’area chart.
+                        </p>
+                    </div>
+                    <div class="tab-pane fade" id="nav-home-en" role="tabpanel" aria-labelledby="nav-home_en-tab">
+                        <br/>
+                        <p>
+                            This project is a visualization of streaming consumption of the 30 streamers considered as the most populars in France. The ranking of the streamers is based on the one from the <a target="_blank" href="https://www.twitchmetrics.net/channels/popularity?lang=fr&page=0">twitchmetrics</a> website as it was in november 2019.
+                        </p>
+                        <p>
+                            This visualization highlights three main types of streamers:
+                        <ul>
+                            <li>
+                                Ponctual streamers, they stream once or twice per week, ex : <a target="_blank" href="https://www.twitch.tv/squeezielive/">Squeezie</a>
+                            </li>
+                            <li>
+                                Regular streamers, they stream almost everyday, ex : <a target="_blank" href="https://www.twitch.tv/locklear/">Locklear</a>
+                            </li>
+                            <li>
+                                Web TVs, they can be compared to television channels. Streamers take turn in several shows on those channels, the stream is almost never interrupted on the whole week, ex : <a target="_blank" href="https://www.twitch.tv/solary/">Solary</a>
+                            </li>
+                        </ul>
+                        </p>
+                        <p>
+                            The visualization is composed of a central circular timeline which displays the streaming times of each streamer.
+                            On that central graph we can see the different types of streamers appear, to simplify the visualization of those types we ordered them by type.
+                            The fact that the timeline is circular puts very well in light the different types of streamers.
+                        </p>
+                        <p>
+                            There also is an area chart, in the upper right corner, which displays the number of viewers for each of the 30 streamers.
+                        </p>
+                        <p>
+                            It is possible to select a streamer by clicking on one of its arcs on the timeline or on the area of its number of viewers on the area chart.
+                            Additional informations on the streamer are then displayed in the infobox in the bottom right corner.
+                            We can see the streamed hours number, the average and pick number of viewers, the number of streams and a bar plot with the number of viewers on the selected period.
+                        </p>
+                        <p>
+                            Indeed, it is also possible to select a period, it either is of one week (by default) or one day.
+                            To select a day, it is possible to click on the corresponding day on the main timeline or even in the area chart.
+                        </p>
+                    </div>
+                    <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                        <br/>
+                        <p>
+                            Auteurs :
+                        <ul>
+                            <li>
+                                Valentin Comas, <a target="_blank" href="mailto:valentin.comas@etu.univ-lyon1.fr">valentin.comas@etu.univ-lyon1.fr</a>
+                            </li>
+                            <li>
+                                Thomas Bourg, <a target="_blank" href="mailto:thomas.bourg@etu.univ-lyon1.fr">thomas.bourg@etu.univ-lyon1.fr</a>
+                            </li>
+                            <li>
+                                Nicolas Désilets, <a target="_blank" href="mailto:nicolas.desilets@etu.univ-lyon1.fr">nicolas.desilets@etu.univ-lyon1.fr</a>
+                            </li>
+                            <li>
+                                Thomas Ranvier, <a target="_blank" href="mailto:thomas.ranvier@etu.univ-lyon1.fr">thomas.ranvier@etu.univ-lyon1.fr</a>
+                            </li>
+                        </ul>
+                        </p>
+                        <p>
+                            Sources d'inspirations :
+                        <ul>
+                            <li>
+                                Notre inspiration initiale fut <a target="_blank" href="https://medium.com/@hint_fm/design-and-redesign-4ab77206cf9#.3avyf29un">cette visualisation du printemps Arabe</a> sur une timeline circulaire.
+                            </li>
+                            <li>
+                                Après plus de recherches nous trouvé <a target="_blank" href="https://datavizproject.com/data-type/radical-histogram/print/">cette visualisation</a> qui nous a également beaucoup inspiré.
+                            </li>
+                            <li>
+                                Pour la récolte de nos données, nous avons utilisé <a target="_blank" href="https://dev.twitch.tv/docs/api">l'API de Twitch</a>.
+                            </li>
+                            <li>
+                                Pour le développement de la visualisation nous avons utilisé la <a target="_blank" href="https://github.com/d3/d3/wiki">documentation de d3js</a>.
+                            </li>
+                        </ul>
+                        </p>
+                        <p>
+                            Cette visualisation a été réalisée dans le cadre du cours de <a target="_blank" href="https://lyondataviz.github.io/teaching/lyon1-m2/2019">data visualization</a> du <a target="_blank" href="http://master-info.univ-lyon1.fr/IA/">M2 Intelligence Artificielle</a> de l'Université Claude Bernard Lyon 1.
+                        </p>
+                        <p>
+                            Pour plus d'informations n'hésitez pas à consulter le <a target="_blank" href="https://github.com/ThomasRanvier/twitch_consumption/wiki">wiki</a> du projet.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="chart-area"></div>
+<script src='src/script.js'></script>
 </body>
 </html>
