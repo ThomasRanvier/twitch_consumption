@@ -141,6 +141,8 @@ f.close()
 
 tv = pd.DataFrame(total_views)
 tv = tv.T
+tv = tv[streamers]
+#tv['blank'] = [2000] * len(total_views)  
 tv.to_csv('../data/total_views.csv')
 
 # json_v = json.dumps(total_views, indent=4)
