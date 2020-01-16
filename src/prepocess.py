@@ -134,13 +134,14 @@ for streamer in raw_json:
 #         #print(stream['angle_end'])
 # total_views = {}
 # for h in range(len(dates)):
-json_s = json.dumps(raw_json, indent=4)
-f = open('../data/data.json','w+')
-f.write(json_s)
-f.close()
+# json_s = json.dumps(raw_json, indent=4)
+# f = open('../data/data.json','w+')
+# f.write(json_s)
+# f.close()
 
 tv = pd.DataFrame(total_views)
 tv = tv.T
+tv['blank'] = [10000] * len(total_views)  
 tv.to_csv('../data/total_views.csv')
 
 # json_v = json.dumps(total_views, indent=4)

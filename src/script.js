@@ -710,7 +710,7 @@ var info_nb_streams = svg.append("text")
 //TOTAL VIEWS CHART ////////////////////////////////////////////////////////////////////////////////////////////////
 d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
 // set the dimensions and margins of the graph
-console.log(arcs)
+console.log(data)
 const div2 = d3.select("body").append("div")
 .attr("class", "tooltip")         
 .style("opacity", 30)
@@ -836,7 +836,14 @@ areaChart
 .enter()
 .append("path")
 .attr("class", function(d) { return "myArea " + d.key })
-.style("fill", function(d) {return d3.interpolateRainbow(colors[d.key]); })
+.style("fill", function(d) { 
+    if (d.key != 'blank'){
+        return d3.interpolateRainbow(colors[d.key]); 
+    }
+    else {
+        return ('#FFFFFF');
+    }
+})
 .on('mousemove', function(d) { 
     div2.transition()        
     .duration(200)      
