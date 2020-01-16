@@ -30,7 +30,7 @@ svg.append("image")
     .attr('y', 10)
     .attr('width', 40)
     .attr('height', 40)
-    .attr("xlink:href", "../data/home.png")//"https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/home.png")
+    .attr("xlink:href", "https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/home.png")
     .on("click", function() {
         $("#descrModal").modal()
     })
