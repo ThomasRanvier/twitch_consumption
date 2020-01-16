@@ -23,17 +23,7 @@ var svg = d3.select('#chart-area').insert('svg')
 .attr("width", w)
 .attr("height", h);
 
-//MODAL /////////////////////////////////////////////////////////////////////////////////////////////////
-$("#descrModal").modal()
-svg.append("image")
-    .attr('x', 10)
-    .attr('y', 10)
-    .attr('width', 40)
-    .attr('height', 40)
-    .attr("xlink:href", "../data/home.png")//"https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/home.png")
-    .on("click", function() {
-        $("#descrModal").modal()
-    })
+//MODAL ////////////////
 
 // function resize() {
 //     w = window.innerWidth
@@ -62,7 +52,8 @@ svg.append("image")
 
 // window.onresize = resize;
 
-
+var logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
+var selected_day = -1
 var arcs = [];
 d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/data.json').then(function(raw_data){
 var colors = {};
@@ -166,6 +157,35 @@ for(var i = 0; i<7; i++){
         )
         .ease(d3.easeSinInOut);
     })
+
+    .on("click", function(d) {
+      if(selected_day == -1) {
+        selected_day = d.id
+        logo = "img/back_arrow.png"
+        d3.selectAll(".arc")
+        .filter(function (d) {
+          return ((d.endAngle - (selected_day * Math.PI*2 / 7)) * 7 < 0 || (d.startAngle - (selected_day * Math.PI*2 / 7)) * 7 > 2 * Math.PI);
+        })
+        .remove()
+        // console.log(d3.select(".arc"))
+        d3.selectAll(".arc")
+        .transition()
+        .duration(500)
+        .attr('d', d3.arc()
+        .startAngle(
+          function(d) {
+            return Math.max(0, (d.startAngle - (selected_day * 2*Math.PI / 7)) * 7)
+          }
+        )
+        .endAngle(
+          function(d) {
+            return Math.min(2*Math.PI, (d.endAngle - (selected_day * 2*Math.PI / 7)) * 7)
+          }
+        )
+        )
+        .ease(d3.easeQuad);
+      }
+    })
     
     
     var axis_lines = svg.append("line")
@@ -192,7 +212,6 @@ svg.selectAll(".dayText")
 .text(function(d, i){return d+" "+(i+2)+" Décembre"})
 
 .on("mouseenter", function (d,i)  {
-    console.log("#day_label_arc_"+day_list[i])
     d3.select("#day_label_arc_"+day_list[i])
     .transition()
     .duration(50)
@@ -200,6 +219,8 @@ svg.selectAll(".dayText")
     .outerRadius(axis_length + label_margin + label_width*1.6)
     )
     .ease(d3.easeSinInOut);
+    
+    // console.log(d3.selectAll(".arc"))
 })
 
 .on("mouseout", function(d,i) {
@@ -210,6 +231,34 @@ svg.selectAll(".dayText")
     .outerRadius(axis_length + label_margin + label_width)
     )
     .ease(d3.easeSinInOut);
+})
+.on("click", function(d) {
+  if(selected_day == -1) {
+    selected_day = day_list.indexOf(d)
+    logo = "img/back_arrow.png"
+    d3.selectAll(".arc")
+    .filter(function (d) {
+      return ((d.endAngle - (selected_day * Math.PI*2 / 7)) * 7 < 0 || (d.startAngle - (selected_day * Math.PI*2 / 7)) * 7 > 2 * Math.PI);
+    })
+    .remove()
+    // console.log(d3.select(".arc"))
+    d3.selectAll(".arc")
+    .transition()
+    .duration(500)
+    .attr('d', d3.arc()
+    .startAngle(
+      function(d) {
+        return Math.max(0, (d.startAngle - (selected_day * 2*Math.PI / 7)) * 7)
+      }
+    )
+    .endAngle(
+      function(d) {
+        return Math.min(2*Math.PI, (d.endAngle - (selected_day * 2*Math.PI / 7)) * 7)
+      }
+    )
+    )
+    .ease(d3.easeQuad);
+  }
 })
 
 //ARCS & ORBITS //////////////////////////////////////////////////////////////////////////////////////
@@ -250,16 +299,31 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         .duration(50)
         .ease(d3.easeSinInOut);
         
-        d3.select(this)
-        .transition()
-        .duration(50)
-        .attr('d', d3.arc()
-        .startAngle(cropped_start_angle-8/d.R)
-        .endAngle(cropped_end_angle+8/d.R)
-        .innerRadius(d.R-(d.w / 2)-4)
-        .outerRadius(d.R+(d.w / 2)+4)
-        )
-        .ease(d3.easeSinInOut);
+        if (selected_day == -1){
+          d3.select(this)
+          .transition()
+          .duration(50)
+          .attr('d', d3.arc()
+          .startAngle(cropped_start_angle-8/d.R)
+          .endAngle(cropped_end_angle+8/d.R)
+          .innerRadius(d.R-(d.w / 2)-4)
+          .outerRadius(d.R+(d.w / 2)+4)
+          )
+          .ease(d3.easeSinInOut);
+        }
+        else {
+          console.log(selected_day)
+          d3.select(this)
+          .transition()
+          .duration(50)
+          .attr('d', d3.arc()
+          .startAngle(Math.max(0, (cropped_start_angle - (selected_day * 2*Math.PI / 7)) * 7)-8/d.R)
+          .endAngle(Math.min(2* Math.PI, (cropped_end_angle - (selected_day * 2*Math.PI / 7)) * 7)+8/d.R)
+          .innerRadius(d.R-(d.w / 2)-4)
+          .outerRadius(d.R+(d.w / 2)+4)
+          )
+          .ease(d3.easeSinInOut);
+        }
         
         this.parentElement.appendChild(this)
         
@@ -269,25 +333,41 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
     .on("mouseout", function() {
         d3.select("#sun_img")
         .transition()
-        .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
+        .attr("xlink:href",  logo)
         .duration(50)
         .ease(d3.easeSinInOut);
         
-        d3.select(this)
-        .transition()
-        .duration(50)
-        .attr('d', d3.arc()
-        .startAngle(cropped_start_angle)
-        .endAngle(cropped_end_angle)
-        .innerRadius(d.R-(d.w / 2))
-        .outerRadius(d.R+(d.w / 2))
-        )
-        .ease(d3.easeSinInOut);
+        if (selected_day == -1){
+          d3.select(this)
+          .transition()
+          .duration(50)
+          .attr('d', d3.arc()
+          .startAngle(cropped_start_angle)
+          .endAngle(cropped_end_angle)
+          .innerRadius(d.R-(d.w / 2))
+          .outerRadius(d.R+(d.w / 2))
+          )
+          .ease(d3.easeSinInOut);
+        } 
+        else {
+          console.log(selected_day)
+          d3.select(this)
+          .transition()
+          .duration(50)
+          .attr('d', d3.arc()
+          .startAngle(Math.max(0, (cropped_start_angle - (selected_day * 2*Math.PI / 7)) * 7))
+          .endAngle(Math.min(2* Math.PI, (cropped_end_angle - (selected_day * 2*Math.PI / 7)) * 7))
+          .innerRadius(d.R-(d.w / 2))
+          .outerRadius(d.R+(d.w / 2))
+          )
+          .ease(d3.easeSinInOut);
+        }
         
         noHighlight(d.s)
         
     })
     .on("mousedown", function() {
+      if (selected_day == -1){
         d3.select(this)
         .transition()
         .duration(10)
@@ -297,9 +377,22 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         .innerRadius(d.R-(d.w / 2)-2)
         .outerRadius(d.R+(d.w / 2)+2)
         )
+      }
+      else {
+        d3.select(this)
+        .transition()
+        .duration(10)
+        .attr('d', d3.arc()
+        .startAngle(Math.max(0, (cropped_start_angle - (selected_day * 2*Math.PI / 7)) * 7)-4/d.R)
+        .endAngle(Math.min(2* Math.PI, (cropped_end_angle - (selected_day * 2*Math.PI / 7)) * 7)+4/d.R)
+        .innerRadius(d.R-(d.w / 2)-2)
+        .outerRadius(d.R+(d.w / 2)+2)
+        )
+      }
     })
     
     .on("mouseup", function() {
+      if (selected_day == -1){
         d3.select(this)
         .transition()
         .duration(10)
@@ -309,10 +402,21 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         .innerRadius(d.R-(d.w / 2)-4)
         .outerRadius(d.R+(d.w / 2)+4)
         )
+      }
+      else {
+        d3.select(this)
+        .transition()
+        .duration(10)
+        .attr('d', d3.arc()
+        .startAngle(Math.max(0, (cropped_start_angle - (selected_day * 2*Math.PI / 7)) * 7)-8/d.R)
+        .endAngle(Math.min(2* Math.PI, (cropped_end_angle - (selected_day * 2*Math.PI / 7)) * 7)+8/d.R)
+        .innerRadius(d.R-(d.w / 2)-4)
+        .outerRadius(d.R+(d.w / 2)+4)
+        )
+      }
     })
     
     .on("click", function() {
-        
         drawBarChart(d.s, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.si)
     })
     
@@ -326,7 +430,6 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         };
     }
     
-    console.log("startAngle: "+ d.start_angle, "endAngle: " + d.end_angle)
     //.style("fill", d.color);
     // a.transition().ease(d3.easeLinear).attrTween("d", arcTween(2*Math.PI));
 })
@@ -475,7 +578,7 @@ var sun = svg.append("circle")
 
 
 var sun_image = svg.append("svg:image")
-.attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
+.attr("xlink:href",  logo)
 .attr("id", "sun_img")
 .attr("x", main_chart_x - sun_r*1.2/2)
 .attr("y", main_chart_y - sun_r*1.2/2)
@@ -855,9 +958,12 @@ areaChart
 })
 .on('click', function(d) {
     drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
-  
-})
-.attr("d", area)
+    // d3.selectAll(".axis-area")
+    // .transition()
+    // .duration(500)
+    // .style("fill", d3.schemePastel2[0]);
+
+  })
 
 // d3.select("." + data.columns[data.columns.length - 1])
 // .attr("stroke", "#ffffff")
@@ -906,7 +1012,6 @@ function updateChart() {
 
 
 var highlight = function(d){
-    console.log(d)
     // reduce opacity of all groups
     d3.selectAll(".myArea").style("opacity", .1)
     // expect the one that is hovered

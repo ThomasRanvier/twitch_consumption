@@ -1,0 +1,32 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 960px;
+    height: 500px;
+    position: relative;
+}
+
+#sun {
+    stroke: #666;
+    fill: #666;
+}
+
+.arc {
+    stroke: #fff;
+	stroke-width : 0.1;
+    fill: orange;
+}
+
+.orbit {
+    stroke: #ccc;
+    fill: transparent;
+}
+
+.planet {
+    stroke: #666;
+    fill: #fff;
+}
+
+.moon {
+    stroke: #ccc;
+    fill: #fff;
+}
