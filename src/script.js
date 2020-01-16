@@ -710,7 +710,7 @@ var info_nb_streams = svg.append("text")
 //TOTAL VIEWS CHART ////////////////////////////////////////////////////////////////////////////////////////////////
 d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
 // set the dimensions and margins of the graph
-console.log(data)
+
 const div2 = d3.select("body").append("div")
 .attr("class", "tooltip")         
 .style("opacity", 30)
@@ -840,18 +840,17 @@ areaChart
     if (d.key != 'blank'){
         return d3.interpolateRainbow(colors[d.key]); 
     }
-    else {
-        return ('#FFFFFF');
-    }
 })
 .on('mousemove', function(d) { 
-    div2.transition()        
-    .duration(200)      
-    .style("opacity", .9);
-    div2.html(d.key)
-    .style("left", (d3.event.pageX + 10) + "px")     
-    .style("top", (d3.event.pageY - 50) + "px");
-    highlight(d.key)
+    if (d.key != 'blank') {
+        div2.transition()        
+        .duration(200)      
+        .style("opacity", .9);
+        div2.html(d.key)
+        .style("left", (d3.event.pageX + 10) + "px")     
+        .style("top", (d3.event.pageY - 50) + "px");
+        highlight(d.key)
+    }
 })
 .on("mouseout", function(d) {
     div2.transition()
@@ -860,9 +859,13 @@ areaChart
     noHighlight(d.key)
 })
 .on('click', function(d) {
-    drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
+    if (d.key != 'blank') {
+        drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
+    }
 })
 .attr("d", area)
+
+d3.select(".Tonton").attr("stroke", "#ffffff")
 
 // Add the brushing
 
