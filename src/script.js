@@ -710,7 +710,6 @@ var info_nb_streams = svg.append("text")
 //TOTAL VIEWS CHART ////////////////////////////////////////////////////////////////////////////////////////////////
 d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
 // set the dimensions and margins of the graph
-
 const div2 = d3.select("body").append("div")
 .attr("class", "tooltip")         
 .style("opacity", 30)
@@ -865,7 +864,7 @@ areaChart
 })
 .attr("d", area)
 
-d3.select(".Tonton").attr("stroke", "#ffffff")
+d3.select("." + data.columns[data.columns.length - 1]).attr("stroke", "#ffffff")
 
 // Add the brushing
 
