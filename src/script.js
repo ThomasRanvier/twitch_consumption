@@ -836,20 +836,16 @@ areaChart
 .append("path")
 .attr("class", function(d) { return "myArea " + d.key })
 .style("fill", function(d) { 
-    if (d.key != 'blank'){
-        return d3.interpolateRainbow(colors[d.key]); 
-    }
+    return d3.interpolateRainbow(colors[d.key]); 
 })
 .on('mousemove', function(d) { 
-    if (d.key != 'blank') {
-        div2.transition()        
-        .duration(200)      
-        .style("opacity", .9);
-        div2.html(d.key)
-        .style("left", (d3.event.pageX + 10) + "px")     
-        .style("top", (d3.event.pageY - 50) + "px");
-        highlight(d.key)
-    }
+    div2.transition()        
+    .duration(200)      
+    .style("opacity", .9);
+    div2.html(d.key)
+    .style("left", (d3.event.pageX + 10) + "px")     
+    .style("top", (d3.event.pageY - 50) + "px");
+    highlight(d.key)
 })
 .on("mouseout", function(d) {
     div2.transition()
@@ -858,13 +854,12 @@ areaChart
     noHighlight(d.key)
 })
 .on('click', function(d) {
-    if (d.key != 'blank') {
-        drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
-    }
+    drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
 })
 .attr("d", area)
 
-d3.select("." + data.columns[data.columns.length - 1]).attr("stroke", "#ffffff")
+// d3.select("." + data.columns[data.columns.length - 1])
+// .attr("stroke", "#ffffff")
 
 // Add the brushing
 
