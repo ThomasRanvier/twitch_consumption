@@ -42,6 +42,12 @@ body {
     /* stroke-dasharray : 16,2; */
 }
 
+.title{
+    fill: #fff;
+    font-size:2.3em;
+    font-weight:bold
+}
+
 .info-text-h1{
     fill: #6441A4;
     font-size:2.3em;
@@ -67,4 +73,25 @@ body {
 .totv-axis{
     /* stroke: #fff;
     fill: #000; */
+}
+
+.check-box{
+    stroke: #6441a5;
+    fill: #6441A415;
+    stroke-width : 1;
+}
+
+.check-text{
+    fill: #6441a5;
+}
+
+.check-box-selected{
+    stroke: #6441a5;
+    fill: #6441a5;
+    stroke-width : 1;
+}
+
+.check-text-selected{
+    fill: white;
+    font-weight: bold;
 }
