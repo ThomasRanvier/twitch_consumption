@@ -1,229 +1,43 @@
 //LAYOUT /////////////////////////////////////////////////////////////////////////////////////////////////
-
-var origin_x = 0
-var origin_y = 60
-
 var w = window.innerWidth
 var h = window.innerHeight
 
+var middle_edge_x = w/1.56
+var corner_edge_y = h/2.5
+var info_margin = 10
+var totv_chart_margin = 30
 
+var main_chart_x = (w / 3.2);
+var main_chart_y = (h / 2);
 
-console.log(w,h)
-
-var middle_edge_x = w/1.56 + origin_x
-var corner_edge_y = h/3 + origin_y
-var info_margin = w/200;
-var totv_chart_margin = w/50
-
-var main_chart_x = (w / 3.2) + origin_x
-var main_chart_y = (h / 2.15) + origin_y
-
-// var step = 0.5;
-var sun_r = w/27;
-var arc_width = w/210;
-var inter_orbit = arc_width*1.2;
-var sun_margin = w/230;
+var step = 0.5;
+var sun_r = 80;
+var arc_width = 9.5;
+var inter_orbit = arc_width+1.5;
+var sun_margin = 10;
 
 var axis_overlength = 5
-
-totv_width = w - middle_edge_x - totv_chart_margin*3
-totv_height = corner_edge_y - totv_chart_margin*1.5
-
-var totv_x_offset = totv_width/14
-var totv_x = middle_edge_x + totv_chart_margin
-
-var info_img_size = w/11
-
-var info_name_x = middle_edge_x + info_img_size/2 + info_margin + w/17
-var info_name_y = corner_edge_y + info_img_size/2 + info_margin*2
-var info_tip_x = middle_edge_x + info_margin + w/60
-var info_tip_y = corner_edge_y + info_img_size + h/6
-
 
 
 var svg = d3.select('#chart-area').insert('svg')
 .attr("width", w)
 .attr("height", h);
 
-//MODAL AND TITLE BAR/////////////////////////////////////////////////////////////////////////////////////////////////
-
-var home_icon_width = 40
-var home_icon_margin = 10
-
-
-svg.append("rect")
-.attr("x", 0)
-.attr("y", 0)
-.attr("width", w)
-.attr("height", origin_y)
-.attr("id", "title_bar")
-.attr("class", "twitch-sun")
-
-var info_title = svg.append("text")
-.attr("x", home_icon_width + home_icon_margin*2)
-.attr("y", origin_y*3/4)
-.attr("id", "title")
-.attr("class", "title")
-.text( function () { return "Consommation Twitch"; })
-
+//MODAL /////////////////////////////////////////////////////////////////////////////////////////////////
 $("#descrModal").modal()
 svg.append("image")
-    .attr('x', home_icon_margin)
-    .attr('y', home_icon_margin)
-    .attr('width', home_icon_width)
-    .attr('height', home_icon_width)
-    .attr("xlink:href", "https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/src/home.png")
+    .attr('x', 10)
+    .attr('y', 10)
+    .attr('width', 40)
+    .attr('height', 40)
+    .attr("xlink:href", "https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/home.png")
     .on("click", function() {
         $("#descrModal").modal()
-
     })
-//CHECKBOXES  /////////////////////////////////////////////////////////////////////////////////////////////////
-
-var first_box_offset = 10
-var box_margin = 12
-
-var box_width = w / 10
-var box_height = h / 35
-var box_origin_x = origin_x + box_margin //middle_edge_x - box_width - (w / 60)
-var text_offset_x = box_width / 20
-var text_offset_y = box_height / 1.4
-var categories = ['Tous', 'Régulier', 'Ponctuel', 'WebTVs']
-
-var i = 1
-categories.forEach(function(cat) {
-    var y = origin_y + ((i-1) * box_height) + (((i - 1) * h) / 150) + box_margin
-    svg.append('rect')
-        .attr("rx", 2)
-        .attr("ry", 2)
-        .attr('x', box_origin_x + (i==1?0:first_box_offset))
-        .attr('y', y)
-        .attr('width', box_width  + (i==1?first_box_offset:0))
-        .attr('height', box_height)
-        .attr("id", "check-box-" + i)
-        .attr("class", (i==1?"check-box-selected":"check-box"))
-        .on("click", function() {
-            id = d3.select(this).attr("id")
-            for (ii = 1; ii <= 4; ii++) {
-                if ('check-box-' + ii == id) {
-                    d3.select("#check-box-" + ii)
-                        .transition()
-                        .duration(50)
-                        .attr("class", "check-box-selected")
-                        .ease(d3.easeSinInOut);
-                    d3.select("#check-text-" + ii)
-                        .transition()
-                        .duration(50)
-                        .attr("class", "check-text-selected")
-                        .ease(d3.easeSinInOut);
-                } else {
-                    d3.select("#check-box-" + ii)
-                        .transition()
-                        .duration(50)
-                        .attr("class", "check-box")
-                        .ease(d3.easeSinInOut);
-                    d3.select("#check-text-" + ii)
-                        .transition()
-                        .duration(50)
-                        .attr("class", "check-text")
-                        .ease(d3.easeSinInOut);
-                }
-            }
-        })
-        .on("mouseenter", function ()  {
-            id = d3.select(this).attr('id')
-            ii = id.split('-')[2]
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('x', box_origin_x - 2 + (ii==1?0:first_box_offset))
-                .attr('y', y - 2)
-                .attr('width', box_width + 4 + (ii==1?first_box_offset:0))
-                .attr('height', box_height + 4)
-                .style('stroke-width', '2')
-                .ease(d3.easeSinInOut);
-        })
-        .on("mouseout", function ()  {
-            id = d3.select(this).attr('id')
-            ii = id.split('-')[2]
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('x', box_origin_x + (ii==1?0:first_box_offset))
-                .attr('y', y)
-                .attr('width', box_width + (ii==1?first_box_offset:0))
-                .attr('height', box_height)
-                .style('stroke-width', '1')
-                .ease(d3.easeSinInOut);
-        })
-    svg.append('text')
-        .attr('x', box_origin_x + text_offset_x + (i==1?0:first_box_offset))
-        .attr('y', y + text_offset_y)
-        .attr("id", "check-text-" + i)
-        .attr('class', (i==1?'check-text-selected':'check-text'))
-        .text(cat)
-        .on("click", function() {
-            id = d3.select(this).attr("id")
-            for (ii = 1; ii <= 4; ii++) {
-                if ('check-text-' + ii == id) {
-                    d3.select("#check-box-" + ii)
-                        .transition()
-                        .duration(50)
-                        .attr("class", "check-box-selected")
-                        .ease(d3.easeSinInOut);
-                    d3.select("#check-text-" + ii)
-                        .transition()
-                        .duration(50)
-                        .attr("class", "check-text-selected")
-                        .ease(d3.easeSinInOut);
-                } else {
-                    d3.select("#check-box-" + ii)
-                        .transition()
-                        .duration(50)
-                        .attr("class", "check-box")
-                        .ease(d3.easeSinInOut);
-                    d3.select("#check-text-" + ii)
-                        .transition()
-                        .duration(50)
-                        .attr("class", "check-text")
-                        .ease(d3.easeSinInOut);
-                }
-            }
-        })
-        .on("mouseenter", function ()  {
-            id = d3.select(this).attr('id')
-            ii = id.split('-')[2]
-            d3.select('#check-box-' + ii)
-                .transition()
-                .duration(50)
-                .attr('x', box_origin_x - 2 + (ii==1?0:first_box_offset))
-                .attr('y', y - 2)
-                .attr('width', box_width + 4 + (ii==1?first_box_offset:0))
-                .attr('height', box_height + 4)
-                .style('stroke-width', '2')
-                .ease(d3.easeSinInOut);
-        })
-        .on("mouseout", function ()  {
-            id = d3.select(this).attr('id')
-            ii = id.split('-')[2]
-            d3.select('#check-box-' + ii)
-                .transition()
-                .duration(50)
-                .attr('x', box_origin_x - 2 + (ii==1?0:first_box_offset))
-                .attr('y', y - 2)
-                .attr('width', box_width + (ii==1?first_box_offset:0))
-                .attr('height', box_height)
-                .style('stroke-width', '1')
-                .ease(d3.easeSinInOut);
-        })
-    i += 1
-});
-
 
 // function resize() {
-
 //     w = window.innerWidth
 //     h = window.innerHeight
-//     console.log(w,h)
 //     d3.select('#chart-area svg')
 //     .attr('width', w)
 //     .attr('height', h);
@@ -248,11 +62,8 @@ categories.forEach(function(cat) {
 
 // window.onresize = resize;
 
-var logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
-var selected_day = -1
-var c_streamer = -1
+
 var arcs = [];
-d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
 d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/data.json').then(function(raw_data){
 var colors = {};
 
@@ -291,18 +102,8 @@ var max_global = 1575846000
 var stamp_step = 86400 //1 day
 var scale = (max_global-min_global)
 var day_flat_angles={}
-var hour_flat_angles={}
 var day_list=["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-var hour_list=["00h00", "03h00", "06h00", "09h00", "12h00", "15h00", "18h00", "21h00"]
 var axis_area_colors = []
-
-makeCircularTimeline()
-
-function makeCircularTimeline(){
-
-for(var i = 0; i<9; i++){
-    hour_flat_angles[hour_list[i]]=Math.PI*2 / 8 * i
-}
 
 for(var i = 0; i<8; i++){
     day_flat_angles[day_list[i]]=(((min_global+stamp_step*i)-min_global)/scale)
@@ -310,9 +111,8 @@ for(var i = 0; i<8; i++){
 
 var y_offset = sun_r + sun_margin - arc_width/2
 var axis_length = (y_offset + streamer_id*inter_orbit) + axis_overlength
-var label_width = 15 + w/200
-var label_margin = 2 + w/1000
-
+var label_width = 25
+var label_margin = 4
 for(var i = 0; i<7; i++){
     // console.log(d3.schemePastel1)
     var axis_area = svg.append("path")
@@ -366,87 +166,6 @@ for(var i = 0; i<7; i++){
         )
         .ease(d3.easeSinInOut);
     })
-
-    .on("click", function(d) {
-      if(selected_day == -1) {
-        selected_day = d.id
-        logo = "https://thomasranvier.github.io/twitch_consumption/src/img/back_arrow.png"
-        d3.select("#sun_img")
-        .attr("xlink:href",  logo)
-        d3.selectAll(".arc")
-        .filter(function (d) {
-          return ((d.endAngle - (selected_day * Math.PI*2 / 7)) * 7 < 0 || (d.startAngle - (selected_day * Math.PI*2 / 7)) * 7 > 2 * Math.PI);
-        })
-        .remove()
-        d3.selectAll(".dayText").remove()
-        for (var i in day_list) {
-          d3.selectAll("#day_label_arc_"+day_list[i]).remove()
-        }
-        d3.selectAll(".axis-area").transition().duration(500).style("fill", d3.schemePastel2[selected_day])
-        d3.select("#axis_area_" + day_list[selected_day]).style("opacity", 1)
-        d3.selectAll(".axis").remove()
-        // expect the one that is hovered
-        for (var i = 0; i< 8; i++)
-          var axis_lines = svg.append("line")
-          .attr("x1", main_chart_x)
-          .attr("y1", main_chart_y - y_offset)
-          .attr("x2", main_chart_x)
-          .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
-          .attr("id", hour_list[i])
-          .attr("class", "axis")
-          .attr("transform", "rotate("+360 / 8 * i +","+main_chart_x+","+main_chart_y+")");
-    
-        d3.selectAll(".arc").moveToFront()
-        d3.selectAll(".arc")
-        .transition()
-        .duration(500)
-        .attr('d', d3.arc()
-        .startAngle(
-          function(d) {
-            return Math.max(0, (d.startAngle - (selected_day * 2*Math.PI / 7)) * 7)
-          }
-        )
-        .endAngle(
-          function(d) {
-            return Math.min(2*Math.PI, (d.endAngle - (selected_day * 2*Math.PI / 7)) * 7)
-          }
-        )
-        )
-        .ease(d3.easeSinInOut);
-        for (var i in day_list) {
-          d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[selected_day])
-        }
-        for (var i=0 ; i<8; i++){
-          var day_label_arc = svg.append("path")
-          .datum({
-              startAngle: hour_flat_angles[hour_list[i]],
-              endAngle: hour_flat_angles[hour_list[i+1]],
-              innerRadius: axis_length + label_margin,
-              outerRadius: axis_length + label_margin + label_width,
-              id:i
-          })
-          .attr("d", d3.arc())
-          .attr("id", "day_label_arc_"+hour_list[i])
-          .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
-          .attr("class", "axis-area")
-          .style("opacity", 0.5)
-          .style("fill", d3.schemePastel2[selected_day])
-      }
-    
-        svg.selectAll(".hourText")
-        .data(hour_list)
-        .enter().append("text")
-        .attr("class", "hourText")
-        .attr("x", 10)   //Move the text from the start angle of the arc
-        .attr("dy", 18) //Move the text down
-        .append("textPath").data(hour_list)
-        .attr("xlink:href",function(d,i){return "#day_label_arc_"+d;})
-        .text(function(d, i){return d})
-        updateChart([totv_x + selected_day * totv_width / 7, totv_x + (selected_day + 1) * totv_width / 7])
-      }
-      c_streamer = -1
-      noHighlight()
-    })
     
     
     var axis_lines = svg.append("line")
@@ -456,10 +175,10 @@ for(var i = 0; i<7; i++){
     .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
     .attr("class", "axis")
     .attr("transform", "rotate("+day_flat_angles[day_list[i]]*360+","+main_chart_x+","+main_chart_y+")");
-  }
+    
     
     // var day_label = svg.append("line")
-
+}
 //Append the day names to each slice
 svg.selectAll(".dayText")
 .data(day_list)
@@ -473,6 +192,7 @@ svg.selectAll(".dayText")
 .text(function(d, i){return d+" "+(i+2)+" Décembre"})
 
 .on("mouseenter", function (d,i)  {
+    console.log("#day_label_arc_"+day_list[i])
     d3.select("#day_label_arc_"+day_list[i])
     .transition()
     .duration(50)
@@ -480,8 +200,6 @@ svg.selectAll(".dayText")
     .outerRadius(axis_length + label_margin + label_width*1.6)
     )
     .ease(d3.easeSinInOut);
-    
-    // console.log(d3.selectAll(".arc"))
 })
 
 .on("mouseout", function(d,i) {
@@ -493,92 +211,7 @@ svg.selectAll(".dayText")
     )
     .ease(d3.easeSinInOut);
 })
-.on("click", function(d) {
-  if(selected_day == -1) {
-    selected_day = day_list.indexOf(d)
-    logo = "https://thomasranvier.github.io/twitch_consumption/src/img/back_arrow.png"
-    d3.select("#sun_img")
-    .attr("xlink:href",  logo)
-    d3.selectAll(".arc")
-    .filter(function (d) {
-      return ((d.endAngle - (selected_day * Math.PI*2 / 7)) * 7 < 0 || (d.startAngle - (selected_day * Math.PI*2 / 7)) * 7 > 2 * Math.PI);
-    })
-    .remove()
-    d3.selectAll(".dayText").remove()
-    for (var i in day_list) {
-      d3.selectAll("#day_label_arc_"+day_list[i]).remove()
-    }
-    d3.selectAll(".axis-area").transition().duration(500).style("fill", d3.schemePastel2[selected_day])
-    d3.select("#axis_area_" + day_list[selected_day]).style("opacity", 1)
-    d3.selectAll(".axis").remove()
-    // expect the one that is hovered
-    for (var i = 0; i< 8; i++)
-      var axis_lines = svg.append("line")
-      .attr("x1", main_chart_x)
-      .attr("y1", main_chart_y - y_offset)
-      .attr("x2", main_chart_x)
-      .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
-      .attr("id", hour_list[i])
-      .attr("class", "axis")
-      .attr("transform", "rotate("+360 / 8 * i +","+main_chart_x+","+main_chart_y+")");
 
-    d3.selectAll(".arc").moveToFront()
-    d3.selectAll(".arc")
-    .transition()
-    .duration(500)
-    .attr('d', d3.arc()
-    .startAngle(
-      function(d) {
-        return Math.max(0, (d.startAngle - (selected_day * 2*Math.PI / 7)) * 7)
-      }
-    )
-    .endAngle(
-      function(d) {
-        return Math.min(2*Math.PI, (d.endAngle - (selected_day * 2*Math.PI / 7)) * 7)
-      }
-    )
-    )
-    .ease(d3.easeSinInOut);
-    for (var i in day_list) {
-      d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[selected_day])
-    }
-    for (var i=0 ; i<8; i++){
-      var day_label_arc = svg.append("path")
-      .datum({
-          startAngle: hour_flat_angles[hour_list[i]],
-          endAngle: hour_flat_angles[hour_list[i+1]],
-          innerRadius: axis_length + label_margin,
-          outerRadius: axis_length + label_margin + label_width,
-          id:i
-      })
-      .attr("d", d3.arc())
-      .attr("id", "day_label_arc_"+hour_list[i])
-      .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
-      .attr("class", "axis-area")
-      .style("opacity", 0.5)
-      .style("fill", d3.schemePastel2[selected_day])
-  }
-
-    svg.selectAll(".hourText")
-    .data(hour_list)
-    .enter().append("text")
-    .attr("class", "hourText")
-    .attr("x", 10)   //Move the text from the start angle of the arc
-    .attr("dy", 18) //Move the text down
-    .append("textPath").data(hour_list)
-    .attr("xlink:href",function(d,i){return "#day_label_arc_"+d;})
-    .text(function(d, i){return d})
-    updateChart([totv_x + selected_day * totv_width / 7, totv_x + (selected_day + 1) * totv_width / 7])
-  }
-  c_streamer = -1
-  noHighlight()
-})
-
-d3.selection.prototype.moveToFront = function() {  
-  return this.each(function(){
-    this.parentNode.appendChild(this);
-  });
-};
 //ARCS & ORBITS //////////////////////////////////////////////////////////////////////////////////////
 var container = svg.append("g")
 .attr("id", "orbit_container")
@@ -607,7 +240,7 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
     })
     .attr("d", arc)
     .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
-    .attr("class", "arc "+ d.s)
+    .attr("class", "arc")
     .style("fill", d.color)
     
     .on("mouseenter", function() {
@@ -617,30 +250,16 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         .duration(50)
         .ease(d3.easeSinInOut);
         
-        if (selected_day == -1){
-          d3.select(this)
-          .transition()
-          .duration(50)
-          .attr('d', d3.arc()
-          .startAngle(cropped_start_angle-8/d.R)
-          .endAngle(cropped_end_angle+8/d.R)
-          .innerRadius(d.R-(d.w / 2)-4)
-          .outerRadius(d.R+(d.w / 2)+4)
-          )
-          .ease(d3.easeSinInOut);
-        }
-        else {
-          d3.select(this)
-          .transition()
-          .duration(50)
-          .attr('d', d3.arc()
-          .startAngle(Math.max(0, (cropped_start_angle - (selected_day * 2*Math.PI / 7)) * 7)-8/d.R)
-          .endAngle(Math.min(2* Math.PI, (cropped_end_angle - (selected_day * 2*Math.PI / 7)) * 7)+8/d.R)
-          .innerRadius(d.R-(d.w / 2)-4)
-          .outerRadius(d.R+(d.w / 2)+4)
-          )
-          .ease(d3.easeSinInOut);
-        }
+        d3.select(this)
+        .transition()
+        .duration(50)
+        .attr('d', d3.arc()
+        .startAngle(cropped_start_angle-8/d.R)
+        .endAngle(cropped_end_angle+8/d.R)
+        .innerRadius(d.R-(d.w / 2)-4)
+        .outerRadius(d.R+(d.w / 2)+4)
+        )
+        .ease(d3.easeSinInOut);
         
         this.parentElement.appendChild(this)
         
@@ -650,40 +269,25 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
     .on("mouseout", function() {
         d3.select("#sun_img")
         .transition()
-        .attr("xlink:href",  logo)
+        .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
         .duration(50)
         .ease(d3.easeSinInOut);
         
-        if (selected_day == -1){
-          d3.select(this)
-          .transition()
-          .duration(50)
-          .attr('d', d3.arc()
-          .startAngle(cropped_start_angle)
-          .endAngle(cropped_end_angle)
-          .innerRadius(d.R-(d.w / 2))
-          .outerRadius(d.R+(d.w / 2))
-          )
-          .ease(d3.easeSinInOut);
-        } 
-        else {
-          d3.select(this)
-          .transition()
-          .duration(50)
-          .attr('d', d3.arc()
-          .startAngle(Math.max(0, (cropped_start_angle - (selected_day * 2*Math.PI / 7)) * 7))
-          .endAngle(Math.min(2* Math.PI, (cropped_end_angle - (selected_day * 2*Math.PI / 7)) * 7))
-          .innerRadius(d.R-(d.w / 2))
-          .outerRadius(d.R+(d.w / 2))
-          )
-          .ease(d3.easeSinInOut);
-        }
+        d3.select(this)
+        .transition()
+        .duration(50)
+        .attr('d', d3.arc()
+        .startAngle(cropped_start_angle)
+        .endAngle(cropped_end_angle)
+        .innerRadius(d.R-(d.w / 2))
+        .outerRadius(d.R+(d.w / 2))
+        )
+        .ease(d3.easeSinInOut);
         
         noHighlight(d.s)
         
     })
     .on("mousedown", function() {
-      if (selected_day == -1){
         d3.select(this)
         .transition()
         .duration(10)
@@ -693,22 +297,9 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         .innerRadius(d.R-(d.w / 2)-2)
         .outerRadius(d.R+(d.w / 2)+2)
         )
-      }
-      else {
-        d3.select(this)
-        .transition()
-        .duration(10)
-        .attr('d', d3.arc()
-        .startAngle(Math.max(0, (cropped_start_angle - (selected_day * 2*Math.PI / 7)) * 7)-4/d.R)
-        .endAngle(Math.min(2* Math.PI, (cropped_end_angle - (selected_day * 2*Math.PI / 7)) * 7)+4/d.R)
-        .innerRadius(d.R-(d.w / 2)-2)
-        .outerRadius(d.R+(d.w / 2)+2)
-        )
-      }
     })
     
     .on("mouseup", function() {
-      if (selected_day == -1){
         d3.select(this)
         .transition()
         .duration(10)
@@ -718,21 +309,10 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         .innerRadius(d.R-(d.w / 2)-4)
         .outerRadius(d.R+(d.w / 2)+4)
         )
-      }
-      else {
-        d3.select(this)
-        .transition()
-        .duration(10)
-        .attr('d', d3.arc()
-        .startAngle(Math.max(0, (cropped_start_angle - (selected_day * 2*Math.PI / 7)) * 7)-8/d.R)
-        .endAngle(Math.min(2* Math.PI, (cropped_end_angle - (selected_day * 2*Math.PI / 7)) * 7)+8/d.R)
-        .innerRadius(d.R-(d.w / 2)-4)
-        .outerRadius(d.R+(d.w / 2)+4)
-        )
-      }
     })
     
     .on("click", function() {
+        
         drawBarChart(d.s, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.si)
     })
     
@@ -746,10 +326,12 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         };
     }
     
+    console.log("startAngle: "+ d.start_angle, "endAngle: " + d.end_angle)
     //.style("fill", d.color);
     // a.transition().ease(d3.easeLinear).attrTween("d", arcTween(2*Math.PI));
 })
 // .attr("transform", "rotate(" + delta + ")");
+
 
 
 //SUN ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -827,7 +409,6 @@ var sun = svg.append("circle")
 })
 
 .on("click", function() {
-  if (selected_day == -1) {
     d3.select("#info_img")
     .transition()
     .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
@@ -887,25 +468,6 @@ var sun = svg.append("circle")
     
     svg.selectAll(".bar").remove();
     svg.select("a").remove();
-  }
-  else {
-    svg.selectAll(".arc").remove()
-    svg.selectAll("#sun_img").remove()
-    d3.selectAll("#sun").remove()
-    d3.selectAll(".dayText").remove()
-    d3.selectAll(".axis-area").remove()
-    makeCircularTimeline();
-    updateChart([])
-    for (var i in day_list) {
-        d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[i])
-    }
-    selected_day = -1
-    logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
-    d3.select("#sun_img")
-    .attr("xlink:href",  logo)
-  }
-  c_streamer = -1
-  noHighlight()
 });
 
 
@@ -913,7 +475,7 @@ var sun = svg.append("circle")
 
 
 var sun_image = svg.append("svg:image")
-.attr("xlink:href",  logo)
+.attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
 .attr("id", "sun_img")
 .attr("x", main_chart_x - sun_r*1.2/2)
 .attr("y", main_chart_y - sun_r*1.2/2)
@@ -987,7 +549,6 @@ var sun_image = svg.append("svg:image")
 })
 
 .on("click", function() {
-  if (selected_day == -1) {
     d3.select("#info_img")
     .transition()
     .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
@@ -1044,32 +605,20 @@ var sun_image = svg.append("svg:image")
     .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
     .attr("style", "info-text-h4")
     .ease(d3.easeSinInOut);
-  }
-  else {
-    svg.selectAll(".arc").remove()
-    svg.selectAll("#sun_img").remove()
-    d3.selectAll("#sun").remove()
-    d3.selectAll(".dayText").remove()
-    d3.selectAll(".axis-area").remove()
-    makeCircularTimeline();
-    updateChart([])
-    for (var i in day_list) {
-        d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[i])
-    }
-    selected_day = -1
-    logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
-    d3.select("#sun_img")
-    .attr("xlink:href",  logo)
-  } 
-  c_streamer = -1
-  noHighlight()
+    
     svg.selectAll(".bar").remove();
     svg.select("a").remove();
 });
-}
 
 
 //STREAMER INFOS ////////////////////////////////////////////////////////////////////////////////////////////////
+
+var img_size = 160
+
+var info_name_x = middle_edge_x + img_size/2 + info_margin + 110
+var info_name_y = corner_edge_y + img_size/2 + info_margin*2
+var info_tip_x = middle_edge_x + info_margin + 30
+var info_tip_y = corner_edge_y + img_size + 170
 
 
 //LAYOUT EDGES ////////////////////////////////////////////////////////////////////////////////////////
@@ -1084,9 +633,9 @@ svg.append("rect")
 .attr("class", "info-box")
 
 var info_image_circle = svg.append("rect")
-// .attr("r", info_img_size/2)
-// .attr("cx", middle_edge_x + info_img_size/2 + info_margin)
-// .attr("cy", corner_edge_y + info_img_size/2 + info_margin)
+// .attr("r", img_size/2)
+// .attr("cx", middle_edge_x + img_size/2 + info_margin)
+// .attr("cy", corner_edge_y + img_size/2 + info_margin)
 
 
 
@@ -1094,18 +643,18 @@ var info_image_circle = svg.append("rect")
 .attr("y", corner_edge_y + info_margin)
 .attr("rx", 8)
 .attr("ry", 8)
-.attr("width", info_img_size)
-.attr("height", info_img_size)
+.attr("width", img_size)
+.attr("height", img_size)
 .attr("id", "info_img_circle")
 .attr("class", "twitch-sun")
 
 var info_image = svg.append("svg:image")
 .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
 .attr("id", "info_img")
-.attr("x", middle_edge_x + info_margin + info_img_size*0.1)
-.attr("y", corner_edge_y + info_margin + info_img_size*0.1)
-.attr("height", info_img_size*0.8)
-.attr("width", info_img_size*0.8)
+.attr("x", middle_edge_x + info_margin + img_size*0.1)
+.attr("y", corner_edge_y + info_margin + img_size*0.1)
+.attr("height", img_size*0.8)
+.attr("width", img_size*0.8)
 
 
 var info_title = svg.append("text")
@@ -1113,22 +662,14 @@ var info_title = svg.append("text")
 .attr("y", info_name_y)
 .attr("id", "info_title")
 .attr("class", "info-text-h1")
-.text("")
+.text( function () { return "Consommation Twitch"; })
 
 var info_tip = svg.append("text")
-.attr("x", info_tip_x + info_img_size)
-.attr("y", corner_edge_y + info_margin + info_img_size/2 - 8)
+.attr("x", info_tip_x)
+.attr("y", info_tip_y)
 .attr("id", "info_tip")
 .attr("class", "info-text-h4")
-.text( function () { return "Cliquez sur l'un des arcs pour avoir des"})
-
-info_tip.append("tspan")
-.attr("x", info_tip_x + info_img_size)
-.attr("y", corner_edge_y + info_margin + info_img_size/2 + 8)
-.attr("id", "info_tip_lls")
-.attr("class", "info-text-h4")
-.text("informations sur le streamer concerné")
-
+.text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
 
 var info_tps = svg.append("text")
 .attr("x", info_tip_x)
@@ -1165,15 +706,17 @@ var info_nb_streams = svg.append("text")
 // }
 
 
+
 //TOTAL VIEWS CHART ////////////////////////////////////////////////////////////////////////////////////////////////
+d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
 // set the dimensions and margins of the graph
 const div2 = d3.select("body").append("div")
 .attr("class", "tooltip")         
 .style("opacity", 30)
 .style("background",'#FFFFFF');
 
-var totv_width = w - middle_edge_x - totv_chart_margin*2.5
-var totv_height = corner_edge_y - totv_chart_margin*1.5
+totv_width = w - middle_edge_x - totv_chart_margin*3
+totv_height = corner_edge_y - totv_chart_margin*1.5
 
 var totv_x_offset = totv_width/14
 var totv_x = middle_edge_x + totv_chart_margin
@@ -1218,22 +761,22 @@ var xAxis = svg.append("g")
 // Add X axis label:
 // svg.append("text")
 // .attr("text-anchor", "end")
-// .attr("x", totv_x + totv_width)
-// .attr("y", totv_height+40 )
-// .text("Date");
+// .attr("x", totv_x + width)
+// .attr("y", height+40 )
+// .text("Time (time)");
 
 // // Add Y axis label:
-svg.append("text")
-.attr("text-anchor", "end")
-.attr("x", totv_x - 100)
-.attr("y", origin_y + 20)
-.text("Nombre de viewers")
-.attr("text-anchor", "start")
+// svg.append("text")
+// .attr("text-anchor", "end")
+// .attr("x", totv_x)
+// .attr("y", totv_chart_margin )
+// // .text("Nombre de viewer")
+// .attr("text-anchor", "start")
 
 // Add Y axis
 var y = d3.scaleLinear()
 .domain([0, 100000])
-.range([ totv_height, origin_y + totv_chart_margin ]);
+.range([ totv_height, totv_chart_margin ]);
 var yAxis = svg.append("g")
 .attr("transform", "translate(" + (totv_x-4) + ",0)")
 .attr("x", totv_x)
@@ -1253,7 +796,7 @@ var clip = svg.append("defs").append("svg:clipPath")
 .attr("width", totv_width )
 .attr("height", totv_height )
 .attr("x", totv_x)
-.attr("y", origin_y + totv_chart_margin);
+.attr("y", totv_chart_margin);
 
 // Add brushing
 var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
@@ -1316,40 +859,63 @@ areaChart
 })
 .attr("d", area)
 
-// A function that update the chart for given boundaries
+// d3.select("." + data.columns[data.columns.length - 1])
+// .attr("stroke", "#ffffff")
 
-function updateChart(extent) {
+// Add the brushing
+
+//   .on('mousemove', function(d) {
+//     var mousePos = d3.mouse(this);
+//     tooltip.classed('hidden', false)
+//     .attr('style', 'left:' + (mousePos[0] + 15) +
+//     'px; top:' + (mousePos[1] - 35) + 'px')
+//     console.log(d)
+//   })
+//   .on('mouseout', function() {
+//     tooltip.classed('hidden', true);
+//   });
+
+var idleTimeout
+function idled() { idleTimeout = null; }
+
+// A function that update the chart for given boundaries
+function updateChart() {
+    
+    extent = d3.event.selection
+    
     // If no selection, back to initial coordinate. Otherwise, update X axis domain
-    if(extent.length == 0){
+    if(!extent){
+        if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
         x.domain(d3.extent(data, function(d) { return new Date(d.time * 1000); }))
     }else{
         x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
+        areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
     }
+    
     // Update axis and area position
-    xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(10)).attr("transform", "translate(0 " + totv_height.toString() + ")")
+    xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
     areaChart
     .selectAll("path")
     .transition().duration(1000)
     .attr("d", area)
+    areaChart
+    .selectAll("rect")
+    .transition().duration(1000)
 }
+})
 
-var highlight = function(s){
+
+var highlight = function(d){
+    console.log(d)
     // reduce opacity of all groups
     d3.selectAll(".myArea").style("opacity", .1)
     // expect the one that is hovered
-    d3.selectAll(".arc").style("opacity" , 0.1)
-    d3.selectAll("." + s).style("opacity" , 1)
+    d3.select("."+d).style("opacity", 1)
 }
 
 // And when it is not hovered anymore
 var noHighlight = function(d){
     d3.selectAll(".myArea").style("opacity", 1)
-    if(c_streamer == -1)
-      d3.selectAll(".arc").style("opacity" , 1)
-    else {
-      d3.selectAll(".arc").style("opacity" , 0.3)
-      d3.selectAll("." + c_streamer).style("opacity" , 1)
-    }
 }
 
 const div = d3.select("body").append("div")
@@ -1369,9 +935,6 @@ function drawBarChart(streamer, posx, posy, width, height, streamer_id) {
     let nb_streams = data[streamer]['infos']['nb_streams']
     let color = d3.interpolateRainbow(colors[streamer])
     let sid = streamer
-
-    c_streamer = streamer
-    
     d3.select("#info_img")
     .transition()
     .attr("xlink:href",  image)
@@ -1507,8 +1070,6 @@ function drawBarChart(streamer, posx, posy, width, height, streamer_id) {
     });
 })
 }
-
-})
 })
 
 // function tweaked_sigmoid(t) {

@@ -54,7 +54,6 @@ for streamer in raw_json:
 
 for s in suppress_list:
     del raw_json[s]
-
 s_id = 0
 min_date = dates[0]
 for d in range(len(dates)):
@@ -98,8 +97,9 @@ for streamer in raw_json:
             total_views[dates_datefm[h]][streamer] = viewer_stream[h]
         if streaming:
             raw_json[streamer]['streams'][i]['stamp_end'] = dates[h]
-        if i < len(raw_json[streamer]['streams']) and (raw_json[streamer]['streams'][i]['stamp_start'] < dates[h] and raw_json[streamer]['streams'][i]['stamp_end'] > dates[h]):
-            o_data.append(raw_json[streamer]['streams'][i])
+        if i < len(raw_json[streamer]['streams']):
+            if (raw_json[streamer]['streams'][i]['stamp_start'] <= dates[h] and raw_json[streamer]['streams'][i]['stamp_end'] >= dates[h]):
+                o_data.append(raw_json[streamer]['streams'][i])
         raw_json[streamer]['streams'] = {}
         raw_json[streamer]['streams']['viewers'] = viewer_stream
         
