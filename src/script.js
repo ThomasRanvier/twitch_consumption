@@ -940,6 +940,7 @@ var sun = svg.append("circle")
     d3.selectAll("#sun").remove()
     d3.selectAll(".dayText").remove()
     d3.selectAll(".axis-area").remove()
+    logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     makeCircularTimeline();
     if (c_cat != -1) {
       d3.selectAll(".arc")
@@ -955,9 +956,11 @@ var sun = svg.append("circle")
     selected_day = -1
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
-    d3.select("#sun_img")
-    .attr("xlink:href",  logo)
   }
+  d3.select("#sun_img")
+  .attr("xlink:href",  logo)
+  d3.select("#sun")
+  .attr("xlink:href",  logo)
   c_streamer = -1
   noHighlight()
 });
@@ -1105,6 +1108,7 @@ var sun_image = svg.append("svg:image")
     d3.selectAll("#sun").remove()
     d3.selectAll(".dayText").remove()
     d3.selectAll(".axis-area").remove()
+    logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     makeCircularTimeline();
     if (c_cat != -1) {
       d3.selectAll(".arc")
@@ -1121,9 +1125,11 @@ var sun_image = svg.append("svg:image")
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     if (c_streamer != -1)
       drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
-    d3.select("#sun_img")
-    .attr("xlink:href",  logo)
   } 
+  d3.select("#sun_img")
+  .attr("xlink:href",  logo)
+  d3.select("#sun")
+  .attr("xlink:href",  logo)
   c_streamer = -1
   noHighlight()
     svg.selectAll(".bar").remove();
@@ -1285,14 +1291,6 @@ var xAxis = svg.append("g")
 // .attr("y", totv_height+40 )
 // .text("Date");
 
-// // Add Y axis label:
-svg.append("text")
-.attr("text-anchor", "end")
-.attr("x", totv_x - 100)
-.attr("y", origin_y + 20)
-.text("Nombre de viewers")
-.attr("text-anchor", "start")
-
 // Add Y axis
 var y = d3.scaleLinear()
 .domain([0, 100000])
@@ -1378,6 +1376,23 @@ areaChart
   
 })
 .attr("d", area)
+
+// // Add Y axis label:
+svg.append("rect")
+.attr("x", totv_x)
+.attr("width", 210)
+.attr("y", origin_y + totv_chart_margin)
+.attr("height", 25)
+.style("fill", "#000000")
+.style("opacity", 0.5)
+
+svg.append("text")
+.attr("text-anchor", "end")
+.attr("x", totv_x + 5)
+.attr("y", origin_y + totv_chart_margin + 20)
+.text("Nombre de viewers cumulés")
+.attr("text-anchor", "start") 
+.style("fill", "#ffffff")
 
 // A function that update the chart for given boundaries
 
