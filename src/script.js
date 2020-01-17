@@ -38,6 +38,8 @@ var info_name_x = middle_edge_x + info_img_size/2 + info_margin + w/17
 var info_name_y = corner_edge_y + info_img_size/2 + info_margin*2
 var info_tip_x = middle_edge_x + info_margin + w/60
 var info_tip_y = corner_edge_y + info_img_size + h/6
+var info_stream_tip_x = info_tip_x
+var info_stream_tip_y = corner_edge_y + info_margin + info_img_size + w/50
 
 
 
@@ -733,7 +735,7 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
     })
     
     .on("click", function() {
-        drawBarChart(d.s, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.si)
+        drawBarChart(d.s, info_stream_tip_x + w/50, info_stream_tip_y+(w*4/60), w - (info_stream_tip_x + w/50 + info_margin*10), h -(info_stream_tip_y+(w*4/60) + info_margin*5), d.si)
     })
     
     function arcTween(newAngle) {
@@ -850,7 +852,7 @@ var sun = svg.append("circle")
     d3.select("#info_title")
     .transition()
     .duration(200)
-    .text( function () { return "Consommation Twitch"; })
+    .text("")
     .style("fill", "#6441A4")
     .ease(d3.easeSinInOut);
     
@@ -881,10 +883,15 @@ var sun = svg.append("circle")
     d3.select("#info_tip")
     .transition()
     .duration(200)
-    .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
-    .attr("style", "info-text-h4")
+    .text("Cliquez sur l'un des arcs pour avoir des")
     .ease(d3.easeSinInOut);
     
+    d3.select("#info_tip_2")
+    .transition()
+    .duration(200)
+    .text("informations sur le streamer concerné")
+    .ease(d3.easeSinInOut);
+
     svg.selectAll(".bar").remove();
     svg.select("a").remove();
   }
@@ -1010,7 +1017,7 @@ var sun_image = svg.append("svg:image")
     d3.select("#info_title")
     .transition()
     .duration(200)
-    .text( function () { return "Consommation Twitch"; })
+    .text("")
     .style("fill", "#6441A4")
     .ease(d3.easeSinInOut);
     
@@ -1041,9 +1048,26 @@ var sun_image = svg.append("svg:image")
     d3.select("#info_tip")
     .transition()
     .duration(200)
-    .text( function () { return "Cliquez sur l'un des arcs pour avoir \ndes informations sur le streamer concerné"; })
-    .attr("style", "info-text-h4")
+    .text("Cliquez sur l'un des arcs pour avoir des")
     .ease(d3.easeSinInOut);
+
+    d3.select("#info_tip_2")
+    .transition()
+    .duration(200)
+    .text("informations sur le streamer concerné")
+    .ease(d3.easeSinInOut);
+
+    // var info_tip = svg.append("text")
+    // .attr("x", info_tip_x + info_img_size)
+    // .attr("y", corner_edge_y + info_margin + info_img_size/2 - + (2+w/300))
+    // .attr("id", "info_tip")
+    // .attr("class", "info-text-h4")
+    // .style("font-size",0.2+w/2500+"em")
+    // .text("Cliquez sur l'un des arcs pour avoir des")
+
+    // info_tip
+
+
   }
   else {
     svg.selectAll(".arc").remove()
@@ -1117,45 +1141,51 @@ var info_title = svg.append("text")
 
 var info_tip = svg.append("text")
 .attr("x", info_tip_x + info_img_size)
-.attr("y", corner_edge_y + info_margin + info_img_size/2 - 8)
+.attr("y", corner_edge_y + info_margin + info_img_size/2 - + (2+w/300))
 .attr("id", "info_tip")
 .attr("class", "info-text-h4")
-.text( function () { return "Cliquez sur l'un des arcs pour avoir des"})
+.style("font-size",0.2+w/2500+"em")
+.text("Cliquez sur l'un des arcs pour avoir des")
 
-info_tip.append("tspan")
+var info_tip_2 = svg.append("text")
 .attr("x", info_tip_x + info_img_size)
-.attr("y", corner_edge_y + info_margin + info_img_size/2 + 8)
-.attr("id", "info_tip_lls")
+.attr("y", corner_edge_y + info_margin + info_img_size/2 + (2+w/300))
+.attr("id", "info_tip_2")
 .attr("class", "info-text-h4")
+.style("font-size",0.2+w/2500+"em")
 .text("informations sur le streamer concerné")
 
 
 var info_tps = svg.append("text")
-.attr("x", info_tip_x)
-.attr("y", info_tip_y-110)
+.attr("x", info_stream_tip_x)
+.attr("y", info_stream_tip_y)
 .attr("id", "info_tps")
 .attr("class", "info-text-h3")
+.style("font-size",0.2+w/1800+"em")
 .text( function (d) { return ""; })
 
 var info_max_v = svg.append("text")
-.attr("x", info_tip_x)
-.attr("y", info_tip_y-80)
+.attr("x", info_stream_tip_x)
+.attr("y", info_stream_tip_y+(w/60))
 .attr("id", "info_max_v")
 .attr("class", "info-text-h3")
+.style("font-size",0.2+w/1800+"em")
 .text( function () { return ""; })
 
 var info_avg_v = svg.append("text")
-.attr("x", info_tip_x)
-.attr("y", info_tip_y-50)
+.attr("x", info_stream_tip_x)
+.attr("y", info_stream_tip_y+(w*2/60))
 .attr("id", "info_avg_v")
 .attr("class", "info-text-h3")
+.style("font-size",0.2+w/1800+"em")
 .text( function () { return ""; })
 
 var info_nb_streams = svg.append("text")
-.attr("x", info_tip_x)
-.attr("y", info_tip_y-20)
+.attr("x", info_stream_tip_x)
+.attr("y", info_stream_tip_y+(w*3/60))
 .attr("id", "info_nb_streams")
 .attr("class", "info-text-h3")
+.style("font-size",0.2+w/1800+"em")
 .text( function () { return ""; })
 
 // function tweaked_sigmoid(t) {
@@ -1358,6 +1388,7 @@ const div = d3.select("body").append("div")
 .style("background",'#FFFFFF');
 
 function drawBarChart(streamer, posx, posy, width, height, streamer_id) {
+
     
     // On demande à D3JS de charger notre fichier
     d3.json("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/data.json").then(function(data) {
@@ -1400,6 +1431,12 @@ function drawBarChart(streamer, posx, posy, width, height, streamer_id) {
     
     
     d3.select("#info_tip")
+    .transition()
+    .duration(200)
+    .text( function () { return ""; })
+    .ease(d3.easeSinInOut);
+
+    d3.select("#info_tip_2")
     .transition()
     .duration(200)
     .text( function () { return ""; })
