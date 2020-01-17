@@ -100,7 +100,7 @@ categories.forEach(function(cat) {
         .attr('width', box_width  + (i==1?first_box_offset:0))
         .attr('height', box_height)
         .attr("id", "check-box-" + i)
-        .attr("class", "check-box")
+        .attr("class", (i==1?"check-box-selected":"check-box"))
         .on("click", function() {
             id = d3.select(this).attr("id")
             for (ii = 1; ii <= 4; ii++) {
@@ -159,7 +159,7 @@ categories.forEach(function(cat) {
         .attr('x', box_origin_x + text_offset_x + (i==1?0:first_box_offset))
         .attr('y', y + text_offset_y)
         .attr("id", "check-text-" + i)
-        .attr('class', 'check-text')
+        .attr('class', (i==1?'check-text-selected':'check-text'))
         .text(cat)
         .on("click", function() {
             id = d3.select(this).attr("id")
