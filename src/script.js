@@ -52,6 +52,7 @@ var svg = d3.select('#chart-area').insert('svg')
 var home_icon_width = 40
 var home_icon_margin = 10
 
+var c_cat = -1
 
 svg.append("rect")
 .attr("x", 0)
@@ -89,7 +90,7 @@ var box_height = h / 35
 var box_origin_x = origin_x + box_margin //middle_edge_x - box_width - (w / 60)
 var text_offset_x = box_width / 20
 var text_offset_y = box_height / 1.4
-var categories = ['Tous', 'Régulier', 'Ponctuel', 'WebTVs']
+var categories = ['Tous', 'Ponctuel', 'Régulier', 'WebTVs']
 
 var i = 1
 categories.forEach(function(cat) {
@@ -99,6 +100,7 @@ categories.forEach(function(cat) {
         .attr("ry", 2)
         .attr('x', box_origin_x + (i==1?0:first_box_offset))
         .attr('y', y)
+        .attr('d', i)
         .attr('width', box_width  + (i==1?first_box_offset:0))
         .attr('height', box_height)
         .attr("id", "check-box-" + i)
@@ -123,12 +125,22 @@ categories.forEach(function(cat) {
                         .duration(50)
                         .attr("class", "check-box")
                         .ease(d3.easeSinInOut);
-                    d3.select("#check-text-" + ii)
+                        d3.select("#check-text-" + ii)
                         .transition()
                         .duration(50)
                         .attr("class", "check-text")
                         .ease(d3.easeSinInOut);
                 }
+            }
+            var cat = parseInt(id[id.length - 1]) - 2
+            c_cat = cat
+            d3.selectAll(".arc").moveToFront()
+            if (c_cat != -1) {
+              d3.selectAll(".arc")
+              .filter(function (d) {
+                return d.cat != c_cat;
+              })
+              .moveToBack()
             }
         })
         .on("mouseenter", function ()  {
@@ -189,6 +201,16 @@ categories.forEach(function(cat) {
                         .attr("class", "check-text")
                         .ease(d3.easeSinInOut);
                 }
+            }
+            var cat = parseInt(id[id.length - 1]) - 2
+            c_cat = cat
+            d3.selectAll(".arc").moveToFront()
+            if (c_cat != -1) {
+              d3.selectAll(".arc")
+              .filter(function (d) {
+                return d.cat != c_cat;
+              })
+              .moveToBack()
             }
         })
         .on("mouseenter", function ()  {
@@ -277,7 +299,8 @@ for (var streamer in raw_data){
             i: arc_id,
             si: streamer_id,
             s: streamer,
-            color : d3.interpolateRainbow(raw_data[streamer]['infos']['color'])
+            color : d3.interpolateRainbow(raw_data[streamer]['infos']['color']),
+            cat : raw_data[streamer]['infos']['cat']
         });
         arc_id++
     }
@@ -388,17 +411,6 @@ for(var i = 0; i<7; i++){
         d3.select("#axis_area_" + day_list[selected_day]).style("opacity", 1)
         d3.selectAll(".axis").remove()
         // expect the one that is hovered
-        for (var i = 0; i< 8; i++)
-          var axis_lines = svg.append("line")
-          .attr("x1", main_chart_x)
-          .attr("y1", main_chart_y - y_offset)
-          .attr("x2", main_chart_x)
-          .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
-          .attr("id", hour_list[i])
-          .attr("class", "axis")
-          .attr("transform", "rotate("+360 / 8 * i +","+main_chart_x+","+main_chart_y+")");
-    
-        d3.selectAll(".arc").moveToFront()
         d3.selectAll(".arc")
         .transition()
         .duration(500)
@@ -433,7 +445,25 @@ for(var i = 0; i<7; i++){
           .attr("class", "axis-area")
           .style("opacity", 0.5)
           .style("fill", d3.schemePastel2[selected_day])
-      }
+        }
+        for (var i = 0; i< 8; i++)
+          var axis_lines = svg.append("line")
+          .attr("x1", main_chart_x)
+          .attr("y1", main_chart_y - y_offset)
+          .attr("x2", main_chart_x)
+          .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
+          .attr("id", hour_list[i])
+          .attr("class", "axis")
+          .attr("transform", "rotate("+360 / 8 * i +","+main_chart_x+","+main_chart_y+")");
+          d3.selectAll(".arc").moveToFront()
+          if (c_cat != -1) {
+            d3.selectAll(".arc")
+            .filter(function (d) {
+              return d.cat != c_cat;
+            })
+            .moveToBack()
+          }
+      
     
         svg.selectAll(".hourText")
         .data(hour_list)
@@ -513,18 +543,7 @@ svg.selectAll(".dayText")
     d3.selectAll(".axis-area").transition().duration(500).style("fill", d3.schemePastel2[selected_day])
     d3.select("#axis_area_" + day_list[selected_day]).style("opacity", 1)
     d3.selectAll(".axis").remove()
-    // expect the one that is hovered
-    for (var i = 0; i< 8; i++)
-      var axis_lines = svg.append("line")
-      .attr("x1", main_chart_x)
-      .attr("y1", main_chart_y - y_offset)
-      .attr("x2", main_chart_x)
-      .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
-      .attr("id", hour_list[i])
-      .attr("class", "axis")
-      .attr("transform", "rotate("+360 / 8 * i +","+main_chart_x+","+main_chart_y+")");
-
-    d3.selectAll(".arc").moveToFront()
+    
     d3.selectAll(".arc")
     .transition()
     .duration(500)
@@ -560,6 +579,25 @@ svg.selectAll(".dayText")
       .style("opacity", 0.5)
       .style("fill", d3.schemePastel2[selected_day])
   }
+  
+    for (var i = 0; i< 8; i++)
+    var axis_lines = svg.append("line")
+    .attr("x1", main_chart_x)
+    .attr("y1", main_chart_y - y_offset)
+    .attr("x2", main_chart_x)
+    .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
+    .attr("id", hour_list[i])
+    .attr("class", "axis")
+    .attr("transform", "rotate("+360 / 8 * i +","+main_chart_x+","+main_chart_y+")");
+    d3.selectAll(".arc").moveToFront()
+    if (c_cat != -1) {
+      d3.selectAll(".arc")
+      .filter(function (d) {
+        return d.cat != c_cat;
+      })
+      .moveToBack()
+    }
+          
 
     svg.selectAll(".hourText")
     .data(hour_list)
@@ -579,6 +617,14 @@ svg.selectAll(".dayText")
 d3.selection.prototype.moveToFront = function() {  
   return this.each(function(){
     this.parentNode.appendChild(this);
+  });
+};
+d3.selection.prototype.moveToBack = function() {  
+  return this.each(function() { 
+      var firstChild = this.parentNode.firstChild; 
+      if (firstChild) { 
+          this.parentNode.insertBefore(this, firstChild); 
+      } 
   });
 };
 //ARCS & ORBITS //////////////////////////////////////////////////////////////////////////////////////
@@ -605,7 +651,8 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         startAngle: cropped_start_angle,
         endAngle: cropped_end_angle,
         innerRadius: d.R-(d.w / 2),
-        outerRadius: d.R+(d.w / 2)
+        outerRadius: d.R+(d.w / 2),
+        cat: d.cat
     })
     .attr("d", arc)
     .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
@@ -618,7 +665,6 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
         .attr("xlink:href",  d.image)
         .duration(50)
         .ease(d3.easeSinInOut);
-        
         if (selected_day == -1){
           d3.select(this)
           .transition()
@@ -902,12 +948,20 @@ var sun = svg.append("circle")
     d3.selectAll(".dayText").remove()
     d3.selectAll(".axis-area").remove()
     makeCircularTimeline();
+    if (c_cat != -1) {
+      d3.selectAll(".arc")
+      .filter(function (d) {
+        return d.cat != c_cat;
+      })
+      .moveToBack()
+    }
     updateChart([])
     for (var i in day_list) {
         d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[i])
     }
     selected_day = -1
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
+    drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
     d3.select("#sun_img")
     .attr("xlink:href",  logo)
   }
@@ -1076,12 +1130,21 @@ var sun_image = svg.append("svg:image")
     d3.selectAll(".dayText").remove()
     d3.selectAll(".axis-area").remove()
     makeCircularTimeline();
+    if (c_cat != -1) {
+      d3.selectAll(".arc")
+      .filter(function (d) {
+        return d.cat != c_cat;
+      })
+      .moveToBack()
+    }
     updateChart([])
     for (var i in day_list) {
         d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[i])
     }
     selected_day = -1
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
+    if (c_streamer != -1)
+      drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
     d3.select("#sun_img")
     .attr("xlink:href",  logo)
   } 
