@@ -463,19 +463,29 @@ for(var i = 0; i<7; i++){
             })
             .moveToBack()
           }
+          
+          svg.append("text")
+          .attr("text-anchor", "end")
+          .attr("id", "day_title")
+          .attr("x", totv_x - 420)
+          .attr("y", origin_y + totv_chart_margin + 10)
+          .text(day_list[selected_day] + " " + (i+2).toString() + " décembre")
+          .attr("text-anchor", "start") 
+          .style("fill", d3.schemeSet2[selected_day])
+          .style("font-size", "34px")
+
       
-    
-        svg.selectAll(".hourText")
-        .data(hour_list)
-        .enter().append("text")
-        .attr("class", "hourText")
-        .attr("x", 10)   //Move the text from the start angle of the arc
-        .attr("dy", 18) //Move the text down
-        .append("textPath").data(hour_list)
-        .attr("xlink:href",function(d,i){return "#day_label_arc_"+d;})
-        .text(function(d, i){return d})
-        updateChart([totv_x + selected_day * totv_width / 7, totv_x + (selected_day + 1) * totv_width / 7])
-      }
+          svg.selectAll(".hourText")
+          .data(hour_list)
+          .enter().append("text")
+          .attr("class", "hourText")
+          .attr("x", 10)   //Move the text from the start angle of the arc
+          .attr("dy", 18) //Move the text down
+          .append("textPath").data(hour_list)
+          .attr("xlink:href",function(d,i){return "#day_label_arc_"+d;})
+          .text(function(d, i){return d})
+          updateChart([totv_x + selected_day * totv_width / 7, totv_x + (selected_day + 1) * totv_width / 7])
+        }
       c_streamer = -1
       noHighlight()
     })
@@ -598,6 +608,15 @@ svg.selectAll(".dayText")
       .moveToBack()
     }
           
+    svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("id", "day_title")
+    .attr("x", totv_x - 420)
+    .attr("y", origin_y + totv_chart_margin + 10)
+    .text(day_list[selected_day] + " " + (i+2).toString() + " décembre")
+    .attr("text-anchor", "start") 
+    .style("fill", d3.schemeSet2[selected_day])
+    .style("font-size", "34px")
 
     svg.selectAll(".hourText")
     .data(hour_list)
@@ -947,6 +966,7 @@ var sun = svg.append("circle")
     d3.selectAll("#sun").remove()
     d3.selectAll(".dayText").remove()
     d3.selectAll(".axis-area").remove()
+    d3.selectAll("#day_title").remove()
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     makeCircularTimeline();
     if (c_cat != -1) {
@@ -962,7 +982,8 @@ var sun = svg.append("circle")
     }
     selected_day = -1
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
-    drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
+    if (c_streamer != -1)
+      drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
   }
   d3.select("#sun_img")
   .attr("xlink:href",  logo)
@@ -1132,6 +1153,7 @@ var sun_image = svg.append("svg:image")
     d3.selectAll("#sun").remove()
     d3.selectAll(".dayText").remove()
     d3.selectAll(".axis-area").remove()
+    d3.selectAll("#day_title").remove()
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     makeCircularTimeline();
     if (c_cat != -1) {
