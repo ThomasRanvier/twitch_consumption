@@ -15,7 +15,10 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="descrModalLabel">Explications</h5>
+                <h5 class="modal-title" id="descrModalLabel">Consommation de streaming sur Twitch</h5>
+                <button type="button" class="flag" onclick="switch_language()">
+                    <img src="data/uk.png" id="flag" width="40">
+                </button>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -23,13 +26,26 @@
             <div class="modal-body">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-fr-tab" data-toggle="tab" href="#nav-home-fr" role="tab" aria-controls="nav-home-fr" aria-selected="true">Description Fr</a>
-                        <a class="nav-item nav-link" id="nav-home-en-tab" data-toggle="tab" href="#nav-home-en" role="tab" aria-controls="nav-home-en" aria-selected="false">Description En</a>
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                        <a class="nav-item nav-link" id="nav-descr-tab" data-toggle="tab" href="#nav-descr" role="tab" aria-controls="nav-descr" aria-selected="true">Description</a>
                         <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">About</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home-fr" role="tabpanel" aria-labelledby="nav-home-fr-tab">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <br/>
+                        <p>
+                            Bienvenue sur notre visualisation : Consommation Twitch !
+                        </p>
+                        <p>
+                            Le but de ce projet est de visualiser la consommation de streaming sur les 30 streamers considérés comme étant les plus populaires en France.
+                            Le classement des streamers est basé sur le classement du site <a target="_blank" href="https://www.twitchmetrics.net/channels/popularity?lang=fr&page=0">twitchmetrics</a> au mois de novembre 2019.
+                        </p>
+                        <p>
+                            Pour plus d'informations sur les éléments de la visualisation ou sur notre équipe, veuillez consulter les onglets Description et About
+                        </p>
+                    </div>
+                    <div class="tab-pane fade" id="nav-descr" role="tabpanel" aria-labelledby="nav-descr-tab">
                         <br/>
                         <p>
                             Ce projet permet de visualiser la consommation de streaming sur les 30 streamers considérés comme étant les plus populaires en France.
@@ -53,6 +69,7 @@
                             La visualisation est composée d’une timeline circulaire et centrale qui affiche les temps de streaming de chacun.
                             On peut y voir apparaître les patterns décrits ci-dessus, afin d’en simplifier la visualisation nous avons organisé les streamers par type.
                             Le fait que cette timeline soit circulaire permet de particulièrement bien mettre en avant les différents types de streamers.
+                            Cela permet également de pouvoir visualiser une semaine complète sur un espace restreint, contrairement à une visualisation linéaire.
                         </p>
                         <p>
                             La visualisation présente également un area chart annexe, en haut à droite, qui permet de voir le nombre de viewers sur l’ensemble des 30 streamers et pour chacun d’entres-eux.
@@ -65,43 +82,6 @@
                         <p>
                             En effet, il est possible de sélectionner une période, soit d’une semaine (par défaut), soit d’un jour.
                             Pour sélectionner un jour il est possible de cliquer sur le jours correspondant dans la timeline principale ou dans l’area chart.
-                        </p>
-                    </div>
-                    <div class="tab-pane fade" id="nav-home-en" role="tabpanel" aria-labelledby="nav-home-en-tab">
-                        <br/>
-                        <p>
-                            This project is a visualization of streaming consumption of the 30 streamers considered as the most populars in France. The ranking of the streamers is based on the one from the <a target="_blank" href="https://www.twitchmetrics.net/channels/popularity?lang=fr&page=0">twitchmetrics</a> website as it was in november 2019.
-                        </p>
-                        <p>
-                            This visualization highlights three main types of streamers:
-                        <ul>
-                            <li>
-                                Ponctual streamers, they stream once or twice per week, ex : <a target="_blank" href="https://www.twitch.tv/squeezielive/">Squeezie</a>
-                            </li>
-                            <li>
-                                Regular streamers, they stream almost everyday, ex : <a target="_blank" href="https://www.twitch.tv/locklear/">Locklear</a>
-                            </li>
-                            <li>
-                                Web TVs, they can be compared to television channels. Streamers take turn in several shows on those channels, the stream is almost never interrupted on the whole week, ex : <a target="_blank" href="https://www.twitch.tv/solary/">Solary</a>
-                            </li>
-                        </ul>
-                        </p>
-                        <p>
-                            The visualization is composed of a central circular timeline which displays the streaming times of each streamer.
-                            On that central graph we can see the different types of streamers appear, to simplify the visualization of those types we ordered them by type.
-                            The fact that the timeline is circular puts very well in light the different types of streamers.
-                        </p>
-                        <p>
-                            There also is an area chart, in the upper right corner, which displays the number of viewers for each of the 30 streamers.
-                        </p>
-                        <p>
-                            It is possible to select a streamer by clicking on one of its arcs on the timeline or on the area of its number of viewers on the area chart.
-                            Additional informations on the streamer are then displayed in the infobox in the bottom right corner.
-                            We can see the streamed hours number, the average and pick number of viewers, the number of streams and a bar plot with the number of viewers on the selected period.
-                        </p>
-                        <p>
-                            Indeed, it is also possible to select a period, it either is of one week (by default) or one day.
-                            To select a day, it is possible to click on the corresponding day on the main timeline or even in the area chart.
                         </p>
                     </div>
                     <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
@@ -157,5 +137,6 @@
 </div>
 <div id="chart-area"></div>
 <script src='src/script.js'></script>
+<script src='src/switch_language.js'></script>
 </body>
 </html>
