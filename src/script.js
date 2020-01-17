@@ -8,7 +8,7 @@ var info_margin = 10
 var totv_chart_margin = 30
 
 var main_chart_x = (w / 3.2);
-var main_chart_y = (h / 2);
+var main_chart_y = (h / 2) + 50;
 
 var step = 0.5;
 var sun_r = 80;
@@ -40,35 +40,9 @@ svg.append("image")
     $("#descrModal").modal()
 })
 
-// function resize() {
-//     w = window.innerWidth
-//     h = window.innerHeight
-//     d3.select('#chart-area svg')
-//     .attr('width', w)
-//     .attr('height', h);
-
-
-//     var middle_edge_x = w/1.6
-//     var corner_edge_y = h/2.5
-
-//     var main_chart_x = (w / 3.2);
-//     var main_chart_y = (h / 2);
-
-//     var step = 0.5;
-//     var sun_r = 80;
-//     var arcs = [];
-//     var arc_width = 10;
-//     var inter_orbit = 11;
-//     var sun_margin = 8;
-
-//     var axis_overlength = 30
-
-// }
-
-// window.onresize = resize;
-
 var logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
 var selected_day = -1
+var c_streamer = -1
 var arcs = [];
 d3.csv("https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/total_views.csv").then(function(data){
 d3.json('https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/data.json').then(function(raw_data){
@@ -109,12 +83,19 @@ var max_global = 1575846000
 var stamp_step = 86400 //1 day
 var scale = (max_global-min_global)
 var day_flat_angles={}
+var hour_flat_angles={}
 var day_list=["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+var hour_list=["00h00", "03h00", "06h00", "09h00", "12h00", "15h00", "18h00", "21h00"]
 var axis_area_colors = []
 
 makeCircularTimeline()
 
 function makeCircularTimeline(){
+
+for(var i = 0; i<9; i++){
+    hour_flat_angles[hour_list[i]]=Math.PI*2 / 8 * i
+}
+
 for(var i = 0; i<8; i++){
     day_flat_angles[day_list[i]]=(((min_global+stamp_step*i)-min_global)/scale)
 }
@@ -202,6 +183,7 @@ for(var i = 0; i<7; i++){
           .attr("y1", main_chart_y - y_offset)
           .attr("x2", main_chart_x)
           .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
+          .attr("id", hour_list[i])
           .attr("class", "axis")
           .attr("transform", "rotate("+360 / 8 * i +","+main_chart_x+","+main_chart_y+")");
     
@@ -225,8 +207,36 @@ for(var i = 0; i<7; i++){
         for (var i in day_list) {
           d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[selected_day])
         }
+        for (var i=0 ; i<8; i++){
+          var day_label_arc = svg.append("path")
+          .datum({
+              startAngle: hour_flat_angles[hour_list[i]],
+              endAngle: hour_flat_angles[hour_list[i+1]],
+              innerRadius: axis_length + label_margin,
+              outerRadius: axis_length + label_margin + label_width,
+              id:i
+          })
+          .attr("d", d3.arc())
+          .attr("id", "day_label_arc_"+hour_list[i])
+          .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
+          .attr("class", "axis-area")
+          .style("opacity", 0.5)
+          .style("fill", d3.schemePastel2[selected_day])
+      }
+    
+        svg.selectAll(".hourText")
+        .data(hour_list)
+        .enter().append("text")
+        .attr("class", "hourText")
+        .attr("x", 10)   //Move the text from the start angle of the arc
+        .attr("dy", 18) //Move the text down
+        .append("textPath").data(hour_list)
+        .attr("xlink:href",function(d,i){return "#day_label_arc_"+d;})
+        .text(function(d, i){return d})
         updateChart([totv_x + selected_day * totv_width / 7, totv_x + (selected_day + 1) * totv_width / 7])
       }
+      c_streamer = -1
+      noHighlight()
     })
     
     
@@ -299,6 +309,7 @@ svg.selectAll(".dayText")
       .attr("y1", main_chart_y - y_offset)
       .attr("x2", main_chart_x)
       .attr("y2", main_chart_y - axis_length - label_margin - label_width - 20)
+      .attr("id", hour_list[i])
       .attr("class", "axis")
       .attr("transform", "rotate("+360 / 8 * i +","+main_chart_x+","+main_chart_y+")");
 
@@ -322,8 +333,36 @@ svg.selectAll(".dayText")
     for (var i in day_list) {
       d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[selected_day])
     }
+    for (var i=0 ; i<8; i++){
+      var day_label_arc = svg.append("path")
+      .datum({
+          startAngle: hour_flat_angles[hour_list[i]],
+          endAngle: hour_flat_angles[hour_list[i+1]],
+          innerRadius: axis_length + label_margin,
+          outerRadius: axis_length + label_margin + label_width,
+          id:i
+      })
+      .attr("d", d3.arc())
+      .attr("id", "day_label_arc_"+hour_list[i])
+      .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
+      .attr("class", "axis-area")
+      .style("opacity", 0.5)
+      .style("fill", d3.schemePastel2[selected_day])
+  }
+
+    svg.selectAll(".hourText")
+    .data(hour_list)
+    .enter().append("text")
+    .attr("class", "hourText")
+    .attr("x", 10)   //Move the text from the start angle of the arc
+    .attr("dy", 18) //Move the text down
+    .append("textPath").data(hour_list)
+    .attr("xlink:href",function(d,i){return "#day_label_arc_"+d;})
+    .text(function(d, i){return d})
     updateChart([totv_x + selected_day * totv_width / 7, totv_x + (selected_day + 1) * totv_width / 7])
   }
+  c_streamer = -1
+  noHighlight()
 })
 
 d3.selection.prototype.moveToFront = function() {  
@@ -359,7 +398,7 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
     })
     .attr("d", arc)
     .attr("transform", "translate(" + main_chart_x + "," + main_chart_y + ")")
-    .attr("class", "arc")
+    .attr("class", "arc "+ d.s)
     .style("fill", d.color)
     
     .on("mouseenter", function() {
@@ -419,7 +458,6 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
           .ease(d3.easeSinInOut);
         } 
         else {
-          console.log(selected_day)
           d3.select(this)
           .transition()
           .duration(50)
@@ -580,6 +618,7 @@ var sun = svg.append("circle")
 })
 
 .on("click", function() {
+  if (selected_day == -1) {
     d3.select("#info_img")
     .transition()
     .attr("xlink:href",  "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png")
@@ -639,6 +678,25 @@ var sun = svg.append("circle")
     
     svg.selectAll(".bar").remove();
     svg.select("a").remove();
+  }
+  else {
+    svg.selectAll(".arc").remove()
+    svg.selectAll("#sun_img").remove()
+    d3.selectAll("#sun").remove()
+    d3.selectAll(".dayText").remove()
+    d3.selectAll(".axis-area").remove()
+    makeCircularTimeline();
+    updateChart([])
+    for (var i in day_list) {
+        d3.select("#totv_bg_" + i).transition().duration(500).style('fill', d3.schemePastel2[i])
+    }
+    selected_day = -1
+    logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
+    d3.select("#sun_img")
+    .attr("xlink:href",  logo)
+  }
+  c_streamer = -1
+  noHighlight()
 });
 
 
@@ -791,8 +849,11 @@ var sun_image = svg.append("svg:image")
     }
     selected_day = -1
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
+    d3.select("#sun_img")
+    .attr("xlink:href",  logo)
   } 
-    
+  c_streamer = -1
+  noHighlight()
     svg.selectAll(".bar").remove();
     svg.select("a").remove();
 });
@@ -942,17 +1003,17 @@ var xAxis = svg.append("g")
 // Add X axis label:
 // svg.append("text")
 // .attr("text-anchor", "end")
-// .attr("x", totv_x + width)
-// .attr("y", height+40 )
-// .text("Time (time)");
+// .attr("x", totv_x + totv_width)
+// .attr("y", totv_height+40 )
+// .text("Date");
 
 // // Add Y axis label:
-// svg.append("text")
-// .attr("text-anchor", "end")
-// .attr("x", totv_x)
-// .attr("y", totv_chart_margin )
-// // .text("Nombre de viewer")
-// .attr("text-anchor", "start")
+svg.append("text")
+.attr("text-anchor", "end")
+.attr("x", totv_x - 100)
+.attr("y", totv_chart_margin - 10 )
+.text("Nombre de viewers")
+.attr("text-anchor", "start")
 
 // Add Y axis
 var y = d3.scaleLinear()
@@ -1040,24 +1101,6 @@ areaChart
 })
 .attr("d", area)
 
-// d3.select("." + data.columns[data.columns.length - 1])
-// .attr("stroke", "#ffffff")
-
-// Add the brushing
-
-//   .on('mousemove', function(d) {
-//     var mousePos = d3.mouse(this);
-//     tooltip.classed('hidden', false)
-//     .attr('style', 'left:' + (mousePos[0] + 15) +
-//     'px; top:' + (mousePos[1] - 35) + 'px')
-//     console.log(d)
-//   })
-//   .on('mouseout', function() {
-//     tooltip.classed('hidden', true);
-//   });
-
-var idleTimeout
-function idled() { idleTimeout = null; }
 // A function that update the chart for given boundaries
 
 function updateChart(extent) {
@@ -1066,27 +1109,32 @@ function updateChart(extent) {
         x.domain(d3.extent(data, function(d) { return new Date(d.time * 1000); }))
     }else{
         x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
-        areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
     }
-    
     // Update axis and area position
-    xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
+    xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(10)).attr("transform", "translate(0 " + totv_height.toString() + ")")
     areaChart
     .selectAll("path")
     .transition().duration(1000)
     .attr("d", area)
 }
 
-var highlight = function(d){
+var highlight = function(s){
     // reduce opacity of all groups
     d3.selectAll(".myArea").style("opacity", .1)
     // expect the one that is hovered
-    d3.select("."+d).style("opacity", 1)
+    d3.selectAll(".arc").style("opacity" , 0.1)
+    d3.selectAll("." + s).style("opacity" , 1)
 }
 
 // And when it is not hovered anymore
 var noHighlight = function(d){
     d3.selectAll(".myArea").style("opacity", 1)
+    if(c_streamer == -1)
+      d3.selectAll(".arc").style("opacity" , 1)
+    else {
+      d3.selectAll(".arc").style("opacity" , 0.3)
+      d3.selectAll("." + c_streamer).style("opacity" , 1)
+    }
 }
 
 const div = d3.select("body").append("div")
@@ -1106,6 +1154,9 @@ function drawBarChart(streamer, posx, posy, width, height, streamer_id) {
     let nb_streams = data[streamer]['infos']['nb_streams']
     let color = d3.interpolateRainbow(colors[streamer])
     let sid = streamer
+
+    c_streamer = streamer
+    
     d3.select("#info_img")
     .transition()
     .attr("xlink:href",  image)
