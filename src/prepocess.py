@@ -121,6 +121,7 @@ for streamer in raw_json:
     minutes = str(int((total_time - int(total_time / 3600) * 3600) / 60))
     raw_json[streamer]['infos']['total_time'] = hours + "h " + minutes + "min"
     raw_json[streamer]['infos']['color'] = (s_id**s_id%83)/83
+    raw_json[streamer]['infos']['cat'] = streamers[streamer]
     s_id += 1
         # split_start = stream['start'].split('_')
         # split_end = stream['end'].split('_')
@@ -134,6 +135,7 @@ for streamer in raw_json:
 #         #print(stream['angle_end'])
 # total_views = {}
 # for h in range(len(dates)):
+
 json_s = json.dumps(raw_json, indent=4)
 f = open('../data/data.json','w+')
 f.write(json_s)
