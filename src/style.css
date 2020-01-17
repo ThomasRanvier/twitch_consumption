@@ -6,7 +6,7 @@ body {
 }
 
 .twitch-sun {
-    fill: #6441A4;
+    fill: #6441a5;
     stroke: #fff;
 	stroke-width : 5;
 }
@@ -19,7 +19,7 @@ body {
 
 
 .info-box {
-    stroke: #6441A4;
+    stroke: #6441a5;
     fill: #6441A415;
     stroke-width : 5;
     /* fill: transparent; */
@@ -49,12 +49,12 @@ body {
 }
 
 .info-text-h1{
-    fill: #6441A4;
+    fill: #6441a5;
     font-size:2.3em;
     font-weight:bold
 }
 .info-text-h2{
-    fill: #6441A4;
+    fill: #6441a5;
     font-size:2em;
 }
 .info-text-h3{
@@ -94,4 +94,22 @@ body {
 .check-text-selected{
     fill: white;
     font-weight: bold;
+}
+.modal-header{
+    background-color: #6441a5;
+    color: white;
+}
+
+.close{
+    color: white;
+}
+
+.nav-link{
+    color: #6441a5;
+    font-weight: bold;
+}
+
+.btn-secondary{
+    background-color: #6441a5;
+    color: white;
 }
