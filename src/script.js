@@ -24,7 +24,7 @@ var arc_width = w/210;
 var inter_orbit = arc_width*1.2;
 var sun_margin = w/230;
 
-var axis_overlength = 5
+var axis_overlength = 0
 
 totv_width = w - middle_edge_x - totv_chart_margin*3
 totv_height = corner_edge_y - totv_chart_margin*1.5
