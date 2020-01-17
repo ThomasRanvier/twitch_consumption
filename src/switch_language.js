@@ -19,7 +19,7 @@ document.getElementById('modal-title').innerText = 'Consommation de streaming su
 
 function switch_language() {
     if (modal_language == 'fr') {
-        document.getElementById('flag').src = 'https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/fr.png'
+        document.getElementById('flag').src = 'https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/src/fr.png'
         document.getElementById('nav-home').innerHTML = home_en
         document.getElementById('nav-descr').innerHTML = descr_en
         document.getElementById('nav-about').innerHTML = about_en
@@ -29,7 +29,7 @@ function switch_language() {
         document.getElementById('modal-title').innerText = 'Streaming consumption on Twitch'
         modal_language = 'en'
     } else {
-        document.getElementById('flag').src = 'https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/data/uk.png'
+        document.getElementById('flag').src = 'https://raw.githubusercontent.com/ThomasRanvier/twitch_consumption/master/src/uk.png'
         document.getElementById('nav-home').innerHTML = home_fr
         document.getElementById('nav-descr').innerHTML = descr_fr
         document.getElementById('nav-about').innerHTML = about_fr
