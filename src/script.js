@@ -800,7 +800,7 @@ container.selectAll("g.arc").data(arcs).enter().append("g")
     })
     
     .on("click", function() {
-        drawBarChart(d.s, info_stream_tip_x + w/50, info_stream_tip_y+(w*4/60), w - (info_stream_tip_x + w/50 + info_margin*10), h -(info_stream_tip_y+(w*4/60) + info_margin*5), d.si)
+        drawBarChart(d.s, info_stream_tip_x + w/50, info_stream_tip_y+(w*4/60), w - (info_stream_tip_x + w/50 + info_margin*10), h -(info_stream_tip_y+(w*4/60) + info_margin*5))
     })
     
     function arcTween(newAngle) {
@@ -983,14 +983,19 @@ var sun = svg.append("circle")
     selected_day = -1
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     if (c_streamer != -1)
-      drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
+      drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30))
   }
   d3.select("#sun_img")
   .attr("xlink:href",  logo)
   d3.select("#sun")
   .attr("xlink:href",  logo)
-  c_streamer = -1
-  noHighlight()
+  if (c_streamer != -1) {
+    console.log(c_streamer)
+    highlight(c_streamer)
+  }
+  else {
+    noHighlight()
+  }
 });
 
 
@@ -1071,7 +1076,7 @@ var sun_image = svg.append("svg:image")
     .ease(d3.easeSinInOut);
 })
 
-.on("click", function() {
+.on("click", function(d) {
   if (selected_day == -1) {
     d3.select("#info_img")
     .transition()
@@ -1170,14 +1175,18 @@ var sun_image = svg.append("svg:image")
     selected_day = -1
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     if (c_streamer != -1)
-      drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
+      drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30))
   } 
   d3.select("#sun_img")
   .attr("xlink:href",  logo)
   d3.select("#sun")
   .attr("xlink:href",  logo)
-  c_streamer = -1
-  noHighlight()
+  if (c_streamer != -1) {
+    highlight(c_streamer)
+  }
+  else {
+    noHighlight()
+  }
     svg.selectAll(".bar").remove();
     svg.select("a").remove();
 });
@@ -1424,7 +1433,7 @@ areaChart
     noHighlight(d.key)
 })
 .on('click', function(d) {
-    drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30), d.index)
+    drawBarChart(d.key, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30))
   
 })
 .attr("d", area)
@@ -1487,7 +1496,7 @@ const div = d3.select("body").append("div")
 .style("opacity", 30)
 .style("background",'#FFFFFF');
 
-function drawBarChart(streamer, posx, posy, width, height, streamer_id) {
+function drawBarChart(streamer, posx, posy, width, height) {
 
     
     // On demande à D3JS de charger notre fichier
