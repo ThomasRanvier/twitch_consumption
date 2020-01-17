@@ -5757,8 +5757,8 @@
             "color": 0.13253012048192772,
             "viewers_max": 13410,
             "viewers_avg": 5365.271186440678,
-            "nb_streams": 2,
-            "total_time": "9h 21min",
+            "nb_streams": 3,
+            "total_time": "14h 18min",
             "cat": 0
         },
         "streams": {
@@ -6448,6 +6448,14 @@
                     "stamp_end": 441022.0,
                     "angle_start": 4.353588763860117,
                     "angle_end": 4.58171784150621
+                },
+                {
+                    "start": "2019_12_08_18_47_34",
+                    "end": "2019_12_09_03_00_23",
+                    "stamp_start": 586054.0,
+                    "stamp_end": 603898.0,
+                    "angle_start": 6.0884356514778855,
+                    "angle_end": 6.395623988693482
                 }
             ]
         }
@@ -7956,8 +7964,8 @@
             "color": 0.3614457831325301,
             "viewers_max": 7123,
             "viewers_avg": 3095.6894308943088,
-            "nb_streams": 4,
-            "total_time": "135h 35min",
+            "nb_streams": 5,
+            "total_time": "154h 10min",
             "cat": 2
         },
         "streams": {
@@ -8663,6 +8671,14 @@
                     "stamp_end": 531923.0,
                     "angle_start": 4.789547077733272,
                     "angle_end": 5.5260760220748795
+                },
+                {
+                    "start": "2019_12_08_05_10_17",
+                    "end": "2019_12_09_03_45_23",
+                    "stamp_start": 537017.0,
+                    "stamp_end": 603898.0,
+                    "angle_start": 5.57899689832285,
+                    "angle_end": 6.423673923100535
                 }
             ]
         }
@@ -9390,8 +9406,8 @@
             "color": 0.18072289156626506,
             "viewers_max": 2323,
             "viewers_avg": 1687.3362068965516,
-            "nb_streams": 5,
-            "total_time": "22h 0min",
+            "nb_streams": 6,
+            "total_time": "28h 15min",
             "cat": 1
         },
         "streams": {
@@ -10105,6 +10121,14 @@
                     "stamp_end": 580524.0,
                     "angle_start": 6.019910700607918,
                     "angle_end": 6.030985230266406
+                },
+                {
+                    "start": "2019_12_08_17_29_54",
+                    "end": "2019_12_09_01_00_22",
+                    "stamp_start": 581394.0,
+                    "stamp_end": 603898.0,
+                    "angle_start": 6.040023542464233,
+                    "angle_end": 6.320813774743416
                 }
             ]
         }
@@ -10115,8 +10139,8 @@
             "color": 0.9036144578313253,
             "viewers_max": 24618,
             "viewers_avg": 3951.86,
-            "nb_streams": 8,
-            "total_time": "33h 6min",
+            "nb_streams": 9,
+            "total_time": "36h 19min",
             "cat": 1
         },
         "streams": {
@@ -10854,6 +10878,14 @@
                     "stamp_end": 431123.0,
                     "angle_start": 4.39233922880023,
                     "angle_end": 4.478878470878282
+                },
+                {
+                    "start": "2019_12_08_20_32_14",
+                    "end": "2019_12_09_02_00_23",
+                    "stamp_start": 592334.0,
+                    "stamp_end": 603898.0,
+                    "angle_start": 6.153677721135769,
+                    "angle_end": 6.358224076150747
                 }
             ]
         }
@@ -18743,8 +18775,8 @@
             "color": 0.27710843373493976,
             "viewers_max": 1188,
             "viewers_avg": 810.9618320610687,
-            "nb_streams": 6,
-            "total_time": "28h 31min",
+            "nb_streams": 7,
+            "total_time": "31h 58min",
             "cat": 1
         },
         "streams": {
@@ -19466,6 +19498,14 @@
                     "stamp_end": 522923.0,
                     "angle_start": 5.2598613668227685,
                     "angle_end": 5.43257624071804
+                },
+                {
+                    "start": "2019_12_08_20_18_22",
+                    "end": "2019_12_09_02_15_23",
+                    "stamp_start": 591502.0,
+                    "stamp_end": 603898.0,
+                    "angle_start": 6.145034185792559,
+                    "angle_end": 6.367574054286432
                 }
             ]
         }
@@ -19476,8 +19516,8 @@
             "color": 0.3373493975903614,
             "viewers_max": 2145,
             "viewers_avg": 1500.0275862068966,
-            "nb_streams": 5,
-            "total_time": "29h 27min",
+            "nb_streams": 6,
+            "total_time": "35h 14min",
             "cat": 1
         },
         "streams": {
@@ -20191,6 +20231,14 @@
                     "stamp_end": 346523.0,
                     "angle_start": 3.36563890744997,
                     "angle_end": 3.5999805261239946
+                },
+                {
+                    "start": "2019_12_08_17_58_45",
+                    "end": "2019_12_09_01_00_22",
+                    "stamp_start": 583125.0,
+                    "stamp_end": 603898.0,
+                    "angle_start": 6.058006667078533,
+                    "angle_end": 6.320813774743416
                 }
             ]
         }
