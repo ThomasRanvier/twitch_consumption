@@ -486,8 +486,6 @@ for(var i = 0; i<7; i++){
           .text(function(d, i){return d})
           updateChart([totv_x + selected_day * totv_width / 7, totv_x + (selected_day + 1) * totv_width / 7])
         }
-      c_streamer = -1
-      noHighlight()
     })
     
     
@@ -629,8 +627,6 @@ svg.selectAll(".dayText")
     .text(function(d, i){return d})
     updateChart([totv_x + selected_day * totv_width / 7, totv_x + (selected_day + 1) * totv_width / 7])
   }
-  c_streamer = -1
-  noHighlight()
 })
 
 d3.selection.prototype.moveToFront = function() {  
@@ -950,15 +946,26 @@ var sun = svg.append("circle")
     .duration(200)
     .text("Cliquez sur l'un des arcs pour avoir des")
     .ease(d3.easeSinInOut);
-    
+
     d3.select("#info_tip_2")
     .transition()
     .duration(200)
     .text("informations sur le streamer concerné")
     .ease(d3.easeSinInOut);
 
+    // var info_tip = svg.append("text")
+    // .attr("x", info_tip_x + info_img_size)
+    // .attr("y", corner_edge_y + info_margin + info_img_size/2 - + (2+w/300))
+    // .attr("id", "info_tip")
+    // .attr("class", "info-text-h4")
+    // .style("font-size",0.2+w/2500+"em")
+    // .text("Cliquez sur l'un des arcs pour avoir des")
+
+    // info_tip
+    c_streamer = -1
     svg.selectAll(".bar").remove();
     svg.select("a").remove();
+
   }
   else {
     svg.selectAll(".arc").remove()
@@ -984,13 +991,12 @@ var sun = svg.append("circle")
     logo = "https://thomasranvier.github.io/twitch_consumption/src/img/twitch_logo.png"
     if (c_streamer != -1)
       drawBarChart(c_streamer, middle_edge_x + 70, info_tip_y + 10, w - 100 - (middle_edge_x + 70), h - 100   - (info_tip_y - 30))
-  }
+  } 
   d3.select("#sun_img")
   .attr("xlink:href",  logo)
   d3.select("#sun")
   .attr("xlink:href",  logo)
   if (c_streamer != -1) {
-    console.log(c_streamer)
     highlight(c_streamer)
   }
   else {
@@ -1149,7 +1155,9 @@ var sun_image = svg.append("svg:image")
     // .text("Cliquez sur l'un des arcs pour avoir des")
 
     // info_tip
-
+    c_streamer = -1
+    svg.selectAll(".bar").remove();
+    svg.select("a").remove();
 
   }
   else {
@@ -1187,8 +1195,6 @@ var sun_image = svg.append("svg:image")
   else {
     noHighlight()
   }
-    svg.selectAll(".bar").remove();
-    svg.select("a").remove();
 });
 }
 
